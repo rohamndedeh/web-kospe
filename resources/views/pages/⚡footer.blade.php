@@ -95,7 +95,7 @@ new class extends Component {
     </footer>
 
     <!-- 10. Floating WhatsApp Admin -->
-    <a href="#"
+    <a href="https://api.whatsapp.com/send/?phone=628118807177&text=saya+mau+daftar+jadi+anggota"
         class="fixed bottom-6 right-6 z-50 bg-green-500 text-white p-4 rounded-full shadow-2xl hover:bg-green-600 transition transform hover:scale-110 animate-bounce">
         <i data-lucide="message-circle" class="w-8 h-8"></i>
     </a>
@@ -184,10 +184,36 @@ new class extends Component {
                 },
             });
 
+            var mitraSwiper = new Swiper(".mitraSwiper", {
+                loop: true,
+                autoplay: {
+                    delay: 3000,
+                    disableOnInteraction: false,
+                },
+                slidesPerView: 2,
+                breakpoints: {
+                    640: {
+                        slidesPerView: 3,
+                    },
+                    1024: {
+                        slidesPerView: 5,
+                    },
+                },
+                spaceBetween: 20,
+                effect: 'fade',
+                fadeEffect: {
+                    crossFade: true
+                },
+                pagination: {
+                    el: ".swiper-pagination",
+                    clickable: true,
+                },
+            });
+
             // 6. Tab Navbar
             $('.tab-btn').click(function () {
                 // Remove active class from all buttons
-                $('.tab-btn').removeClass('bg-brand-red text-white').addClass('bg-white text-gray-600 border border-gray-300');
+                $('.tab-btn').removeClass('active bg-brand-red text-white').addClass('bg-white text-gray-600 border border-gray-300');
                 // Add active class to clicked button
                 $(this).removeClass('bg-white text-gray-600 border border-gray-300').addClass('bg-brand-red text-white');
 
@@ -211,35 +237,22 @@ new class extends Component {
                 icon.toggleClass('rotate-180');
             });
 
-            // Mobile Menu Toggle
+            const mobileMenu = $('#mobile-menu');
+            const body = $('body');
+
             $('#mobile-menu-btn').click(function () {
-                $('#mobile-menu').slideToggle();
+                mobileMenu.removeClass('hidden');
+                setTimeout(function () {
+                    mobileMenu.removeClass('translate-x-full opacity-0').addClass('translate-x-0 opacity-100');
+                }, 10);
+                body.addClass('overflow-hidden');
             });
 
-            // // 11. Notification System
-            // const names = ["Abdullah", "Siti Aminah", "Rahmat Hidayat", "Nurul Hasanah", "Budi Santoso"];
-            // const products = ["Simpanan Haji", "Pembiayaan Modal", "Tabungan Qurban", "Simpanan Pelajar", "Investasi Emas"];
-
-            // function showNotification() {
-            //     const randomName = names[Math.floor(Math.random() * names.length)];
-            //     const randomProduct = products[Math.floor(Math.random() * products.length)];
-
-            //     $('#notif-name').text(randomName);
-            //     $('#notif-product').text(randomProduct);
-
-            //     const toast = $('#notification-toast');
-            //     toast.removeClass('translate-y-20 opacity-0').addClass('translate-y-0 opacity-100');
-
-            //     setTimeout(function () {
-            //         toast.removeClass('translate-y-0 opacity-100').addClass('translate-y-20 opacity-0');
-            //     }, 4000);
-            // }
-
-            // // Start notification loop after initial delay
-            // setTimeout(function () {
-            //     showNotification();
-            //     setInterval(showNotification, 15000); // Every 15 seconds
-            // }, 5000);
+            $('#close-mobile-menu').click(function () {
+                mobileMenu.removeClass('translate-x-0 opacity-100').addClass('translate-x-full opacity-0');
+                setTimeout(function () { mobileMenu.addClass('hidden'); }, 300);
+                body.removeClass('overflow-hidden');
+            });
         </script>
     @endpush
 </div>

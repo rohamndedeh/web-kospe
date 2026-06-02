@@ -22,7 +22,10 @@ export default {
                     dark: '#1a1a1a',
                     darker: '#111111',
                     card: '#242424',
-                    border: '#333333'
+                    border: '#333333',
+                    blue: '#1E3A8A',
+                    lightblue: '#DBEAFE',
+                    darkred: '#991B1B'
                 }
             },
             fontFamily: {

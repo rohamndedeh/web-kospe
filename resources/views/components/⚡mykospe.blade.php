@@ -100,7 +100,7 @@ new class extends Component {
         <div class="container mx-auto px-4 text-center">
             <h2 class="text-3xl font-bold text-gray-900 mb-12">Mengapa Menggunakan MyKOSPE?</h2>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-8">
                 <!-- Cepat -->
                 <div class="p-6 rounded-2xl bg-gray-50 border border-gray-100 hover:shadow-lg transition group">
                     <div
@@ -220,6 +220,17 @@ new class extends Component {
                                     menggunakan nomor HP atau ID Anggota tanpa dipungut biaya admin sepeserpun.</p>
                             </div>
                         </div>
+                        <div class="flex items-start gap-4">
+                            <div
+                                class="w-12 h-12 bg-orange-50 text-brand-orange rounded-xl flex items-center justify-center flex-shrink-0 mt-1">
+                                <i data-lucide="arrow-right-left" class="w-6 h-6"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-xl font-bold text-gray-800 mb-1">Transfer Ke Bank Lain</h4>
+                                <p class="text-gray-600 text-sm leading-relaxed">Transfer simpanan sukarela ke rekening
+                                    bank lain milik Anda dengan mudah dan aman melalui aplikasi MyKOSPE.</p>
+                            </div>
+                        </div>
                         <!-- Feat 3 -->
                         <div class="flex items-start gap-4">
                             <div
@@ -227,10 +238,11 @@ new class extends Component {
                                 <i data-lucide="qr-code" class="w-6 h-6"></i>
                             </div>
                             <div>
-                                <h4 class="text-xl font-bold text-gray-800 mb-1">Pembayaran Merchant (QRIS)</h4>
-                                <p class="text-gray-600 text-sm leading-relaxed">Gunakan fitur *Scan* untuk berbelanja
-                                    di
-                                    unit usaha Kios Pesantren atau seluruh *merchant* yang berlogo QRIS di Indonesia.
+                                <h4 class="text-xl font-bold text-gray-800 mb-1">Pembelian Token Listik, Paket Data dan
+                                    Pulsa</h4>
+                                <p class="text-gray-600 text-sm leading-relaxed">Beli token listrik, paket data, dan
+                                    pulsa dengan harga kompetitif langsung dari aplikasi. Bayar
+                                    dengan saldo KOSPE Anda tanpa ribet.
                                 </p>
                             </div>
                         </div>
@@ -241,10 +253,10 @@ new class extends Component {
                                 <i data-lucide="heart-handshake" class="w-6 h-6"></i>
                             </div>
                             <div>
-                                <h4 class="text-xl font-bold text-gray-800 mb-1">Layanan ZISWAF Online</h4>
-                                <p class="text-gray-600 text-sm leading-relaxed">Tunaikan Zakat, Infaq, Sedekah, dan
-                                    Wakaf
-                                    langsung dari genggaman. Dana disalurkan melalui lembaga amil terpercaya.</p>
+                                <h4 class="text-xl font-bold text-gray-800 mb-1">Pembayaran Tagihan BPJS, Telkom dll
+                                </h4>
+                                <p class="text-gray-600 text-sm leading-relaxed">Lakukan pembayaran tagihan BPJS,
+                                    Telkom, dan layanan lainnya dengan mudah melalui aplikasi MyKOSPE.</p>
                             </div>
                         </div>
                     </div>

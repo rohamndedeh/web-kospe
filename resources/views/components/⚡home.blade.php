@@ -2,14 +2,37 @@
 
 use Livewire\Component;
 use App\Models\Blogs;
+use App\Models\Agen;
 
 new class extends Component {
-    //
+    public $mitra;
+    public $marketing;
+
+    public function mount($nama = null)
+    {
+        $agen = Agen::where('kode', $nama)->first();
+        $this->marketing = $agen ? $agen->id_hnii : 115;
+
+    }
+
     public function render()
     {
         $blogs = Blogs::where('is_active', 1)->where('kategori', 1)->take(3)->orderBy('date', 'desc')->get();
+        $this->mitra = [
+            ['name' => 'Bank Syariah', 'logo' => 'https://yt3.googleusercontent.com/ytc/AIdro_k-xALPS3HzL1-WOw6Rt0YwGfLXe94oXm8fsm188tACmEg=s900-c-k-c0x00ffffff-no-rj'],
+            ['name' => 'Bank Permata', 'logo' => 'https://banksyariahriyal.com/storage/partners/hYzz0XO3JUYDCvemHyuLz13zsmddv0ZLsauTF3Pj.png'],
+            ['name' => 'Naffar Tour', 'logo' => 'https://bb71d2eac085c69b0.nos.wjv-1.neo.id/1634910180-748101/17320037432695-DSFKXJJucx.png'],
+            ['name' => 'Pondok Sedekah', 'logo' => 'https://pondoksedekah.id/wp-content/uploads/2024/10/cropped-Logo-1.png'],
+            ['name' => 'Rumah Quran', 'logo' => '/logo/rq.png'],
+            ['name' => 'Business Center Beaksi 4 HNI', 'logo' => '/logo/bc4.png'],
+            ['name' => 'Bank Mega Syariah', 'logo' => 'https://image.idntimes.com/post/20211101/logo-bank-mega-png-3-e6ef4eec77222513124664aac2c4feaf.png'],
+
+        ];
         return $this->view([
-            'blogs' => $blogs
+            'blogs' => $blogs,
+            'mitra' => $this->mitra,
+            'artikel' => Blogs::where('is_active', 1)->where('kategori', 2)->take(3)->orderBy('date', 'desc')->get(),
+            'marketing' => $this->marketing,
         ]);
     }
 };
@@ -57,7 +80,7 @@ new class extends Component {
                         </div>
                         <p class="text-sm text-gray-500">Dipercaya oleh <span
                                 class="font-bold text-brand-red">2,500+</span>
-                            Anggota</p>
+                            Anggota </p>
                     </div>
                 </div>
 
@@ -95,7 +118,7 @@ new class extends Component {
                                 </div>
                             </div>
                             <div class="swiper-slide">
-                                <img src="/5.jpg" class="w-full h-full object-cover" alt="Produk 5">
+                                <img src="/sirohplus.jpg" class="w-full h-full object-cover" alt="Produk 5">
                                 <div
                                     class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black to-transparent p-6">
 
@@ -124,7 +147,7 @@ new class extends Component {
     </section>
 
     <!-- 4. Section 6 Card Scrollable -->
-    <section id="produk" class="py-16 bg-white">
+    <section id="produk" class="py-16 bg-white" wire:key="produk">
         <div class="container mx-auto px-4">
             <div class="text-center mb-10">
                 <h2 class="text-3xl font-bold mb-2">Produk Unggulan</h2>
@@ -134,29 +157,109 @@ new class extends Component {
             <!-- Horizontal Scroll Container -->
             <div class="flex overflow-x-auto pb-8 hide-scrollbar snap-x snap-mandatory gap-6 px-2">
                 <!-- Card 1 -->
-                <div
+                <a href="/daftar-anggota" wire:navigate
                     class="min-w-[85%] md:min-w-[350px] snap-center bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden group cursor-pointer card-hover transition hover:shadow-2xl">
                     <div
                         class="h-40 bg-gray-100 flex items-center justify-center group-hover:bg-brand-red transition duration-500">
-                        <i data-lucide="wallet" class="w-16 h-16 text-brand-red group-hover:text-white transition"></i>
+                        <img src="https://blog.cakap.com/wp-content/uploads/2021/07/cara-membuat-kuesioner-di-google-form.jpg"
+                            alt="" srcset="" class="w-full h-full object-cover">
                     </div>
                     <div class="p-6">
-                        <h3 class="text-xl font-bold mb-2 group-hover:text-brand-red">Buka Simpanan</h3>
+                        <h3 class=" text-xl font-bold mb-2 group-hover:text-brand-red">Jadi Anggota</h3>
+                        <p class="text-sm text-gray-500 mb-4">Langkah awal untuk merasakan manfaat dan keberkahan
+                            bersama KOSPE.
+                        </p>
+                        <span class="text-brand-orange font-semibold text-sm flex items-center gap-1">Selengkapnya <i
+                                data-lucide="arrow-right" class="w-4 h-4"></i></span>
+                    </div>
+                </a>
+                <a href="/simpanan-program" wire:navigate
+                    class="min-w-[85%] md:min-w-[350px] snap-center bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden group cursor-pointer card-hover transition hover:shadow-2xl">
+                    <div
+                        class="h-40 bg-gray-100 flex items-center justify-center group-hover:bg-brand-red transition duration-500">
+                        <img src="https://linebank.co.id/blog/wp-content/uploads/2022/08/tabung-edited-jpeg-1200x726.webp"
+                            alt="" srcset="" class="w-full h-full object-cover">
+                    </div>
+                    <div class="p-6">
+                        <h3 class=" text-xl font-bold mb-2 group-hover:text-brand-red">Buka Simpanan</h3>
                         <p class="text-sm text-gray-500 mb-4">Simpan dana Anda dengan akad Wadiah atau Mudharabah yang
                             aman.
                         </p>
                         <span class="text-brand-orange font-semibold text-sm flex items-center gap-1">Selengkapnya <i
                                 data-lucide="arrow-right" class="w-4 h-4"></i></span>
                     </div>
-                </div>
+                </a>
 
-                <!-- Card 2 -->
-                <div
+                <a href="/haji-khusus" wire:navigate
+                    class="min-w-[85%] md:min-w-[350px] snap-center bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden group cursor-pointer card-hover transition hover:shadow-2xl">
+                    <div
+                        class="h-40 bg-gray-100 flex items-center justify-center group-hover:bg-brand-yellow transition duration-500">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQXjTVw6zQ0AwCTByOx3tGeOl6GQb4obDktcw&s"
+                            alt="" class="w-full h-full object-cover" srcset="">
+                    </div>
+                    <div class="p-6">
+                        <h3 class=" text-xl font-bold mb-2 group-hover:text-brand-yellow">Simpanan Haji Khusus</h3>
+                        <p class="text-sm text-gray-500 mb-4">Perencanaan ibadah haji yang resmi dan amanah</p>
+                        <span class="text-brand-orange font-semibold text-sm flex items-center gap-1">Selengkapnya <i
+                                data-lucide="arrow-right" class="w-4 h-4"></i></span>
+                    </div>
+                </a>
+
+                <!-- Card 4 -->
+                <a href="/siwak" wire:navigate
+                    class="min-w-[85%] md:min-w-[350px] snap-center bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden group cursor-pointer card-hover transition hover:shadow-2xl">
+                    <div
+                        class="h-40 bg-gray-100 flex items-center justify-center group-hover:bg-brand-red transition duration-500">
+                        <img src="https://assets.banksaqu.co.id/Tabungan_adalah_a12ca011c3/Tabungan_adalah_a12ca011c3.jpg"
+                            alt="" class="w-full h-full object-cover" srcset="">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2 group-hover:text-brand-red">Simpanan Wajib Khusus</h3>
+                        <p class="text-sm text-gray-500 mb-4">Kewajiban anggota dengan manfaat jangka panjang.</p>
+                        <span class="text-brand-orange font-semibold text-sm flex items-center gap-1">Selengkapnya <i
+                                data-lucide="arrow-right" class="w-4 h-4"></i></span>
+                    </div>
+                </a>
+
+                <!-- Card 5 -->
+                <a href="/simpanan-berjangka" wire:navigate
                     class="min-w-[85%] md:min-w-[350px] snap-center bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden group cursor-pointer card-hover transition hover:shadow-2xl">
                     <div
                         class="h-40 bg-gray-100 flex items-center justify-center group-hover:bg-brand-orange transition duration-500">
-                        <i data-lucide="hand-coins"
-                            class="w-16 h-16 text-brand-orange group-hover:text-white transition"></i>
+                        <img src="https://hokibank.co.id/wp-content/uploads/2025/08/tabungan-vs-investasi.jpg" alt=""
+                            class="w-full h-full object-cover" srcset="">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2 group-hover:text-brand-orange">Simpanan Produktif</h3>
+                        <p class="text-sm text-gray-500 mb-4">Dapatkan bagi hasil yang kompetitif dengan prinsip
+                            Mudharabah.
+                        </p>
+                        <span class="text-brand-orange font-semibold text-sm flex items-center gap-1">Selengkapnya <i
+                                data-lucide="arrow-right" class="w-4 h-4"></i></span>
+                    </div>
+                </a>
+
+                <!-- Card 6 -->
+                <a href="/simprotama" wire:navigate
+                    class="min-w-[85%] md:min-w-[350px] snap-center bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden group cursor-pointer card-hover transition hover:shadow-2xl">
+                    <div
+                        class="h-40 bg-gray-100 flex items-center justify-center group-hover:bg-brand-yellow transition duration-500">
+                        <img src="/simprotama.png" alt="" class="w-full h-full object-cover" srcset="">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2 group-hover:text-brand-yellow">SimproTama</h3>
+                        <p class="text-sm text-gray-500 mb-4">Simpanan Program Terencana Utama dengan bonus spesial.</p>
+                        <span class="text-brand-orange font-semibold text-sm flex items-center gap-1">Selengkapnya <i
+                                data-lucide="arrow-right" class="w-4 h-4"></i></span>
+                    </div>
+                </a>
+
+                <a href="/form-pembiayaan" wire:navigate
+                    class="min-w-[85%] md:min-w-[350px] snap-center bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden group cursor-pointer card-hover transition hover:shadow-2xl">
+                    <div
+                        class="h-40 bg-gray-100 flex items-center justify-center group-hover:bg-brand-orange transition duration-500">
+                        <img src="https://accurate.id/wp-content/uploads/2023/09/accurate.id-Peran-Penting-Lembaga-Pembiayaan.webp"
+                            alt="" class="w-full h-full object-cover" srcset="">
                     </div>
                     <div class="p-6">
                         <h3 class="text-xl font-bold mb-2 group-hover:text-brand-orange">Ajukan Pembiayaan</h3>
@@ -165,73 +268,8 @@ new class extends Component {
                         <span class="text-brand-orange font-semibold text-sm flex items-center gap-1">Selengkapnya <i
                                 data-lucide="arrow-right" class="w-4 h-4"></i></span>
                     </div>
-                </div>
+                </a>
 
-                <!-- Card 3 -->
-                <div
-                    class="min-w-[85%] md:min-w-[350px] snap-center bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden group cursor-pointer card-hover transition hover:shadow-2xl">
-                    <div
-                        class="h-40 bg-gray-100 flex items-center justify-center group-hover:bg-brand-yellow transition duration-500">
-                        <i data-lucide="plane"
-                            class="w-16 h-16 text-brand-yellow group-hover:text-white transition"></i>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold mb-2 group-hover:text-brand-yellow">Daftar Haji Khusus</h3>
-                        <p class="text-sm text-gray-500 mb-4">Perencanaan ibadah haji & umroh yang terpercaya.</p>
-                        <span class="text-brand-orange font-semibold text-sm flex items-center gap-1">Selengkapnya <i
-                                data-lucide="arrow-right" class="w-4 h-4"></i></span>
-                    </div>
-                </div>
-
-                <!-- Card 4 -->
-                <div
-                    class="min-w-[85%] md:min-w-[350px] snap-center bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden group cursor-pointer card-hover transition hover:shadow-2xl">
-                    <div
-                        class="h-40 bg-gray-100 flex items-center justify-center group-hover:bg-brand-red transition duration-500">
-                        <i data-lucide="shield-check"
-                            class="w-16 h-16 text-brand-red group-hover:text-white transition"></i>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold mb-2 group-hover:text-brand-red">Simpanan Wajib</h3>
-                        <p class="text-sm text-gray-500 mb-4">Kewajiban anggota dengan manfaat jangka panjang.</p>
-                        <span class="text-brand-orange font-semibold text-sm flex items-center gap-1">Selengkapnya <i
-                                data-lucide="arrow-right" class="w-4 h-4"></i></span>
-                    </div>
-                </div>
-
-                <!-- Card 5 -->
-                <div
-                    class="min-w-[85%] md:min-w-[350px] snap-center bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden group cursor-pointer card-hover transition hover:shadow-2xl">
-                    <div
-                        class="h-40 bg-gray-100 flex items-center justify-center group-hover:bg-brand-orange transition duration-500">
-                        <i data-lucide="trending-up"
-                            class="w-16 h-16 text-brand-orange group-hover:text-white transition"></i>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold mb-2 group-hover:text-brand-orange">Simpanan Produktif</h3>
-                        <p class="text-sm text-gray-500 mb-4">Investasi dana anda untuk dikelola di sektor riil
-                            pesantren.
-                        </p>
-                        <span class="text-brand-orange font-semibold text-sm flex items-center gap-1">Selengkapnya <i
-                                data-lucide="arrow-right" class="w-4 h-4"></i></span>
-                    </div>
-                </div>
-
-                <!-- Card 6 -->
-                <div
-                    class="min-w-[85%] md:min-w-[350px] snap-center bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden group cursor-pointer card-hover transition hover:shadow-2xl">
-                    <div
-                        class="h-40 bg-gray-100 flex items-center justify-center group-hover:bg-brand-yellow transition duration-500">
-                        <i data-lucide="crown"
-                            class="w-16 h-16 text-brand-yellow group-hover:text-white transition"></i>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold mb-2 group-hover:text-brand-yellow">Simpro Tama</h3>
-                        <p class="text-sm text-gray-500 mb-4">Simpanan Program Terencana Utama dengan bonus spesial.</p>
-                        <span class="text-brand-orange font-semibold text-sm flex items-center gap-1">Selengkapnya <i
-                                data-lucide="arrow-right" class="w-4 h-4"></i></span>
-                    </div>
-                </div>
             </div>
         </div>
     </section>
@@ -245,7 +283,7 @@ new class extends Component {
             <p class="text-gray-200 text-lg mb-8 max-w-2xl mx-auto">Bergabunglah menjadi anggota KOSPE dan nikmati
                 berbagai
                 keuntungan serta keberkahan dalam bermuamalah.</p>
-            <a href="#"
+            <a href="{{ route('daftar-anggota') }}" wire:navigate
                 class="inline-block bg-brand-red hover:bg-red-700 text-white text-lg font-bold py-4 px-10 rounded-full transition shadow-lg transform hover:scale-105">
                 Daftar Anggota Sekarang
             </a>
@@ -258,20 +296,18 @@ new class extends Component {
             <!-- Tab Buttons -->
             <div class="flex flex-wrap justify-center gap-4 mb-10">
                 <button
-                    class="tab-btn bg-brand-red text-white px-6 py-2 md:px-8 md:py-3 text-sm md:text-base rounded-full font-semibold  transition transform hover:scale-105"
+                    class="tab-btn bg-brand-red text-white border-brand-red px-6 py-2 md:px-8 md:py-3 text-sm md:text-base rounded-full hover:bg-brand-red font-semibold  transition transform hover:scale-105"
                     data-target="#tab-agenda">Agenda</button>
                 <button
-                    class="tab-btn bg-white text-gray-600 border border-gray-300 px-6 py-2 md:px-8 md:py-3 text-sm md:text-base rounded-full font-semibold hover:bg-gray-100 transition transform hover:scale-105"
+                    class="tab-btn bg-white text-red-600 border border-brand-red px-6 py-2 md:px-8 md:py-3 text-sm md:text-base rounded-full font-semibold hover:bg-brand-red transition transform hover:scale-105"
                     data-target="#tab-artikel">Artikel</button>
                 <button
-                    class="tab-btn bg-white text-gray-600 border border-gray-300 px-6 py-2 md:px-8 md:py-3 text-sm md:text-base rounded-full font-semibold hover:bg-gray-100 transition transform hover:scale-105"
+                    class="tab-btn bg-white text-red-600 border border-brand-red px-6 py-2 md:px-8 md:py-3 text-sm md:text-base rounded-full font-semibold hover:bg-brand-red transition transform hover:scale-105"
                     data-target="#tab-video">Video</button>
+
                 <button
-                    class="tab-btn bg-white text-gray-600 border border-gray-300 px-6 py-2 md:px-8 md:py-3 text-sm md:text-base rounded-full font-semibold hover:bg-gray-100 transition transform hover:scale-105"
-                    data-target="#tab-testimoni">Testimoni</button>
-                <button
-                    class="tab-btn bg-white text-gray-600 border border-gray-300 px-6 py-2 md:px-8 md:py-3 text-sm md:text-base rounded-full font-semibold hover:bg-gray-100 transition transform hover:scale-105"
-                    data-target="#tab-mitra">Mitra</button>
+                    class="tab-btn bg-white text-red-600 border border-brand-red px-6 py-2 md:px-8 md:py-3 text-sm md:text-base rounded-full font-semibold hover:bg-brand-red transition transform hover:scale-105"
+                    data-target="#tab-mitra">Kemitraan Lembaga</button>
             </div>
 
             <!-- Content Container (Full Width Container) -->
@@ -293,12 +329,12 @@ new class extends Component {
                                     <div
                                         class="absolute top-4 left-4 bg-brand-red text-white text-xs font-bold px-3 py-1 rounded uppercase tracking-wide z-10">
                                         Rapat</div>
-                                    <img src="https://images.unsplash.com/photo-1544531586-fde5298cdd40?q=80&w=600&auto=format&fit=crop"
+                                    <img src="https://kospe.id/asset/img/post/{{ $blog->img }}"
                                         class="w-full h-full object-cover group-hover:scale-110 transition duration-500"
                                         alt="RAT">
                                 </div>
                                 <div class="p-6">
-                                    <div class="flex items-center gap-2 text-gray-500 text-sm mb-3">
+                                    <div class="flex items-center gap-2 text-brand-red text-sm mb-3">
                                         <i data-lucide="calendar" class="w-4 h-4 text-brand-orange"></i>
                                         <span>{{ $blog->date }}</span>
                                     </div>
@@ -321,71 +357,35 @@ new class extends Component {
                 <!-- Artikel Tab -->
                 <div id="tab-artikel" class="tab-content hidden tab-animate">
                     <div class="flex justify-between items-end mb-6">
-                        <h3 class="text-2xl font-bold text-gray-800 border-l-4 border-brand-orange pl-3">Artikel &
-                            Berita
-                            Terbaru</h3>
+                        <h3 class="text-2xl font-bold text-gray-800 border-l-4 border-brand-orange pl-3">Artikel Edukasi
+                            dan Informasi</h3>
                         <a href="#" class="text-brand-orange font-medium text-sm hover:underline">Baca Selengkapnya
                             &rarr;</a>
                     </div>
                     <div class="grid md:grid-cols-3 gap-8">
                         <!-- Articles code remains same -->
-                        <div
-                            class="flex flex-col bg-white rounded-xl shadow hover:shadow-lg transition border border-gray-100 h-full">
-                            <img src="https://images.unsplash.com/photo-1554224154-26032ffc0d07?q=80&w=600&auto=format&fit=crop"
-                                class="h-56 w-full object-cover rounded-t-xl" alt="Artikel 1">
-                            <div class="p-6 flex-1 flex flex-col">
-                                <span
-                                    class="text-xs font-semibold text-brand-red bg-red-50 px-2 py-1 rounded w-fit mb-3">Fiqih
-                                    Muamalah</span>
-                                <h4 class="text-lg font-bold mb-3 hover:text-brand-red cursor-pointer">Hukum Riba dan
-                                    Dampaknya dalam Ekonomi Modern</h4>
-                                <p class="text-gray-600 text-sm mb-4 flex-1">Penjelasan mendalam mengenai pandangan
-                                    Islam
-                                    terhadap sistem bunga bank konvensional.</p>
-                                <div class="pt-4 border-t flex items-center justify-between text-xs text-gray-500">
-                                    <span>Admin KOSPE</span>
-                                    <span>2 Hari lalu</span>
+                        @foreach ($artikel as $a)
+                            <a wire:navigate href="{{ route('blogs.detail', $a->id_post) }}"
+                                class="flex flex-col bg-white rounded-xl shadow hover:shadow-lg transition border border-gray-100 h-full">
+                                <img src="https://kospe.id/asset/img/post/{{ $a->img }}"
+                                    class="h-64 w-full object-cover rounded-t-xl" alt="Artikel 1">
+                                <div class="p-6 flex-1 flex flex-col">
+                                    <span
+                                        class="text-xs font-semibold text-brand-red bg-red-50 px-2 py-1 rounded w-fit mb-3">Fiqih
+                                        Muamalah</span>
+                                    <h4 class="text-lg font-bold mb-3 hover:text-brand-red cursor-pointer">{{ $a->judul }}
+                                    </h4>
+                                    <p class="text-gray-600 text-sm mb-4 flex-1">
+                                        {{ substr(html_entity_decode($a->isi), 0, 100) }}...
+                                    </p>
+                                    <div class="pt-4 border-t flex items-center justify-between text-xs text-gray-500">
+                                        <span>Admin KOSPE</span>
+                                        <span>{{ $a->date }}</span>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div
-                            class="flex flex-col bg-white rounded-xl shadow hover:shadow-lg transition border border-gray-100 h-full">
-                            <img src="https://images.unsplash.com/photo-1579621970795-87facc2f976d?q=80&w=600&auto=format&fit=crop"
-                                class="h-56 w-full object-cover rounded-t-xl" alt="Artikel 2">
-                            <div class="p-6 flex-1 flex flex-col">
-                                <span
-                                    class="text-xs font-semibold text-brand-orange bg-orange-50 px-2 py-1 rounded w-fit mb-3">Tips
-                                    Keuangan</span>
-                                <h4 class="text-lg font-bold mb-3 hover:text-brand-red cursor-pointer">5 Cara Mengatur
-                                    Keuangan Rumah Tangga Sakinah</h4>
-                                <p class="text-gray-600 text-sm mb-4 flex-1">Strategi jitu mengelola pendapatan agar
-                                    cukup
-                                    untuk kebutuhan dan tetap bisa menabung.</p>
-                                <div class="pt-4 border-t flex items-center justify-between text-xs text-gray-500">
-                                    <span>Ustadz Ahmad</span>
-                                    <span>5 Hari lalu</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div
-                            class="flex flex-col bg-white rounded-xl shadow hover:shadow-lg transition border border-gray-100 h-full">
-                            <img src="https://images.unsplash.com/photo-1604594849809-dfedbc827105?q=80&w=600&auto=format&fit=crop"
-                                class="h-56 w-full object-cover rounded-t-xl" alt="Artikel 3">
-                            <div class="p-6 flex-1 flex flex-col">
-                                <span
-                                    class="text-xs font-semibold text-brand-yellow bg-yellow-50 px-2 py-1 rounded w-fit mb-3">Berita
-                                    Koperasi</span>
-                                <h4 class="text-lg font-bold mb-3 hover:text-brand-red cursor-pointer">KOSPE Raih
-                                    Penghargaan Koperasi Terbaik 2024</h4>
-                                <p class="text-gray-600 text-sm mb-4 flex-1">Alhamdulillah, atas kepercayaan anggota,
-                                    KOSPE
-                                    kembali menorehkan prestasi tingkat nasional.</p>
-                                <div class="pt-4 border-t flex items-center justify-between text-xs text-gray-500">
-                                    <span>Humas</span>
-                                    <span>1 Minggu lalu</span>
-                                </div>
-                            </div>
-                        </div>
+                            </a>
+                        @endforeach
+
                     </div>
                 </div>
 
@@ -400,156 +400,142 @@ new class extends Component {
                         <!-- Videos code remains same -->
                         <div class="group cursor-pointer">
                             <div
-                                class="bg-gray-900 rounded-xl h-56 flex items-center justify-center text-white relative overflow-hidden shadow-lg">
-                                <img src="https://images.unsplash.com/photo-1590050252141-5bd9f1734a84?q=80&w=600&auto=format&fit=crop"
-                                    class="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:opacity-40 transition duration-500 group-hover:scale-110"
-                                    alt="Video Thumb">
-                                <div
-                                    class="relative z-10 transform group-hover:scale-125 transition duration-300 bg-brand-red/80 rounded-full p-3">
-                                    <i data-lucide="play" class="w-8 h-8 fill-current"></i>
-                                </div>
+                                class="bg-gray-900 rounded-xl h-64 flex items-center justify-center text-white relative overflow-hidden shadow-lg">
+                                <iframe width="100%" height="751" src="https://www.youtube.com/embed/sC2k-mCX6xo"
+                                    class="absolute inset-0 w-full h-full object-cover"
+                                    title="Kemudahan Dalam Genggaman - MyKoSPE" frameborder="0"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                    referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                             </div>
-                            <h4 class="mt-3 font-bold text-lg group-hover:text-brand-red transition">Profil Koperasi
-                                Syariah
-                                Pesantren</h4>
-                            <p class="text-sm text-gray-500">Mengenal lebih dekat visi dan misi kami.</p>
+                            <h4 class="mt-3 font-bold text-lg group-hover:text-brand-red transition">Testimoni Produk
+                                Simpanan Produktif
+                            </h4>
+                            <p class="text-sm text-gray-500">PASSIVE INCOME HALAL BERKAH
                         </div>
                         <div class="group cursor-pointer">
                             <div
-                                class="bg-gray-900 rounded-xl h-56 flex items-center justify-center text-white relative overflow-hidden shadow-lg">
-                                <img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=80&w=600&auto=format&fit=crop"
-                                    class="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:opacity-40 transition duration-500 group-hover:scale-110"
-                                    alt="Video Thumb">
-                                <div
-                                    class="relative z-10 transform group-hover:scale-125 transition duration-300 bg-brand-red/80 rounded-full p-3">
-                                    <i data-lucide="play" class="w-8 h-8 fill-current"></i>
-                                </div>
-                            </div>
-                            <h4 class="mt-3 font-bold text-lg group-hover:text-brand-red transition">Testimoni Sukses
-                                Anggota</h4>
-                            <p class="text-sm text-gray-500">Kisah inspiratif pengusaha mikro binaan.</p>
-                        </div>
-                        <div class="group cursor-pointer">
-                            <div
-                                class="bg-gray-900 rounded-xl h-56 flex items-center justify-center text-white relative overflow-hidden shadow-lg">
-                                <img src="https://images.unsplash.com/photo-1542204165-65bf26472b9b?q=80&w=600&auto=format&fit=crop"
-                                    class="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:opacity-40 transition duration-500 group-hover:scale-110"
-                                    alt="Video Thumb">
-                                <div
-                                    class="relative z-10 transform group-hover:scale-125 transition duration-300 bg-brand-red/80 rounded-full p-3">
-                                    <i data-lucide="play" class="w-8 h-8 fill-current"></i>
-                                </div>
-                            </div>
-                            <h4 class="mt-3 font-bold text-lg group-hover:text-brand-red transition">Highlight RAT Tahun
-                                Lalu</h4>
-                            <p class="text-sm text-gray-500">Keseruan dan transparansi laporan tahunan.</p>
-                        </div>
-                    </div>
-                </div>
+                                class="bg-gray-900 rounded-xl h-64 flex items-center justify-center text-white relative overflow-hidden shadow-lg">
+                                <iframe width="100%" height="751" src="https://www.youtube.com/embed/CYKjWb6ST40"
+                                    class="absolute inset-0 w-full h-full object-cover"
+                                    title="Kemudahan Dalam Genggaman - MyKoSPE" frameborder="0"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                    referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
-                <!-- NEW TAB: Testimoni -->
-                <div id="tab-testimoni" class="tab-content hidden tab-animate">
-                    <div class="flex justify-between items-end mb-6">
-                        <h3 class="text-2xl font-bold text-gray-800 border-l-4 border-brand-yellow pl-3">Kata Mereka
-                        </h3>
-                        <a href="#" class="text-brand-yellow font-medium text-sm hover:underline">Lihat Semua &rarr;</a>
-                    </div>
-                    <!-- Swiper Testimoni -->
-                    <div class="swiper testiSwiper pb-10">
-                        <div class="swiper-wrapper">
-                            <!-- Testi 1 -->
-                            <div class="swiper-slide">
-                                <div class="bg-white p-6 rounded-xl shadow border border-gray-100 h-full">
-                                    <div class="flex gap-1 text-yellow-400 mb-4">
-                                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
-                                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
-                                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
-                                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
-                                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
-                                    </div>
-                                    <p class="text-gray-600 mb-6 italic">"Alhamdulillah sejak bergabung dengan KOSPE,
-                                        usaha
-                                        warung kelontong saya makin berkembang berkat pembiayaan mudharabah."</p>
-                                    <div class="flex items-center gap-3">
-                                        <img src="https://i.pravatar.cc/150?img=12" class="w-10 h-10 rounded-full"
-                                            alt="User">
-                                        <div>
-                                            <h5 class="font-bold text-sm">Ibu Sulastri</h5>
-                                            <p class="text-xs text-gray-500">Anggota sejak 2019</p>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
-                            <!-- Testi 2 -->
-                            <div class="swiper-slide">
-                                <div class="bg-white p-6 rounded-xl shadow border border-gray-100 h-full">
-                                    <div class="flex gap-1 text-yellow-400 mb-4">
-                                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
-                                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
-                                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
-                                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
-                                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
-                                    </div>
-                                    <p class="text-gray-600 mb-6 italic">"Proses daftar haji di sini sangat transparan
-                                        dan
-                                        sesuai syariah. Petugasnya ramah dan sangat membantu."</p>
-                                    <div class="flex items-center gap-3">
-                                        <img src="https://i.pravatar.cc/150?img=59" class="w-10 h-10 rounded-full"
-                                            alt="User">
-                                        <div>
-                                            <h5 class="font-bold text-sm">Bpk. H. Mahmud</h5>
-                                            <p class="text-xs text-gray-500">Anggota Haji Khusus</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Testi 3 -->
-                            <div class="swiper-slide">
-                                <div class="bg-white p-6 rounded-xl shadow border border-gray-100 h-full">
-                                    <div class="flex gap-1 text-yellow-400 mb-4">
-                                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
-                                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
-                                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
-                                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
-                                        <i data-lucide="star-half" class="w-4 h-4 fill-current"></i>
-                                    </div>
-                                    <p class="text-gray-600 mb-6 italic">"Aplikasi KOSPE Mobile sangat memudahkan saya
-                                        untuk
-                                        cek saldo dan transfer ke sesama anggota tanpa biaya."</p>
-                                    <div class="flex items-center gap-3">
-                                        <img src="https://i.pravatar.cc/150?img=33" class="w-10 h-10 rounded-full"
-                                            alt="User">
-                                        <div>
-                                            <h5 class="font-bold text-sm">Rizky Pratama</h5>
-                                            <p class="text-xs text-gray-500">Mahasiswa / Santri</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Testi 4 -->
-                            <div class="swiper-slide">
-                                <div class="bg-white p-6 rounded-xl shadow border border-gray-100 h-full">
-                                    <div class="flex gap-1 text-yellow-400 mb-4">
-                                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
-                                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
-                                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
-                                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
-                                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
-                                    </div>
-                                    <p class="text-gray-600 mb-6 italic">"Investasi emas di KOSPE sangat aman dan
-                                        terpercaya. Harga jual beli sangat kompetitif dibanding tempat lain."</p>
-                                    <div class="flex items-center gap-3">
-                                        <img src="https://i.pravatar.cc/150?img=45" class="w-10 h-10 rounded-full"
-                                            alt="User">
-                                        <div>
-                                            <h5 class="font-bold text-sm">Ibu Sarah</h5>
-                                            <p class="text-xs text-gray-500">Pengusaha Butik</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            <h4 class="mt-3 font-bold text-lg group-hover:text-brand-red transition">Apa itu MyKoSPE ?
+                            </h4>
+                            <p class="text-sm text-gray-500">MyKoSPE adalah platform digital yang memudahkan anggota
+                                koperasi syariah dalam
+                                mengelola tabungan dan investasi mereka.</p>
                         </div>
-                        <div class="swiper-pagination"></div>
+                        <div class="group cursor-pointer">
+                            <div
+                                class="bg-gray-900 rounded-xl h-64 flex items-center justify-center text-white relative overflow-hidden shadow-lg">
+                                <iframe width="100%" height="751" src="https://www.youtube.com/embed/zFWLhd58_dE"
+                                    class="absolute inset-0 w-full h-full object-cover"
+                                    title="Kemudahan Dalam Genggaman - MyKoSPE" frameborder="0"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                    referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+                            </div>
+                            <h4 class="mt-3 font-bold text-lg group-hover:text-brand-red transition">Tutorial Aktivasi
+                                MyKoSPE</h4>
+                            <p class="text-sm text-gray-500">Langkah-langkah mudah untuk mengaktifkan akun MyKoSPE Anda.
+                            </p>
+                        </div>
+
+                    </div>
+                    <div class="grid md:grid-cols-3 gap-6 mt-10">
+                        <!-- Videos code remains same -->
+                        <div class="group cursor-pointer">
+                            <div
+                                class="bg-gray-900 rounded-xl h-64 flex items-center justify-center text-white relative overflow-hidden shadow-lg">
+                                <iframe width="100%" height="751" src="https://www.youtube.com/embed/32TetPTN-Mg"
+                                    class="absolute inset-0 w-full h-full object-cover"
+                                    title="Kemudahan Dalam Genggaman - MyKoSPE" frameborder="0"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                    referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+                            </div>
+                            <h4 class="mt-3 font-bold text-lg group-hover:text-brand-red transition">Testimoni Anggota
+                                KoSP</h4>
+                            <p class="text-sm text-gray-500">Temukan pengalaman nyata dari anggota KoSPE</p>
+                        </div>
+                        <div class="group cursor-pointer">
+                            <div
+                                class="bg-gray-900 rounded-xl h-64 flex items-center justify-center text-white relative overflow-hidden shadow-lg">
+                                <iframe width="100%" height="751" src="https://www.youtube.com/embed/CSDsGrxvF0o"
+                                    class="absolute inset-0 w-full h-full object-cover"
+                                    title="Kemudahan Dalam Genggaman - MyKoSPE" frameborder="0"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                    referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+                            </div>
+                            <h4 class="mt-3 font-bold text-lg group-hover:text-brand-red transition">Perjalanan Sukses
+                                KoSPE 2025</h4>
+                            <p class="text-sm text-gray-500">Ikuti perjalanan sukses anggota KoSPE dalam mencapai tujuan
+                                finansial mereka.</p>
+                        </div>
+                        <div class="group cursor-pointer">
+                            <div
+                                class="bg-gray-900 rounded-xl h-64 flex items-center justify-center text-white relative overflow-hidden shadow-lg">
+                                <iframe width="100%" height="751" src="https://www.youtube.com/embed/hzGjpB1aiOA"
+                                    class="absolute inset-0 w-full h-full object-cover"
+                                    title="Kemudahan Dalam Genggaman - MyKoSPE" frameborder="0"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                    referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+                            </div>
+                            <h4 class="mt-3 font-bold text-lg group-hover:text-brand-red transition">Sukses berkah
+                                bersama Simpanan Produktif</h4>
+                            <p class="text-sm text-gray-500">Temukan bagaimana simpanan produktif membantu anggota KoSPE
+                                mencapai kesuksesan finansial mereka.</p>
+                        </div>
+                    </div>
+                    <div class="grid md:grid-cols-3 gap-6 mt-10">
+                        <!-- Videos code remains same -->
+                        <div class="group cursor-pointer">
+                            <div
+                                class="bg-gray-900 rounded-xl h-64 flex items-center justify-center text-white relative overflow-hidden shadow-lg">
+                                <iframe width="100%" height="751" src="https://www.youtube.com/embed/yab0G-Q0p6Y"
+                                    title="Koperasi Syariah di Bekasi" frameborder="0"
+                                    class="absolute inset-0 w-full h-full object-cover"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                    referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+                            </div>
+                            <h4 class="mt-3 font-bold text-lg group-hover:text-brand-red transition">Koperasi Terbaik di
+                                Bekasi</h4>
+                            <p class="text-sm text-gray-500">Yuk silaturahmi ke Kantor Pusat KoSPE di Bekasi</p>
+                        </div>
+                        <div class="group cursor-pointer">
+                            <div
+                                class="bg-gray-900 rounded-xl h-64 flex items-center justify-center text-white relative overflow-hidden shadow-lg">
+                                <iframe width="100%" height="250" src="https://www.youtube.com/embed/XOSBzDog73s"
+                                    title="KoSPE berbagai Takjil Ramadhan 1447 H #shorts" frameborder="0"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                    referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+                            </div>
+                            <h4 class="mt-3 font-bold text-lg group-hover:text-brand-red transition">KoSPE berbagai
+                                Takjil Ramadhan 1447</h4>
+                            <p class="text-sm text-gray-500">Ramadhan bulan berbagi.</p>
+                        </div>
+                        <div class="group cursor-pointer">
+                            <div
+                                class="bg-gray-900 rounded-xl h-64 flex items-center justify-center text-white relative overflow-hidden shadow-lg">
+                                <iframe width="100%" height="751" src="https://www.youtube.com/embed/hzGjpB1aiOA"
+                                    class="absolute inset-0 w-full h-full object-cover"
+                                    title="Kemudahan Dalam Genggaman - MyKoSPE" frameborder="0"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                    referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+                            </div>
+                            <h4 class="mt-3 font-bold text-lg group-hover:text-brand-red transition">Sukses berkah
+                                bersama Simpanan Produktif</h4>
+                            <p class="text-sm text-gray-500">Temukan bagaimana simpanan produktif membantu anggota KoSPE
+                                mencapai kesuksesan finansial mereka.</p>
+                        </div>
                     </div>
                 </div>
 
@@ -563,52 +549,20 @@ new class extends Component {
                     <div class="swiper mitraSwiper">
                         <div class="swiper-wrapper py-4">
                             <!-- Logos (Using FontAwesome/Text as placeholder for logos) -->
-                            <div class="swiper-slide">
-                                <div
-                                    class="bg-white border border-gray-200 rounded-lg h-24 flex items-center justify-center p-4 grayscale hover:grayscale-0 transition">
-                                    <span class="font-bold text-xl text-blue-600">Bank Syariah</span>
+                            @foreach ($mitra as $item)
+                                <div class="swiper-slide">
+                                    <div
+                                        class="bg-white   h-24 flex items-center justify-center p-4 grayscale hover:grayscale-0 transition">
+                                        <img src="{{ $item['logo'] }}" class="w-full p-6" alt="{{ $item['name'] }}">
+
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div
-                                    class="bg-white border border-gray-200 rounded-lg h-24 flex items-center justify-center p-4 grayscale hover:grayscale-0 transition">
-                                    <span class="font-bold text-xl text-green-600">BAZNAS</span>
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div
-                                    class="bg-white border border-gray-200 rounded-lg h-24 flex items-center justify-center p-4 grayscale hover:grayscale-0 transition">
-                                    <span class="font-bold text-xl text-red-600">Telkom</span>
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div
-                                    class="bg-white border border-gray-200 rounded-lg h-24 flex items-center justify-center p-4 grayscale hover:grayscale-0 transition">
-                                    <span class="font-bold text-xl text-orange-600">PosIndo</span>
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div
-                                    class="bg-white border border-gray-200 rounded-lg h-24 flex items-center justify-center p-4 grayscale hover:grayscale-0 transition">
-                                    <span class="font-bold text-xl text-purple-600">Muamalat</span>
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div
-                                    class="bg-white border border-gray-200 rounded-lg h-24 flex items-center justify-center p-4 grayscale hover:grayscale-0 transition">
-                                    <span class="font-bold text-xl text-cyan-600">Pegadaian</span>
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div
-                                    class="bg-white border border-gray-200 rounded-lg h-24 flex items-center justify-center p-4 grayscale hover:grayscale-0 transition">
-                                    <span class="font-bold text-xl text-emerald-600">BSI</span>
-                                </div>
-                            </div>
+                            @endforeach
+
                         </div>
                         <!-- Optional Navigation -->
-                        <!-- <div class="swiper-button-next"></div>
-                             <div class="swiper-button-prev"></div> -->
+                        <div class="swiper-button-next"></div>
+                        <div class="swiper-button-prev"></div>
                     </div>
                 </div>
 
@@ -657,8 +611,10 @@ new class extends Component {
                                 <i data-lucide="smartphone"
                                     class="w-5 h-5 md:w-6 md:h-6 text-brand-red group-hover:text-white transition"></i>
                             </div>
-                            <h4 class="font-bold text-sm md:text-lg text-gray-800 mb-1 md:mb-2">Cek Saldo</h4>
-                            <p class="text-xs md:text-sm text-gray-500 leading-tight">Transparansi total simpanan Anda.
+                            <h4 class="font-bold text-sm md:text-lg text-gray-800 mb-1 md:mb-2">Cek Saldo dan Mutasi
+                                Realtime</h4>
+                            <p class="text-xs md:text-sm text-gray-500 leading-tight">Transparansi simpanan dan
+                                pembiayaan kapan saja.
                             </p>
                         </div>
 
@@ -670,8 +626,10 @@ new class extends Component {
                                 <i data-lucide="qr-code"
                                     class="w-5 h-5 md:w-6 md:h-6 text-brand-orange group-hover:text-white transition"></i>
                             </div>
-                            <h4 class="font-bold text-sm md:text-lg text-gray-800 mb-1 md:mb-2">Bayar QRIS</h4>
-                            <p class="text-xs md:text-sm text-gray-500 leading-tight">Belanja praktis tinggal scan.</p>
+                            <h4 class="font-bold text-sm md:text-lg text-gray-800 mb-1 md:mb-2">Beli Pulsa & Token
+                                Listrik</h4>
+                            <p class="text-xs md:text-sm text-gray-500 leading-tight">Beli pulsa dan token listrik
+                                dengan mudah dan cepat.</p>
                         </div>
 
                         <!-- Feature 3 -->
@@ -682,8 +640,11 @@ new class extends Component {
                                 <i data-lucide="refresh-cw"
                                     class="w-5 h-5 md:w-6 md:h-6 text-brand-yellow group-hover:text-white transition"></i>
                             </div>
-                            <h4 class="font-bold text-sm md:text-lg text-gray-800 mb-1 md:mb-2">Transfer</h4>
-                            <p class="text-xs md:text-sm text-gray-500 leading-tight">Kirim dana antar anggota gratis.
+                            <h4 class="font-bold text-sm md:text-lg text-gray-800 mb-1 md:mb-2">Transfer ke Bank Lain
+                            </h4>
+                            <p class="text-xs md:text-sm text-gray-500 leading-tight">Kirim dana ke bank lain tanpa
+                                ribet
+                                dan aman
                             </p>
                         </div>
 
@@ -695,8 +656,10 @@ new class extends Component {
                                 <i data-lucide="heart-handshake"
                                     class="w-5 h-5 md:w-6 md:h-6 text-green-600 group-hover:text-white transition"></i>
                             </div>
-                            <h4 class="font-bold text-sm md:text-lg text-gray-800 mb-1 md:mb-2">ZISWAF</h4>
-                            <p class="text-xs md:text-sm text-gray-500 leading-tight">Bayar Zakat & Sedekah mudah.</p>
+                            <h4 class="font-bold text-sm md:text-lg text-gray-800 mb-1 md:mb-2">Jadwal Shalat & Kiblat
+                            </h4>
+                            <p class="text-xs md:text-sm text-gray-500 leading-tight">Lihat jadwal shalat dan arah
+                                kiblat di lokasi Anda.</p>
                         </div>
                     </div>
 
@@ -765,7 +728,7 @@ new class extends Component {
                         class="bg-white border border-gray-100 rounded-2xl shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden group">
                         <button
                             class="faq-btn w-full text-left px-6 py-5 bg-white flex justify-between items-center font-bold text-gray-800 transition group-hover:text-brand-red">
-                            <span class="text-lg">Apa syarat utama menjadi anggota KOSPE?</span>
+                            <span class="text-lg">Apa visi Besar KoSPE??</span>
                             <div
                                 class="bg-gray-100 rounded-full p-2 group-hover:bg-brand-red group-hover:text-white transition">
                                 <i data-lucide="chevron-down"
@@ -774,8 +737,9 @@ new class extends Component {
                         </button>
                         <div
                             class="faq-content hidden px-6 pb-6 pt-2 text-gray-600 bg-white leading-relaxed border-t border-gray-50">
-                            Syarat utamanya sangat mudah: Merupakan Warga Negara Indonesia (WNI), memiliki KTP, mengisi
-                            formulir pendaftaran resmi, dan menyetorkan simpanan pokok serta simpanan wajib pertama.
+                            Menjadi KOPERASI SYARIAH yang TERPERCAYA dan TERDEPAN dalam MEMBANGUN dan MENGEMBANGKAN
+                            PEREKONOMIAN UMAT, serta
+                            mewujudkan 1000 pondok pesantren penghafal Alquran
                         </div>
                     </div>
 
@@ -784,7 +748,7 @@ new class extends Component {
                         class="bg-white border border-gray-100 rounded-2xl shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden group">
                         <button
                             class="faq-btn w-full text-left px-6 py-5 bg-white flex justify-between items-center font-bold text-gray-800 transition group-hover:text-brand-red">
-                            <span class="text-lg">Apakah dana simpanan dijamin aman?</span>
+                            <span class="text-lg">Apakah KoSPE sudah terdaftar di OJK?</span>
                             <div
                                 class="bg-gray-100 rounded-full p-2 group-hover:bg-brand-red group-hover:text-white transition">
                                 <i data-lucide="chevron-down"
@@ -793,9 +757,9 @@ new class extends Component {
                         </button>
                         <div
                             class="faq-content hidden px-6 pb-6 pt-2 text-gray-600 bg-white leading-relaxed border-t border-gray-50">
-                            InsyaAllah amanah. Kami diawasi langsung oleh Dinas Koperasi dan Dewan Pengawas Syariah.
-                            Dana
-                            dikelola secara transparan di sektor riil yang minim risiko dan halal.
+                            Alhamdulillah KoSPE sudah terdaftar di Kementrian Koperasi dan UKM RI Legalitas dan secara
+                            legal Koperasi ada dibawah
+                            Kementrian Koperasi RI tidak dibawah OJK
                         </div>
                     </div>
 
@@ -804,7 +768,7 @@ new class extends Component {
                         class="bg-white border border-gray-100 rounded-2xl shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden group">
                         <button
                             class="faq-btn w-full text-left px-6 py-5 bg-white flex justify-between items-center font-bold text-gray-800 transition group-hover:text-brand-red">
-                            <span class="text-lg">Bagaimana alur pengajuan pembiayaan?</span>
+                            <span class="text-lg">Apa keungungan menjadi Anggota KoSPE?</span>
                             <div
                                 class="bg-gray-100 rounded-full p-2 group-hover:bg-brand-red group-hover:text-white transition">
                                 <i data-lucide="chevron-down"
@@ -813,9 +777,18 @@ new class extends Component {
                         </button>
                         <div
                             class="faq-content hidden px-6 pb-6 pt-2 text-gray-600 bg-white leading-relaxed border-t border-gray-50">
-                            Anggota aktif minimal 3 bulan dapat mengajukan pembiayaan dengan mengisi formulir,
-                            melampirkan
-                            dokumen usaha/kebutuhan, dan menunggu proses survei serta akad dari komite pembiayaan.
+                            1. Membangkitan perekonomian umat islam <br>
+                            2. Gratis biaya admin bulanan <br>
+                            3. Ikut Serta berbagai produk simpanan dan pembiayaan yang ada di KoSPE <br>
+                            4. Mendaptkan bagi hasil SHU pertahun setelah RAT (Rapat anggota Tahunan) <br>
+                            5. Membantu sesama anggota kospe yang lain <br>
+                            6. Mendapatkan info-info dan pelatihan bisnis <br>
+                            7. Kemudahan dan transparansi dalam transaksi karena sudah system online, bisa di akses
+                            kapan pun dan dimana pun melalui
+                            aplikasi MyKoSPE <br>
+                            8. Akad sesuai syariah islam, bebas riba karena diawasi oleh Dewaan Syariah Nasional (DSN)
+                            bersertifikasi <br>
+                            9. Mendapatkan bagi hasil untuk beberapa produk simpanan
                         </div>
                     </div>
 
@@ -824,7 +797,7 @@ new class extends Component {
                         class="bg-white border border-gray-100 rounded-2xl shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden group">
                         <button
                             class="faq-btn w-full text-left px-6 py-5 bg-white flex justify-between items-center font-bold text-gray-800 transition group-hover:text-brand-red">
-                            <span class="text-lg">Apakah bisa mendaftar secara online?</span>
+                            <span class="text-lg">Bagaimana cara mendaftar menjadi anggota KoSPE?</span>
                             <div
                                 class="bg-gray-100 rounded-full p-2 group-hover:bg-brand-red group-hover:text-white transition">
                                 <i data-lucide="chevron-down"
@@ -833,8 +806,27 @@ new class extends Component {
                         </button>
                         <div
                             class="faq-content hidden px-6 pb-6 pt-2 text-gray-600 bg-white leading-relaxed border-t border-gray-50">
-                            Tentu bisa! Silakan download aplikasi KOSPE Mobile kami atau klik tombol "Daftar Anggota" di
-                            website ini untuk mengisi formulir pendaftaran digital.
+                            Cukup siapkan KTP, mengisi formulir pendaftaran menjadi anggota KoSPE dan menyetorkan
+                            simpanan pokok Rp 80.000 + simpanan wajib 1 bulan Rp 59.000 lalu kirim bukti transfer ke CRM
+                            KOSPE 08118807177
+                        </div>
+                    </div>
+                    <div
+                        class="bg-white border border-gray-100 rounded-2xl shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden group">
+                        <button
+                            class="faq-btn w-full text-left px-6 py-5 bg-white flex justify-between items-center font-bold text-gray-800 transition group-hover:text-brand-red">
+                            <span class="text-lg">Berapa bagi hasil yang di berikan KoSPE?</span>
+                            <div
+                                class="bg-gray-100 rounded-full p-2 group-hover:bg-brand-red group-hover:text-white transition">
+                                <i data-lucide="chevron-down"
+                                    class="w-5 h-5 transform transition-transform duration-300"></i>
+                            </div>
+                        </button>
+                        <div
+                            class="faq-content hidden px-6 pb-6 pt-2 text-gray-600 bg-white leading-relaxed border-t border-gray-50">
+                            Bagi hasil disesuikan dengan program simpanan yang dipilih oleh anggdota dan insyalloh lebih
+                            menarik dari Deposito Bank
+                            Konvensional
                         </div>
                     </div>
                 </div>
@@ -849,8 +841,7 @@ new class extends Component {
                     <!-- Image Container -->
                     <div
                         class="relative z-10 rounded-[2.5rem] overflow-hidden shadow-2xl border-4 border-white max-w-md w-full">
-                        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=800&auto=format&fit=crop"
-                            alt="Customer Service Salam"
+                        <img src="/cs.JPG" alt="Customer Service Salam"
                             class="w-full h-full object-cover transform group-hover:scale-105 transition duration-700">
 
                         <!-- Floating Badge -->

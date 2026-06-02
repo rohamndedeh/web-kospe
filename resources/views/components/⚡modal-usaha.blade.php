@@ -385,7 +385,7 @@ new class extends Component {
 
                                     <input type="number" id="input-plafond"
                                         class="w-full pl-12 pr-4 py-3.5 bg-gray-50 border border-gray-300 rounded-xl focus:ring-2 focus:ring-brand-red focus:border-brand-red outline-none transition font-bold text-lg"
-                                        value="50000000" step="1000000">
+                                        value="5000000" step="1000000">
                                 </div>
                             </div>
 
@@ -425,7 +425,7 @@ new class extends Component {
                                     setelah survei.</p>
                             </div>
 
-                            <a href="register-member.html"
+                            <a href="https://api.whatsapp.com/send/?phone=628118807177&text=saya+mau+daftar+jadi+anggota+dan+mau+ajukan+pembiayaan+usaha+di+KOSPE&type=phone_number&app_absent=0"
                                 class="block w-full text-center bg-brand-red text-white font-bold py-4 rounded-xl hover:bg-red-700 transition shadow-lg shadow-red-200">
                                 Ajukan Pembiayaan Sekarang
                             </a>
@@ -626,7 +626,7 @@ new class extends Component {
 
             // Calculator Logic (Modal Usaha Murabahah)
             let selectedTenor = 12;
-            const marginRate = 0.015; // 1.5% margin per bulan (contoh simulasi)
+            let marginRate = 0.018; // 1.8% margin per bulan (contoh simulasi)
 
             function calculateInstallment() {
                 let plafond = parseFloat($('#input-plafond').val()) || 0;
@@ -651,6 +651,14 @@ new class extends Component {
                 $('.tenor-btn').removeClass('bg-red-50 border-brand-red text-brand-red active-tenor');
                 $(this).addClass('bg-red-50 border-brand-red text-brand-red active-tenor');
                 selectedTenor = parseInt($(this).data('val'));
+                console.log('Selected Tenor:', selectedTenor);
+                if (selectedTenor < 24) {
+                    marginRate = 0.018; // Margin lebih rendah untuk tenor dibawah 2 tahun
+                } else if (selectedTenor < 36) {
+                    marginRate = 0.019; // Margin sedikit lebih tinggi untuk tenor 3 tahun
+                } else {
+                    marginRate = 0.02; // Margin tertinggi untuk tenor 5 tahun
+                }
                 calculateInstallment();
             });
 

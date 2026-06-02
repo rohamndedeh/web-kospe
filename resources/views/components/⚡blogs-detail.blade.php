@@ -60,58 +60,15 @@ new class extends Component {
                     <div class="mb-10 rounded-2xl overflow-hidden shadow-lg border border-gray-100">
                         <img src="https://kospe.id/asset/img/post/{{ $blog->img }}"
                             class="w-full h-auto max-h-[500px] object-cover" alt="RAT KOSPE 2026">
-                        <p class="text-xs text-center text-gray-400 p-2 bg-gray-50 border-t border-gray-100">Suasana
-                            Rapat
-                            Anggota Tahunan KOSPE di Aula Utama Pesantren.</p>
+
                     </div>
 
                     <!-- Isi Artikel (Typography) -->
                     <div class="post-content text-lg">
                         <p>
-                            <strong>KOTA SANTRI</strong> - Koperasi Syariah Pesantren (KOSPE) kembali sukses
-                            menyelenggarakan Rapat Anggota Tahunan (RAT) Tahun Buku 2025 yang dilaksanakan pada hari
-                            Sabtu,
-                            24 April 2026. Acara yang digelar di Aula Utama Pesantren ini dihadiri oleh jajaran
-                            Pengurus,
-                            Dewan Pengawas Syariah (DPS), serta perwakilan anggota dari berbagai daerah.
+                            {!! preg_replace('/Â+/', '', html_entity_decode($blog->isi)) !!}
                         </p>
 
-                        <p>
-                            Pelaksanaan RAT merupakan agenda wajib tahunan sebagai bentuk transparansi dan akuntabilitas
-                            pengurus kepada seluruh anggota. Dalam laporannya, Ketua Pengurus KOSPE, H. Ahmad
-                            Zulkarnain,
-                            memaparkan pencapaian luar biasa yang berhasil diraih koperasi di tengah tantangan ekonomi
-                            global.
-                        </p>
-
-                        <blockquote>
-                            "Alhamdulillah, berkat partisipasi aktif seluruh anggota dalam menabung dan bertransaksi,
-                            tahun
-                            ini kita mencatatkan pertumbuhan aset sebesar 25% dibandingkan tahun sebelumnya. Ini adalah
-                            bukti nyata bahwa ekonomi syariah berbasis keumatan memiliki daya tahan yang luar biasa,"
-                            ujar
-                            H. Ahmad Zulkarnain.
-                        </blockquote>
-
-                        <h3>Peningkatan Sisa Hasil Usaha (SHU)</h3>
-                        <p>
-                            Kabar gembira yang paling dinantikan oleh para anggota dalam RAT kali ini adalah persetujuan
-                            pembagian Sisa Hasil Usaha (SHU). Mengingat keuntungan bersih koperasi yang meningkat
-                            signifikan, rapat paripurna menyetujui pembagian SHU yang lebih besar dibandingkan tahun
-                            buku
-                            sebelumnya.
-                        </p>
-
-                        <p>Pembagian SHU ini didasarkan pada dua komponen aktivitas utama anggota, yaitu:</p>
-                        <ul>
-                            <li><strong>Jasa Simpanan:</strong> Diberikan kepada anggota yang aktif menyetorkan simpanan
-                                wajib dan saldo rata-rata simpanan sukarela sepanjang tahun.</li>
-                            <li><strong>Jasa Pinjaman/Pembiayaan:</strong> Diberikan kepada anggota yang telah
-                                memanfaatkan
-                                fasilitas pembiayaan (Modal Usaha, Renovasi, dll) dan melakukan pembayaran angsuran
-                                dengan
-                                lancar.</li>
-                        </ul>
 
                         <!-- Galeri Kegiatan (Swiper Slider di dalam konten) -->
                         <div class="my-12">
@@ -142,25 +99,7 @@ new class extends Component {
                             </div>
                         </div>
 
-                        <h3>Rencana Strategis 2026-2027</h3>
-                        <p>
-                            Selain pembagian SHU, RAT juga menetapkan Rencana Kerja dan Rencana Anggaran Pendapatan
-                            Belanja
-                            Koperasi (RK-RAPBK) untuk periode mendatang. Fokus utama KOSPE ke depan adalah akselerasi
-                            digitalisasi layanan melalui pengembangan lanjutan aplikasi <strong>MyKOSPE</strong>.
-                        </p>
-                        <p>
-                            "Kami menargetkan di tahun ini, 100% anggota sudah bisa melakukan pengajuan pembiayaan dan
-                            pencairan secara digital melalui smartphone. Ini untuk memudahkan akses bagi anggota yang
-                            berada
-                            jauh dari jangkauan kantor fisik," tambah sekretaris pengurus.
-                        </p>
-                        <p>
-                            Acara RAT ditutup dengan doa bersama yang dipimpin oleh Dewan Pengawas Syariah (DPS) dan
-                            dilanjutkan dengan ramah tamah serta pembagian *doorprize* menarik bagi peserta yang hadir.
-                            Semoga dengan suksesnya RAT ini, KOSPE semakin amanah dan berkah dalam mengelola ekonomi
-                            keumatan.
-                        </p>
+
                     </div>
 
                     <!-- Tags & Share -->

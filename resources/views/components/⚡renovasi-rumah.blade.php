@@ -3,7 +3,7 @@
 use Livewire\Component;
 
 new class extends Component {
-    //
+
 };
 ?>
 
@@ -153,7 +153,7 @@ new class extends Component {
                 <div class="w-20 h-1 bg-brand-yellow mx-auto rounded-full mt-4"></div>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-8">
                 <!-- Card 1 -->
                 <div class="text-center group">
                     <div
@@ -206,7 +206,7 @@ new class extends Component {
                 <h2 class="text-3xl font-bold text-gray-900 mt-2">Alur Pengajuan Renovasi</h2>
             </div>
 
-            <div class="grid grid-cols-4 md:grid-cols-4 gap-8 relative">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 relative">
                 <!-- Desktop connecting line -->
                 {{-- <div class="step-line"></div> --}}
 
@@ -380,7 +380,7 @@ new class extends Component {
                                     <span id="display-plafond-top" class="text-xl text-brand-red">Rp 50.000.000</span>
                                 </label>
                                 <input type="range" id="input-range-plafond" min="5000000" max="200000000"
-                                    step="1000000" value="50000000"
+                                    step="1000000" value="10000000"
                                     class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer mt-2">
                                 <div class="flex justify-between text-xs text-gray-400 mt-2">
                                     <span>5 Juta</span>
@@ -424,7 +424,7 @@ new class extends Component {
                                     flat.</p>
                             </div>
 
-                            <a href="register-member.html"
+                            <a href="https://api.whatsapp.com/send/?phone=628118807177&text=saya+mau+daftar+jadi+anggota+dan+mau+ajukan+pembiayaan+renovasi+rumah+di+KOSPE&type=phone_number&app_absent=0"
                                 class="block w-full text-center bg-brand-red text-white font-bold py-4 rounded-xl hover:bg-red-700 transition shadow-lg shadow-red-200">
                                 Ajukan Pembiayaan Sekarang
                             </a>
@@ -545,6 +545,7 @@ new class extends Component {
             </div>
         </div>
     </section>
+
     @push('scripts')
         <script>
             // Tabs Logic (Syarat & Berkas)
@@ -579,7 +580,7 @@ new class extends Component {
 
             // Calculator Logic (Murabahah Renovasi)
             let selectedTenor = 24;
-            const marginRate = 0.013; // 1.3% margin murabahah per bulan (simulasi)
+            let marginRate = 0.013; // 1.3% margin murabahah per bulan (simulasi)
 
             function formatIDR(num) {
                 return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(num);
@@ -610,6 +611,14 @@ new class extends Component {
                 $('.tenor-btn').removeClass('bg-red-50 border-brand-red text-brand-red active-tenor');
                 $(this).addClass('bg-red-50 border-brand-red text-brand-red active-tenor');
                 selectedTenor = parseInt($(this).data('val'));
+                console.log('Selected Tenor:', selectedTenor);
+                if (selectedTenor < 24) {
+                    marginRate = 0.018; // Margin lebih rendah untuk tenor dibawah 2 tahun
+                } else if (selectedTenor < 36) {
+                    marginRate = 0.019; // Margin sedikit lebih tinggi untuk tenor 3 tahun
+                } else {
+                    marginRate = 0.02; // Margin tertinggi untuk tenor 5 tahun
+                }
                 calculateInstallment();
             });
 

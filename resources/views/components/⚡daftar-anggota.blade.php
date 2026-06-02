@@ -347,7 +347,7 @@ new class extends Component {
                                 </div>
                             </div>
                         </div>
-                        <div class="mt-3 bg-orange-50 border-l-4 border-brand-orange p-4 rounded-r-xl">
+                        {{-- <div class="mt-3 bg-orange-50 border-l-4 border-brand-orange p-4 rounded-r-xl">
                             <p class="text-xs font-bold text-brand-orange uppercase mb-1">Transfer ke HNI Cash:</p>
                             <div class="flex items-center gap-3">
                                 <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhuFeD6RaYmjby2wJn5L6G0x-YDbfUd7PB03ysB9pDAZ01Yr030E1Tfw0f9gQoiKOHr7gzk3MPYHQlrYN8L5PjNATdvRPHXzuZsmHa-yEi53Yp_u4ooWWQtPSud3HSPb8NuAWLyuHnsIas/s640/apa+itu+hni+cash.jpg"
@@ -357,7 +357,7 @@ new class extends Component {
                                     <p class="text-xs text-gray-600">a.n Koperasi Syariah Pesantren Entrepreneur</p>
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
                     </div>
 
                     <!-- Upload Bukti Transfer -->

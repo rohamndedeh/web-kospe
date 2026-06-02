@@ -1,9 +1,27 @@
 <?php
 
 use Livewire\Component;
+use App\Models\Agen;
 
 new class extends Component {
-    //
+    public $marketing;
+    public $wa_marketing;
+
+    public function mount($nama = null)
+    {
+        $agen = Agen::where('kode', $nama)->first();
+        $this->marketing = session('marketing', $agen ? $agen->nama : 'CRM KOSPE');
+        $this->wa_marketing = session('wa_marketing', $agen ? $agen->hp : '0811-8807-177');
+    }
+    public function render()
+    {
+        return $this->view([
+            'marketing' => $this->marketing,
+            'wa_marketing' => $this->wa_marketing,
+            'crm' => 'CRM KOSPE',
+            'wa_crm' => '0811-8807-177',
+        ]);
+    }
 };
 ?>
 
@@ -46,8 +64,8 @@ new class extends Component {
     </header>
 
     <!-- 2. Highlight Cards (Overlapping Hero) -->
-    <section class="relative z-20">
-        <div class="container mx-auto px-4 max-w-5xl py-40">
+    <section class="relative z-20 bg-yellow-100">
+        <div class="container mx-auto px-4 max-w-5xl py-10 ">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 animate-fade-in-up" style="animation-delay: 0.2s;">
                 <!-- Card 1 -->
                 <div class="bg-white rounded-2xl shadow-xl p-6 border-b-4 border-brand-orange flex items-start gap-4">
@@ -140,7 +158,7 @@ new class extends Component {
                 <div class="w-20 h-1 bg-brand-yellow mx-auto rounded-full mt-4"></div>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-8">
                 <!-- Card 1 -->
                 <div class="text-center group">
                     <div
@@ -164,16 +182,7 @@ new class extends Component {
                         mudah mengatur *cashflow*.</p>
                 </div>
                 <!-- Card 3 -->
-                <div class="text-center group">
-                    <div
-                        class="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-4 border-2 border-gray-100 group-hover:border-brand-yellow transition duration-300">
-                        <i data-lucide="clock" class="w-8 h-8 text-brand-yellow"></i>
-                    </div>
-                    <h4 class="font-bold text-lg mb-2">Proses Cepat</h4>
-                    <p class="text-sm text-gray-500">Persetujuan pembiayaan maksimal 3 hari kerja setelah dokumen
-                        tagihan
-                        (invoice) divalidasi.</p>
-                </div>
+
                 <!-- Card 4 -->
                 <div class="text-center group">
                     <div
@@ -183,6 +192,15 @@ new class extends Component {
                     <h4 class="font-bold text-lg mb-2">Kuota Resmi</h4>
                     <p class="text-sm text-gray-500">KOSPE telah bekerjasama dengan Travel dengan izin PIHK Resmi
                         Republik Indonesia</p>
+                </div>
+                <div class="text-center group">
+                    <div
+                        class="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-4 border-2 border-gray-100 group-hover:border-green-500 transition duration-300">
+                        <i data-lucide="check-square" class="w-8 h-8 text-green-500"></i>
+                    </div>
+                    <h4 class="font-bold text-lg mb-2">Ada Simpanan Haji Khusus</h4>
+                    <p class="text-sm text-gray-500">Selama waktu tunggu keberangkatan, anggota dapat menabung di
+                        Simpanan Haji Khusus untuk keperluan pelunasan Biaya Haji dan keperluan lainnya</p>
                 </div>
             </div>
         </div>
@@ -293,7 +311,16 @@ new class extends Component {
             </div>
         </div>
     </section>
+    <section id="brosur" class="py-20 bg-white">
+        <div class="container mx-auto px-4">
+            <div
+                class="grid grid-cols-1 md:grid-cols-2 gap-3  rounded-[2rem] border border-gray-200 max-w-7xl mx-auto shadow-sm">
+                <img src="{{ asset('haji-khusus.jpeg') }}" class="w-full" alt="">
+                <img src="{{ asset('it-haji-khusus.jpeg') }}" class="w-full" alt="">
 
+            </div>
+        </div>
+    </section>
     <!-- 5. Kalkulator Simulasi Skema Pembiayaan -->
     <section id="kalkulator" class="py-20 bg-gray-900 text-white relative overflow-hidden">
         <!-- Decoration -->
@@ -307,19 +334,26 @@ new class extends Component {
                 <div class="lg:col-span-5 space-y-6">
                     <span class="text-brand-yellow font-bold uppercase tracking-widest text-sm">Simulasi Angsuran</span>
                     <h2 class="text-3xl md:text-4xl font-bold mb-4">Skema Pembiayaan Syariah</h2>
-                    <p class="text-gray-400 text-lg mb-6">Hitung estimasi cicilan per bulan Anda. Kami menggunakan akad
-                        <strong>Murabahah (Jual Beli)</strong> atau <strong>Qardh (Dana Talangan)</strong> yang sesuai
-                        dengan fatwa DSN-MUI.
+                    <p class="text-gray-400 text-lg mb-6">Hitung estimasi angsuran per bulan Anda. Kami menggunakan akad
+                        <strong>Multi Jasa</strong> yang sesuai
+                        dengan fatwa DSN-MUI. Dan lanjutkan dengan <strong>Simpanan Haji Khusus</strong> yang di
+                        setorkan setiap bulan
+                        untuk memepersiapkan biaya pelunasan Haji dan kebutuhan lainnya yang dibutuhkan saat
+                        keberangkatan nanti.
                     </p>
 
                     <div class="bg-white/10 backdrop-blur border border-white/20 p-5 rounded-2xl">
                         <div class="flex justify-between items-center mb-3">
                             <span class="text-gray-300">Biaya Estimasi ONH Plus</span>
-                            <span class="font-bold text-white">± USD 12.000</span>
+                            <span class="font-bold text-white">± USD 10.500</span>
                         </div>
                         <div class="flex justify-between items-center mb-3">
                             <span class="text-gray-300">Setoran Awal / DP Porsi</span>
                             <span class="font-bold text-brand-yellow">Rp 20.000.000</span>
+                        </div>
+                        <div class="flex justify-between items-center mb-3">
+                            <span class="text-gray-300">Simapanan Haji Khusus / bulan</span>
+                            <span class="font-bold text-brand-yellow" id="simpan">Rp 20.000.000</span>
                         </div>
                         <div class="flex justify-between items-center pt-3 border-t border-white/20">
                             <span class="text-gray-300">Masa Tunggu</span>
@@ -341,7 +375,7 @@ new class extends Component {
                                         class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 font-bold">Rp</span>
                                     <input type="number" id="input-total"
                                         class="w-full pl-12 pr-4 py-3.5 bg-gray-50 border border-gray-300 rounded-xl focus:ring-2 focus:ring-brand-orange focus:border-brand-orange outline-none transition font-bold text-lg"
-                                        value="180000000" step="1000000">
+                                        value="85000000" step="1000000">
                                 </div>
                                 <p class="text-xs text-gray-400 mt-1">Estimasi konversi dolar. Bisa diubah sesuai harga
                                     paket travel.</p>
@@ -364,7 +398,7 @@ new class extends Component {
                             <div>
                                 <label class="block text-sm font-bold text-gray-700 mb-3">Pilih Tenor (Masa
                                     Cicilan)</label>
-                                <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                                <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
                                     <button
                                         class="tenor-btn py-2.5 border-2 border-gray-200 rounded-xl font-semibold text-gray-600 hover:border-brand-orange hover:text-brand-orange transition"
                                         data-val="12">1 Tahun</button>
@@ -374,20 +408,18 @@ new class extends Component {
                                     <button
                                         class="tenor-btn py-2.5 border-2 border-gray-200 rounded-xl font-semibold text-gray-600 hover:border-brand-orange hover:text-brand-orange transition active-tenor bg-orange-50 border-brand-orange text-brand-orange"
                                         data-val="36">3 Tahun</button>
-                                    <button
-                                        class="tenor-btn py-2.5 border-2 border-gray-200 rounded-xl font-semibold text-gray-600 hover:border-brand-orange hover:text-brand-orange transition"
-                                        data-val="60">5 Tahun</button>
+
                                 </div>
                             </div>
 
                             <div class="bg-brand-red/5 p-6 rounded-2xl border border-brand-red/10 text-center mt-4">
                                 <p class="text-sm text-gray-500 mb-1 font-medium">Estimasi Angsuran per Bulan</p>
                                 <h3 class="text-4xl font-bold text-brand-red mb-2" id="result-angsuran">Rp 0</h3>
-                                <p class="text-xs text-gray-400">Total sudah termasuk margin margin pembiayaan syariah
+                                <p class="text-xs text-gray-400">Total sudah termasuk margin pembiayaan syariah
                                 </p>
                             </div>
 
-                            <a href="register-member.html"
+                            <a href="https://api.whatsapp.com/send/?phone={{ $wa_marketing ?? $wa_crm }}&text=saya+mau+ajukan+pembiayaan+haji+khusus+di+KOSPE&type=phone_number&app_absent=0"
                                 class="block w-full text-center bg-brand-orange text-white font-bold py-4 rounded-xl hover:bg-orange-700 transition shadow-lg shadow-orange-200">
                                 Ajukan Pembiayaan Sekarang
                             </a>
@@ -398,18 +430,42 @@ new class extends Component {
             </div>
         </div>
     </section>
+    <section id="kontak" class="py-24 bg-gray-50 relative overflow-hidden">
+        <div class="absolute inset-0 bg-pattern-orange -z-10"></div>
 
-    <!-- 6. Brosur & CTA -->
-    <section id="brosur" class="py-20 bg-white">
-        <div class="container mx-auto px-4">
+        <div class="container mx-auto px-4 max-w-4xl">
             <div
-                class="grid grid-cols-2 gap-3 bg-gradient-to-r from-gray-100 to-gray-50 rounded-[2rem] p-8 md:p-12 border border-gray-200 max-w-7xl mx-auto shadow-sm">
-                <img src="{{ asset('haji-khusus.jpeg') }}" class="w-full" alt="">
-                <img src="{{ asset('it-haji-khusus.jpeg') }}" class="w-full" alt="">
+                class="bg-white rounded-[2rem] p-10 md:p-14 shadow-2xl relative overflow-hidden text-center border-t-8 border-t-brand-orange">
 
+                <h2 class="text-2xl md:text-4xl font-black text-gray-900 mb-4 tracking-wide">DAFTAR SEKARANG JUGA!</h2>
+
+                <div
+                    class="bg-gray-50 border border-gray-200 rounded-2xl p-8 shadow-inner text-gray-900 transform hover:scale-105 transition duration-300">
+                    <div
+                        class="w-16 h-16 bg-brand-orange text-white rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i data-lucide="headset" class="w-8 h-8"></i>
+                    </div>
+                    <p class="text-sm font-bold text-gray-500 uppercase tracking-wider mb-2">Info & Pendaftaran</p>
+                    <h3 class="text-2xl font-black text-gray-900 mb-1">{{ $marketing ?? $crm }}</h3>
+                    <p class="text-3xl font-bold text-brand-orange mb-8 font-mono">
+                        {{ '0' . substr($wa_marketing, 2) ?? $wa_crm }}
+                    </p>
+                    <div class="flex gap-3 md:flex-row flex-col">
+                        <a href="https://wa.me/{{ $wa_marketing }}" target="_blank"
+                            class="block w-full bg-green-500 text-white font-bold py-4 rounded-xl hover:bg-green-600 transition shadow-lg shadow-green-200 flex items-center justify-center gap-2 text-lg">
+                            <i data-lucide="message-circle" class="w-6 h-6"></i> Hubungi via WhatsApp
+                        </a>
+                        <a href="{{ route('form.haji-khusus') }}"
+                            class="block w-full bg-blue-500 text-white font-bold py-4 rounded-xl hover:bg-blue-600 transition shadow-lg shadow-blue-200 flex items-center justify-center gap-2 text-lg">
+                            <i data-lucide="file-text" class="w-6 h-6"></i> Isi Form Pendaftaran
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
+    <!-- 6. Brosur & CTA -->
+
     @push('scripts')
         <script>
             // Tabs Logic
@@ -430,7 +486,31 @@ new class extends Component {
             // Calculator Logic
             let selectedTenor = 36;
             const dp = 20000000;
-            const marginRate = 0.012; // Simulasi margin 1.2% per bulan flat
+            let marginRate = 0.02; // Simulasi margin 2% per bulan flat
+            let totalSimpanan = 93500000;
+            let jkw = 48;
+
+            // Bind Events
+            $('#input-total').on('input change', calculateInstallment);
+
+            $('.tenor-btn').click(function () {
+                $('.tenor-btn').removeClass('bg-orange-50 border-brand-orange text-brand-orange active-tenor');
+                $(this).addClass('bg-orange-50 border-brand-orange text-brand-orange active-tenor');
+                selectedTenor = parseInt($(this).data('val'));
+                console.log('Selected Tenor:', selectedTenor);
+                if (selectedTenor < 24) {
+                    marginRate = 0.018; // Margin lebih rendah untuk tenor dibawah 2 tahun
+                    jkw = 72
+                } else if (selectedTenor < 36) {
+                    marginRate = 0.019; // Margin sedikit lebih tinggi untuk tenor 3 tahun
+                    jkw = 60
+                } else {
+                    marginRate = 0.02; // Margin tertinggi untuk tenor 5 tahun
+                    jkw = 48
+                }
+
+                calculateInstallment();
+            });
 
             function calculateInstallment() {
                 let totalCost = parseFloat($('#input-total').val()) || 0;
@@ -443,7 +523,7 @@ new class extends Component {
                 const pembiayaan = totalCost - dp;
 
                 // Format IDR helper
-                const formatIDR = (num) => new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(num);
+                const formatIDR = (num) => new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(num);
 
                 $('#display-pembiayaan').text(formatIDR(pembiayaan));
 
@@ -455,17 +535,10 @@ new class extends Component {
                 if (pembiayaan === 0) angsuran = 0;
 
                 $('#result-angsuran').text(formatIDR(angsuran));
+                let simpan = totalSimpanan / jkw;
+
+                $('#simpan').text(formatIDR(simpan));
             }
-
-            // Bind Events
-            $('#input-total').on('input change', calculateInstallment);
-
-            $('.tenor-btn').click(function () {
-                $('.tenor-btn').removeClass('bg-orange-50 border-brand-orange text-brand-orange active-tenor');
-                $(this).addClass('bg-orange-50 border-brand-orange text-brand-orange active-tenor');
-                selectedTenor = parseInt($(this).data('val'));
-                calculateInstallment();
-            });
 
             // Initial calc
             calculateInstallment();

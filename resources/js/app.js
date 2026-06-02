@@ -25,6 +25,11 @@ const initLucide = () => {
 document.addEventListener('livewire:navigated', () => {
     initLucide();
     console.log('Livewire Navigated');
+    startTrackingDuration();
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    startTrackingDuration();
 });
 
 Livewire.hook('commit', ({
@@ -54,3 +59,36 @@ window.jQuery = $;
 $(function () {
     console.log('jQuery ready')
 })
+
+window.durationInterval;
+
+window.startTrackingDuration = function () {
+    // hentikan interval lama
+    if (window.durationInterval) {
+        clearInterval(window.durationInterval);
+    }
+
+    let duration = 0;
+
+    window.durationInterval = setInterval(() => {
+        const visitId = localStorage.getItem('visit_id');
+        if (!visitId) return;
+        duration += 5;
+        fetch('/track-duration', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+            },
+
+            body: JSON.stringify({
+                visit_id: visitId,
+                duration: duration,
+                url: window.location.href,
+            })
+
+        });
+
+    }, 5000);
+
+}

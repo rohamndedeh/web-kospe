@@ -86,7 +86,25 @@ new class extends Component {
                                                     data-img="https://images.unsplash.com/photo-1516934024742-b461fba47600?q=80&w=400&auto=format&fit=crop"
                                                     data-title="Tabungan Qurban"
                                                     data-desc="Simpanan dengan jangka waktu tertentu, mendapatkan bagi hasil lebih komepetitif dan doorprize">
-                                                    Simpanan Berjangka
+                                                    Simpanan Produktif
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="{{ route('simprotama') }}" wire:navigate
+                                                    class="{{ request()->routeIs('simprotama') ? 'active' : '' }} mega-link hover:text-brand-orange block py-1"
+                                                    data-img="https://images.unsplash.com/photo-1516934024742-b461fba47600?q=80&w=400&auto=format&fit=crop"
+                                                    data-title="Tabungan Qurban"
+                                                    data-desc="Simpanan dengan jangka waktu tertentu, mendapatkan bagi hasil lebih komepetitif dan doorprize">
+                                                    Simpanan Produktif Utama
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="{{ route('siwak') }}" wire:navigate
+                                                    class="{{ request()->routeIs('siwak') ? 'active' : '' }} mega-link hover:text-brand-orange block py-1"
+                                                    data-img="https://images.unsplash.com/photo-1516934024742-b461fba47600?q=80&w=400&auto=format&fit=crop"
+                                                    data-title="Tabungan Qurban"
+                                                    data-desc="Simpanan dengan jangka waktu tertentu, mendapatkan bagi hasil lebih komepetitif dan doorprize">
+                                                    Simpanan Wajib Khusus
                                                 </a>
                                             </li>
                                         </ul>
@@ -96,7 +114,7 @@ new class extends Component {
                                         <h4 class="font-bold text-brand-red mb-4 border-b pb-2">Pembiayaan</h4>
                                         <ul class="space-y-2">
                                             <li>
-                                                <a href="{{ route('haji-khusus') }}" wire:navigate
+                                                <a href="{{ route('haji-khusus', ['nama' => '-']) }}" wire:navigate
                                                     class="{{ request()->routeIs('haji-khusus') ? 'active' : '' }} mega-link hover:text-brand-orange block py-1"
                                                     data-img="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=80&w=400&auto=format&fit=crop"
                                                     data-title="Mudharabah"
@@ -162,10 +180,10 @@ new class extends Component {
                     </div>
 
                     <a href="{{ route('mykospe') }}" wire:navigate
-                        class="{{ request()->is('/mykospe') ? 'active' : '' }} text-gray-700 hover:text-brand-red font-medium transition">My
+                        class="{{ request()->is('mykospe') ? 'active' : '' }} text-gray-700 hover:text-brand-red font-medium transition">My
                         Kospe</a>
                     <a href="{{ route('kantor') }}" wire:navigate
-                        class="{{ request()->is('/kantor') ? 'active' : '' }} text-gray-700 hover:text-brand-red font-medium transition">Kantor</a>
+                        class="{{ request()->is('kantor') ? 'active' : '' }} text-gray-700 hover:text-brand-red font-medium transition">Kantor</a>
                     <a href="{{ route('daftar-anggota') }}"
                         class="px-6 py-2 bg-brand-red text-white rounded-full font-medium hover:bg-red-700 transition shadow-md hover:shadow-lg">
                         Daftar Anggota
@@ -188,7 +206,7 @@ new class extends Component {
                     <div
                         class="w-8 h-8 bg-brand-red rounded-lg flex items-center justify-center text-white font-bold text-lg">
                         K</div>
-                    <span class="text-lg font-bold text-brand-red">Menu Utama</span>
+                    <span class="text-lg font-bold text-brand-red">KoSPE</span>
                 </div>
                 <button id="close-mobile-menu"
                     class="text-gray-500 hover:text-brand-red p-2 rounded-full hover:bg-red-50 transition">
@@ -198,17 +216,21 @@ new class extends Component {
 
             <!-- Menu Items Container -->
             <div class="p-4 space-y-2">
-                <a href="#"
+                <a href="{{ route('home') }}" wire:navigate
                     class="block px-4 py-3 text-lg font-medium text-gray-700 hover:bg-red-50 hover:text-brand-red rounded-xl transition-colors duration-200 flex items-center gap-3">
                     <i data-lucide="home" class="w-5 h-5"></i> Beranda
+                </a>
+                <a href="{{ route('profil') }}" wire:navigate
+                    class="block px-4 py-3 text-lg font-medium text-gray-700 hover:bg-red-50 hover:text-brand-red rounded-xl transition-colors duration-200 flex items-center gap-3">
+                    <i data-lucide="user" class="w-5 h-5"></i> Profil
                 </a>
 
                 <!-- Mobile Dropdown (Layanan) -->
                 <div class="group">
-                    <button id="mobile-layanan-btn"
+                    <button id="mobile-layanan-toggle"
                         class="w-full flex justify-between items-center px-4 py-3 text-lg font-medium text-gray-700 hover:bg-red-50 hover:text-brand-red rounded-xl transition-colors duration-200">
                         <span class="flex items-center gap-3"><i data-lucide="layers" class="w-5 h-5"></i>
-                            Layanan</span>
+                            Produk & Layanan</span>
                         <i data-lucide="chevron-down" class="w-5 h-5 transition-transform duration-300"
                             id="mobile-layanan-icon"></i>
                     </button>
@@ -223,18 +245,24 @@ new class extends Component {
                                 <i data-lucide="wallet" class="w-4 h-4"></i> Simpanan
                             </h5>
                             <ul class="space-y-2 pl-2 border-l-2 border-brand-red/20">
-                                <li><a href="#"
-                                        class="block px-3 py-2 text-sm text-gray-600 hover:text-brand-orange hover:bg-white rounded-lg transition">Simpanan
-                                        Wajib</a></li>
-                                <li><a href="#"
-                                        class="block px-3 py-2 text-sm text-gray-600 hover:text-brand-orange hover:bg-white rounded-lg transition">Simpanan
-                                        Pokok</a></li>
-                                <li><a href="#"
-                                        class="block px-3 py-2 text-sm text-gray-600 hover:text-brand-orange hover:bg-white rounded-lg transition">Simpanan
-                                        Pelajar</a></li>
-                                <li><a href="#"
-                                        class="block px-3 py-2 text-sm text-gray-600 hover:text-brand-orange hover:bg-white rounded-lg transition">Tabungan
-                                        Qurban</a></li>
+                                <li><a href="{{ route('simpanan-anggota') }}" wire:navigate
+                                        class="{{ request()->routeIs('simpanan-anggota') ? 'active' : '' }} block px-3 py-2 text-sm text-gray-600 hover:text-brand-orange hover:bg-white rounded-lg transition">Simpanan
+                                        Anggota</a></li>
+                                <li><a href="{{ route('simpanan-sukarela') }}" wire:navigate
+                                        class="{{ request()->routeIs('simpanan-sukarela') ? 'active' : '' }} block px-3 py-2 text-sm text-gray-600 hover:text-brand-orange hover:bg-white rounded-lg transition">Simpanan
+                                        Sukarela</a></li>
+                                <li><a href="{{ route('simpanan-program') }}" wire:navigate
+                                        class="{{ request()->routeIs('simpanan-program') ? 'active' : '' }} block px-3 py-2 text-sm text-gray-600 hover:text-brand-orange hover:bg-white rounded-lg transition">Simpanan
+                                        Program</a></li>
+                                <li><a href="{{ route('simpanan-berjangka') }}" wire:navigate
+                                        class="{{ request()->routeIs('simpanan-berjangka') ? 'active' : '' }} block px-3 py-2 text-sm text-gray-600 hover:text-brand-orange hover:bg-white rounded-lg transition">Simpanan
+                                        Produktif</a></li>
+                                <li><a href="{{ route('simprotama') }}" wire:navigate
+                                        class="{{ request()->routeIs('simprotama') ? 'active' : '' }} block px-3 py-2 text-sm text-gray-600 hover:text-brand-orange hover:bg-white rounded-lg transition">Simpanan
+                                        Produktif Utama</a></li>
+                                <li><a href="{{ route('siwak') }}" wire:navigate
+                                        class="{{ request()->routeIs('siwak') ? 'active' : '' }} block px-3 py-2 text-sm text-gray-600 hover:text-brand-orange hover:bg-white rounded-lg transition">Simpanan
+                                        Wajib Khusus</a></li>
                             </ul>
                         </div>
 
@@ -245,23 +273,35 @@ new class extends Component {
                                 <i data-lucide="hand-coins" class="w-4 h-4"></i> Pembiayaan
                             </h5>
                             <ul class="space-y-2 pl-2 border-l-2 border-brand-orange/20">
-                                <li><a href="#"
-                                        class="block px-3 py-2 text-sm text-gray-600 hover:text-brand-orange hover:bg-white rounded-lg transition">Mudharabah</a>
+                                <li><a href="{{ route('haji-khusus', ['nama' => 'John Doe']) }}" wire:navigate
+                                        class="{{  request()->routeIs('haji-khusus') ? 'active' : '' }} block px-3 py-2 text-sm text-gray-600 hover:text-brand-orange hover:bg-white rounded-lg transition">Haji
+                                        Khusus</a>
                                 </li>
-                                <li><a href="#"
-                                        class="block px-3 py-2 text-sm text-gray-600 hover:text-brand-orange hover:bg-white rounded-lg transition">Murabahah</a>
+                                <li><a href="{{ route('modal-usaha') }}" wire:navigate
+                                        class="{{ request()->routeIs('modal-usaha') ? 'active' : '' }} block px-3 py-2 text-sm text-gray-600 hover:text-brand-orange hover:bg-white rounded-lg transition">Modal
+                                        Usaha</a>
                                 </li>
-                                <li><a href="#"
-                                        class="block px-3 py-2 text-sm text-gray-600 hover:text-brand-orange hover:bg-white rounded-lg transition">Musyarakah</a>
+                                <li><a href="{{ route('multi-jasa') }}" wire:navigate
+                                        class="{{ request()->routeIs('multi-jasa') ? 'active' : '' }} block px-3 py-2 text-sm text-gray-600 hover:text-brand-orange hover:bg-white rounded-lg transition">Multi
+                                        Jasa</a>
+                                </li>
+                                <li><a href="{{ route('renovasi-rumah') }}" wire:navigate
+                                        class="{{ request()->routeIs('renovasi-rumah') ? 'active' : '' }} block px-3 py-2 text-sm text-gray-600 hover:text-brand-orange hover:bg-white rounded-lg transition">Renovasi
+                                        Rumah</a>
                                 </li>
                             </ul>
                         </div>
                     </div>
                 </div>
 
-                <a href="#"
+
+                <a href="{{ route('mykospe') }}" wire:navigate
                     class="block px-4 py-3 text-lg font-medium text-gray-700 hover:bg-red-50 hover:text-brand-red rounded-xl transition-colors duration-200 flex items-center gap-3">
-                    <i data-lucide="info" class="w-5 h-5"></i> Tentang Kami
+                    <i data-lucide="shield-check" class="w-5 h-5"></i>Aplikasi MyKoSPE
+                </a>
+                <a href="{{ route('kantor') }}" wire:navigate
+                    class="block px-4 py-3 text-lg font-medium text-gray-700 hover:bg-red-50 hover:text-brand-red rounded-xl transition-colors duration-200 flex items-center gap-3">
+                    <i data-lucide="info" class="w-5 h-5"></i> Kontak
                 </a>
 
                 <!-- CTA Button in Mobile -->
@@ -281,3 +321,16 @@ new class extends Component {
     </nav>
 
 </div>
+@push('scripts')
+    <script>
+        $('#mobile-layanan-toggle').click(function () {
+            const content = $('#mobile-layanan-content');
+            // Lucide akan mengubah <i> menjadi <svg>, jadi kita cari elemen svg
+            const icon = $(this).find('svg');
+
+            content.slideToggle(300); // Animasi buka-tutup
+            icon.toggleClass('rotate-180 text-brand-red'); // Memutar ikon chevron
+            $(this).toggleClass('text-brand-red'); // Highlight teks saat terbuka
+        });
+    </script>
+@endpush

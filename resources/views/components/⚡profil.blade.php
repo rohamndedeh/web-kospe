@@ -26,7 +26,7 @@ new class extends Component {
                 Lembaga</span>
             <h1 class="text-4xl md:text-6xl font-bold mb-4">Mengenal KOSPE Lebih Dekat</h1>
             <p class="text-xl text-white/90 max-w-2xl mx-auto">Sinergi Ekonomi Umat, Membangun Peradaban dengan Prinsip
-                Syariah.</p>
+                Syariah. </p>
 
             <!-- Breadcrumb -->
             <div class="mt-8 flex justify-center items-center gap-2 text-sm text-white/80">
@@ -304,7 +304,7 @@ new class extends Component {
                 <span class="text-brand-orange font-bold tracking-wider uppercase text-sm">Tim Kami</span>
                 <h2 class="text-3xl font-bold mt-2">Struktur Pengurus</h2>
             </div>
-            <img src="{{ asset('pengurus.png') }}"
+            <img src="{{ asset('pengurus-kospe.png') }}"
                 class="w-full h-full object-cover group-hover:scale-110 transition duration-500" alt="Ketua">
         </div>
     </section>

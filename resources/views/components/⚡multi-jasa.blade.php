@@ -75,7 +75,7 @@ new class extends Component {
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
 
                 <!-- Kiri: Pengertian -->
-                <div class="sticky top-24">
+                <div class=" top-24">
                     <span class="text-brand-red font-bold uppercase tracking-wider text-sm">Tentang Produk</span>
                     <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mt-2 mb-6">Apa itu Pembiayaan Multijasa?
                     </h2>
@@ -105,7 +105,7 @@ new class extends Component {
                 <!-- Kanan: Grid Jenis Jasa -->
                 <div>
                     <h3 class="text-2xl font-bold text-gray-900 mb-6">Layanan Jasa yang Dicover:</h3>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <div class="grid grid-cols-2 sm:grid-cols-2 gap-6">
 
                         <!-- Pendidikan -->
                         <div
@@ -157,7 +157,7 @@ new class extends Component {
 
                         <!-- Pariwisata / Travel -->
                         <div
-                            class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200 hover:border-brand-red hover:shadow-lg transition group sm:col-span-2 flex items-center gap-6">
+                            class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200 hover:border-brand-red hover:shadow-lg transition group sm:col-span-2 flex items-center gap-6 col-span-2">
                             <div
                                 class="w-14 h-14 bg-yellow-50 text-brand-yellow rounded-xl flex flex-shrink-0 items-center justify-center group-hover:scale-110 transition">
                                 <i data-lucide="plane" class="w-7 h-7"></i>
@@ -184,7 +184,7 @@ new class extends Component {
                 <div class="w-20 h-1 bg-brand-yellow mx-auto rounded-full mt-4"></div>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-8">
                 <!-- Card 1 -->
                 <div class="text-center group">
                     <div
@@ -361,7 +361,7 @@ new class extends Component {
                                         class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 font-bold">Rp</span>
                                     <input type="number" id="input-biaya"
                                         class="w-full pl-12 pr-4 py-3.5 bg-gray-50 border border-gray-300 rounded-xl focus:ring-2 focus:ring-brand-red focus:border-brand-red outline-none transition font-bold text-lg"
-                                        value="15000000" step="100000">
+                                        value="5000000" step="1000000">
                                 </div>
                             </div>
 
@@ -417,7 +417,7 @@ new class extends Component {
                                     syariah</p>
                             </div>
 
-                            <a href="register-member.html"
+                            <a href="https://api.whatsapp.com/send/?phone=628118807177&text=saya+mau+daftar+jadi+anggota+dan+mau+ajukan+pembiayaan+multijasa+di+KOSPE&type=phone_number&app_absent=0"
                                 class="block w-full text-center bg-brand-red text-white font-bold py-4 rounded-xl hover:bg-red-700 transition shadow-lg shadow-red-200">
                                 Ajukan Multijasa Sekarang
                             </a>
@@ -432,10 +432,10 @@ new class extends Component {
     <!-- 6. Foto Penerima Benefit (Testimonials) -->
     <section class="py-20 bg-white overflow-hidden border-b border-gray-200">
         <div class="container mx-auto px-4">
-            <div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-4">
+            <div class="flex justify-between items-end mb-12 gap-4">
                 <div>
                     <span class="text-brand-orange font-bold tracking-wider uppercase text-sm">Testimoni Anggota</span>
-                    <h2 class="text-3xl font-bold text-gray-900 mt-2">Kisah Penerima Manfaat</h2>
+                    <h2 class="text-2xl font-bold text-gray-900 mt-2">Kisah Penerima Manfaat</h2>
                 </div>
                 <div class="flex gap-2">
                     <button
@@ -523,6 +523,7 @@ new class extends Component {
             </div>
         </div>
     </section>
+
     @push('scripts')
         <script>
 
@@ -558,7 +559,7 @@ new class extends Component {
 
             // Calculator Logic (Multijasa Ijarah/Ujrah)
             let selectedTenor = 12;
-            const ujrahRate = 0.012; // 1.2% margin/fee ujrah per bulan (simulasi)
+            let ujrahRate = 0.018; // 1.8% margin/fee ujrah per bulan (simulasi)
 
             function calculateInstallment() {
                 let totalBiaya = parseFloat($('#input-biaya').val()) || 0;
@@ -593,6 +594,14 @@ new class extends Component {
                 $('.tenor-btn').removeClass('bg-red-50 border-brand-red text-brand-red active-tenor');
                 $(this).addClass('bg-red-50 border-brand-red text-brand-red active-tenor');
                 selectedTenor = parseInt($(this).data('val'));
+                console.log('Selected Tenor:', selectedTenor);
+                if (selectedTenor < 24) {
+                    marginRate = 0.018; // Margin lebih rendah untuk tenor dibawah 2 tahun
+                } else if (selectedTenor < 36) {
+                    marginRate = 0.019; // Margin sedikit lebih tinggi untuk tenor 3 tahun
+                } else {
+                    marginRate = 0.02; // Margin tertinggi untuk tenor 5 tahun
+                }
                 calculateInstallment();
             });
 

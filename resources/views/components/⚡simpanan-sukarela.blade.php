@@ -1,9 +1,27 @@
 <?php
 
 use Livewire\Component;
+use App\Models\Agen;
 
 new class extends Component {
-    //
+    public $marketing;
+    public $wa_marketing;
+
+    public function mount($nama = null)
+    {
+        $agen = Agen::where('kode', $nama)->first();
+        $this->marketing = session('marketing', $agen ? $agen->nama : 'CRM KOSPE');
+        $this->wa_marketing = session('wa_marketing', $agen ? $agen->hp : '628118807177');
+    }
+    public function render()
+    {
+        return $this->view([
+            'marketing' => $this->marketing,
+            'wa_marketing' => $this->wa_marketing,
+            'crm' => 'CRM KOSPE',
+            'wa_crm' => '628118807177',
+        ]);
+    }
 };
 ?>
 
@@ -24,15 +42,15 @@ new class extends Component {
             <span
                 class="inline-block py-1 px-3 rounded-full bg-white/20 backdrop-blur-sm text-sm font-semibold mb-4 border border-white/30">Profil
                 Lembaga</span>
-            <h1 class="text-4xl md:text-6xl font-bold mb-4">Mengenal KOSPE Lebih Dekat</h1>
-            <p class="text-xl text-white/90 max-w-2xl mx-auto">Sinergi Ekonomi Umat, Membangun Peradaban dengan Prinsip
-                Syariah.</p>
+            <h1 class="text-4xl md:text-6xl font-bold mb-4">Simpanan Sukarela</h1>
+            <p class="text-xl text-white/90 max-w-2xl mx-auto">Produk tabungan syariah yang memberikan fleksibilitas dan
+                keuntungan bagi anggota KOSPE.</p>
 
             <!-- Breadcrumb -->
             <div class="mt-8 flex justify-center items-center gap-2 text-sm text-white/80">
                 <a href="index.html" class="hover:text-white">Beranda</a>
                 <i data-lucide="chevron-right" class="w-4 h-4"></i>
-                <span class="text-white font-bold">Profil KoSPE</span>
+                <span class="text-white font-bold">Simpanan Sukarela</span>
             </div>
         </div>
     </header>
@@ -62,7 +80,7 @@ new class extends Component {
                 <!-- Image -->
                 <div class="relative">
                     <div class="absolute -inset-4 bg-brand-yellow/20 rounded-[2rem] transform rotate-3 -z-10"></div>
-                    <img src="https://images.unsplash.com/photo-1556742049-0cfed4f7a07d?q=80&w=600&auto=format&fit=crop"
+                    <img src="https://damai-sejahtera.id/assets/image/images/2022/simpanan.jpg"
                         class="rounded-[2rem] shadow-xl w-full object-cover h-[350px]" alt="Mobile Banking">
                 </div>
             </div>
@@ -186,6 +204,40 @@ new class extends Component {
                                 </li>
                             </ul>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="kontak" class="py-24 bg-gray-50 relative overflow-hidden">
+        <div class="absolute inset-0 bg-pattern-orange -z-10"></div>
+
+        <div class="container mx-auto px-4 max-w-4xl">
+            <div
+                class="bg-white rounded-[2rem] p-10 md:p-14 shadow-2xl relative overflow-hidden text-center border-t-8 border-t-brand-orange">
+
+                <h2 class="text-2xl md:text-4xl font-black text-gray-900 mb-4 tracking-wide">DAFTAR SEKARANG JUGA!</h2>
+
+                <div
+                    class="bg-gray-50 border border-gray-200 rounded-2xl p-8 shadow-inner text-gray-900 transform hover:scale-105 transition duration-300">
+                    <div
+                        class="w-16 h-16 bg-brand-orange text-white rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i data-lucide="headset" class="w-8 h-8"></i>
+                    </div>
+                    <p class="text-sm font-bold text-gray-500 uppercase tracking-wider mb-2">Info & Pendaftaran</p>
+                    <h3 class="text-2xl font-black text-gray-900 mb-1">{{ $marketing ?? $crm }}</h3>
+                    <p class="text-3xl font-bold text-brand-orange mb-8 font-mono">
+                        {{ '0' . substr($wa_marketing, 2) ?? $wa_crm }}
+                    </p>
+                    <div class="flex gap-3 md:flex-row flex-col">
+                        <a href="https://wa.me/{{ $wa_marketing }}" target="_blank"
+                            class="block w-full bg-green-500 text-white font-bold py-4 rounded-xl hover:bg-green-600 transition shadow-lg shadow-green-200 flex items-center justify-center gap-2 text-lg">
+                            <i data-lucide="message-circle" class="w-6 h-6"></i> Hubungi via WhatsApp
+                        </a>
+                        <a href="{{ route('daftar-anggota') }}"
+                            class="block w-full bg-blue-500 text-white font-bold py-4 rounded-xl hover:bg-blue-600 transition shadow-lg shadow-blue-200 flex items-center justify-center gap-2 text-lg">
+                            <i data-lucide="file-text" class="w-6 h-6"></i> Isi Form Pendaftaran
+                        </a>
                     </div>
                 </div>
             </div>

@@ -135,8 +135,8 @@ body.sidebar-mini .nav-item i {
     transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
 }
 
-.active {
-    color: #DD2127
+nav .active {
+    color: #DD2127;
 }
 
 @keyframes slideDown {
@@ -149,4 +149,33 @@ body.sidebar-mini .nav-item i {
         opacity: 1;
         transform: translateY(0);
     }
+}
+
+.bg-pattern-blue {
+    background-image: radial-gradient(#1E3A8A 0.5px, transparent 0.5px), radial-gradient(#1E3A8A 0.5px, #fff 0.5px);
+    background-size: 20px 20px;
+    background-position: 0 0, 10px 10px;
+    opacity: 0.05;
+}
+
+.bg-pattern-red {
+    background-image: radial-gradient(#DD2127 0.5px, transparent 0.5px), radial-gradient(#DD2127 0.5px, #fff 0.5px);
+    background-size: 20px 20px;
+    background-position: 0 0, 10px 10px;
+    opacity: 0.05;
+}
+
+/* Gold text gradient */
+.text-gold-gradient {
+    background: linear-gradient(to right, #FDE047, #F59E0B, #FDE047);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.bg-pattern-orange {
+    background-image: radial-gradient(#E56325 0.5px, transparent 0.5px), radial-gradient(#E56325 0.5px, #fff 0.5px);
+    background-size: 20px 20px;
+    background-position: 0 0, 10px 10px;
+    opacity: 0.05;
 }

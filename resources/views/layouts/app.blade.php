@@ -9,6 +9,7 @@
     <meta content="{{ $deskripsi ?? config('app.deskripsi') }}" name="description">
     <meta content="{{ $keyword ?? config('app.keyword') }}" name="keywords">
     <meta property="og:image" content="{{ asset('logo.png') }}">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="shortcut icon" href="{{ asset('logo.png') }}">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
@@ -20,13 +21,28 @@
 </head>
 
 <body>
-    <livewire:pages::nav />
-    {{ $slot }}
-    <livewire:pages::footer />
-
+    <div id="page-loader" class="fixed inset-0 bg-white dark:bg-black z-[9999] hidden">
+        <div class="p-4 space-y-4 animate-pulse">
+            <div class="h-10 bg-gray-200 rounded-xl w-1/3"></div>
+            <div class="h-40 bg-gray-200 rounded-2xl"></div>
+            <div class="grid grid-cols-2 gap-4">
+                <div class="h-32 bg-gray-200 rounded-2xl"></div>
+                <div class="h-32 bg-gray-200 rounded-2xl"></div>
+            </div>
+        </div>
+    </div>
+    <div id="app-content">
+        <livewire:pages::nav />
+        {{ $slot }}
+        <livewire:pages::footer />
+    </div>
     @livewireScripts
     @stack('scripts')
-
+    <script>
+        @if(isset($visitId))
+            localStorage.setItem('visit_id', '{{ $visitId }}');
+        @endif
+    </script>
 </body>
 
 </html>
