@@ -19,8 +19,11 @@
         "vite": "^7.0.7"
     },
     "dependencies": {
+        "@prisma/client": "^6.19.3",
+        "dotenv": "^17.4.2",
         "jquery": "^4.0.0",
         "lucide": "^0.577.0",
+        "prisma": "^6.19.3",
         "sweetalert2": "^11.26.22",
         "swiper": "^12.1.2"
     }

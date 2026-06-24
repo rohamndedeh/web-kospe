@@ -109,6 +109,14 @@ body.sidebar-mini .nav-item i {
     animation: slideDown 0.2s ease-out;
 }
 
+.menu-group.open .submenu {
+    display: block;
+}
+
+.menu-group.open .nav-arrow {
+    transform: rotate(180deg);
+}
+
 @keyframes slideDown {
     from {
         opacity: 0;

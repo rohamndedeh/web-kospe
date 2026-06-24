@@ -11,8 +11,7 @@ new class extends Component {
     public function mount($nama = null)
     {
         $agen = Agen::where('kode', $nama)->first();
-        $this->marketing = $agen ? $agen->id_hnii : 115;
-
+        $this->marketing = $agen ? $agen->id_hni : 115;
     }
 
     public function render()

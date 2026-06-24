@@ -39,6 +39,9 @@ new class extends Component {
             case '01010015':
                 $nama = 'Adi Rohadi';
                 break;
+            case '01010017':
+                $nama = 'Adri Setia Febrian';
+                break;
         }
 
         DailyReport::create([
@@ -90,6 +93,7 @@ new class extends Component {
                             <option value="01010010">Siti Kholifah</option>
                             <option value="01010011">Abdul Rohman</option>
                             <option value="01010012">Muhammad Fikri Akbar</option>
+                            <option value="01010017">Andri Setia Febrian</option>
                             <option value="01010013">Dian Lestari Setyaningrum</option>
                             <option value="01010014">Yuliani Mantili</option>
                             <option value="01010015">Adi Rohadi</option>

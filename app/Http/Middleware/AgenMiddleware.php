@@ -20,14 +20,14 @@ class AgenMiddleware
 
         if ($slug) {
 
-            $agen = Agen::where('kode', $slug)->first();
+            $agen = Agen::where('id_kospe', $slug)->first();
             // dd($agen);
             if ($agen) {
-
                 session([
-                    'id_agen' => $agen->id_hni
+                    'id_agen' => $agen->id_hni,
+                    'marketing' => $agen->nama,
+                    'id_kospe' => $agen->id_kospe,
                 ]);
-
                 cookie()->queue(
                     'id_agen',
                     $agen->id_hni,

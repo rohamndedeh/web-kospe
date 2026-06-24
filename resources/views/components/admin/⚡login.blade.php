@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\LoginOtpMail;
 use Carbon\Carbon;
+use App\Jobs\SendWhatsappJob;
 
 new class extends Component {
     public $email = '';
@@ -23,11 +24,6 @@ new class extends Component {
 
     public function login()
     {
-        $this->validate([
-            'email' => 'required|email',
-            'password' => 'required',
-        ]);
-
         $user = User::where('email', $this->email)->first();
 
         if (!$user || !Hash::check($this->password, $user->password)) {
@@ -35,8 +31,7 @@ new class extends Component {
             return;
         }
 
-        session(['email' => $user->email, 'user_id' => $user->id]); // ⬅ WAJIB ADA
-
+        session(['email' => $user->email, 'user_id' => $user->id, 'hp' => $user->hp]); // ⬅ WAJIB ADA
         $otp = random_int(100000, 999999);
 
         LoginOtp::create([
@@ -45,10 +40,10 @@ new class extends Component {
             'expires_at' => Carbon::now()->addMinutes(5),
         ]);
 
-        Mail::to($user->email)->send(new LoginOtpMail($otp));
+        SendWhatsappJob::dispatch('Kode OTP login Anda : ' . $otp, $user->hp);
 
-        // Auth::logout(); // jangan login dulu sebelum OTP valid
         $this->step = 2;
+
     }
 
     public function verifyOtp()
@@ -90,8 +85,14 @@ new class extends Component {
             'used' => 1,
         ]);
 
+
         // 🔥 INI YANG PENTING
         Auth::login($user);
+        session()->forget([
+            'user_id',
+            'email',
+            'hp',
+        ]);
 
         return redirect()->route('dashboard');
     }
@@ -106,7 +107,7 @@ new class extends Component {
             'expires_at' => Carbon::now()->addMinutes(5),
         ]);
 
-        Mail::to(session('email'))->send(new LoginOtpMail($otp));
+        SendWhatsappJob::dispatch('Kode OTP login Anda : ' . $otp, session('hp'));
     }
 };
 ?>
@@ -129,11 +130,12 @@ new class extends Component {
                     <img src="{{ asset('logo.png') }}" class="w-12" alt="">
                 </div>
 
-                <h2 class="text-3xl font-bold text-gray-900 mb-2">Selamat Datang Kembali!</h2>
-                <p class="text-gray-500 mb-8">Silakan masuk untuk mengakses rekening Anda.</p>
+
 
                 <!-- Login Form -->
                 @if($step == 1)
+                    <h2 class="text-3xl font-bold text-gray-900 mb-2">Selamat Datang Kembali!</h2>
+                    <p class="text-gray-500 mb-8">Silakan masuk untuk mengakses rekening Anda.</p>
                     <form class="space-y-5" wire:submit="login">
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">Email atau ID Anggota</label>
@@ -175,6 +177,8 @@ new class extends Component {
                         </button>
                     </form>
                 @else
+                    <h2 class="text-3xl font-bold text-gray-900 mb-2">Verifikasi OTP</h2>
+                    <p class="text-gray-500 mb-8">Kami telah mengirimkan OTP ke nomor email Anda.</p>
                     <form class="space-y-5" wire:submit.prevent="verifyOtp">
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">Masukkan OTP Anda</label>

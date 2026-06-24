@@ -115,15 +115,60 @@ new class extends Component {
             </div>
         </div>
     </section>
-
+    <!-- 5. Struktur Pengurus -->
     <section class="py-12 bg-gray-50">
         <div class="container mx-auto px-4">
-            <iframe width="100%" height="751" src="https://www.youtube.com/embed/RXaPqgHKI4s" title="Profil KoSPE 2023"
-                frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            <div class="text-center mb-12">
+                <span class="text-brand-orange font-bold tracking-wider uppercase text-sm">Tim Kami</span>
+                <h2 class="text-3xl font-bold mt-2">Struktur Pengurus</h2>
+            </div>
+            <img src="{{ asset('pengurus-fix.png') }}"
+                class="w-full h-full object-cover group-hover:scale-110 transition duration-500" alt="Ketua">
         </div>
     </section>
+    <section class="py-12 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <span class="text-brand-orange font-bold tracking-wider uppercase text-sm">Prestasi KoSPE</span>
+                <h2 class="text-3xl font-bold mt-2">Penghargaan</h2>
+            </div>
+            <div class="grid grid-cols-1 gap-6 md:grid-cols-2 text-center">
+                <div class="shadow">
+                    <img src="{{ asset('2023.png') }}"
+                        class="w-full object-cover h-full md:h-80 group-hover:scale-110 transition duration-500"
+                        alt="Ketua">
+                    <p class="text-sm text-gray-500 p-5">(Bersama Wali Kota Bekasi
+                        Bpk Dr. TRI ADHIANTO TJAHYONO) KoSPE mendapat Penghargaan Menjadi Koperasi Terbaik di Kota
+                        Bekasi dari Dinas Koperasi Kota
+                        Bekasi tahun 2023</p>
+                </div>
+                <div class="shadow">
+                    <img src="{{ asset('2024.png') }}"
+                        class="w-full object-cover h-full md:h-80 group-hover:scale-110 transition duration-500"
+                        alt="Ketua">
+                    <p class="text-sm text-gray-500 p-5">KoSPE mendapat Penghargaan dari Dinas Koperasi Kota BekasI 2024
+                        yang diberikan oleh Wakil Walikota Bekasi Dr. ABDUL
+                        HARRIS BOBIHOE, M.Si</p>
+                </div>
+                <div class="shadow">
+                    <img src="{{ asset('2025.png') }}"
+                        class="w-full object-cover h-full md:h-80 group-hover:scale-110 transition duration-500"
+                        alt="Ketua">
+                    <p class="text-sm text-gray-500 p-5">Bersama Menteri Koperasi dan UKM Republik Indonesia Dr. Ferry
+                        Juliantoro SE., Ak., Msi</p>
+                </div>
+                <div class="shadow">
+                    <img src="{{ asset('bok.jpeg') }}"
+                        class="w-full object-cover h-full md:h-80 rounded-3xl group-hover:scale-110 transition duration-500"
+                        alt="Ketua">
+                    <p class="text-sm text-gray-500 p-5">Bersama para Mitra KoSPE, bangun sinergi, perbesar kontribusi,
+                        raik kesuksesan sejati</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
     <!-- 3. Visi & Misi -->
     <section class="py-20 bg-gray-50">
         <div class="container mx-auto px-4">
@@ -186,7 +231,74 @@ new class extends Component {
             </div>
         </div>
     </section>
+    <!-- 4. Nilai-Nilai (Core Values) -->
+    <section class="py-20 bg-white">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-3xl font-bold mb-12">5 PILAR <span class="text-brand-red">(S.A.K.T.I)</span></h2>
 
+            <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-5 gap-8">
+                <!-- Card 1 -->
+                <div
+                    class="p-8 rounded-2xl bg-white border border-gray-100 shadow-lg hover:shadow-xl transition hover:-translate-y-2 group">
+                    <div
+                        class="w-16 h-16 mx-auto bg-red-50 rounded-full flex items-center justify-center text-brand-red mb-6 group-hover:bg-brand-red group-hover:text-white transition">
+                        <i data-lucide="moon-star" class="w-8 h-8"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">SISTEM SYARIAH</h3>
+                    <p class="text-sm text-gray-500">Setiap aktivitas transaksi yang di lakukan di KoSPE telah melewati
+                        tahap diskusi dan disetujui oleh Dewan Syariah KoSPE yang telah tersertifiaksi DSN MUI</p>
+                </div>
+
+                <!-- Card 2 -->
+                <div
+                    class="p-8 rounded-2xl bg-white border border-gray-100 shadow-lg hover:shadow-xl transition hover:-translate-y-2 group">
+                    <div
+                        class="w-16 h-16 mx-auto bg-orange-50 rounded-full flex items-center justify-center text-brand-orange mb-6 group-hover:bg-brand-orange group-hover:text-white transition">
+                        <i data-lucide="heart-handshake" class="w-8 h-8"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">ANGGOTA AKTIF & SOLID</h3>
+                    <p class="text-sm text-gray-500">KoSPE akan tumbuh dan berkembang dengan Anggota yang aktif dan
+                        solid sehingga seluruh aktivitas menjadi lancar dan berkah</p>
+                </div>
+
+                <!-- Card 3 -->
+                <div
+                    class="p-8 rounded-2xl bg-white border border-gray-100 shadow-lg hover:shadow-xl transition hover:-translate-y-2 group">
+                    <div
+                        class="w-16 h-16 mx-auto bg-yellow-50 rounded-full flex items-center justify-center text-brand-yellow mb-6 group-hover:bg-brand-yellow group-hover:text-white transition">
+                        <i data-lucide="chart-no-axes-combined" class="w-8 h-8"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">KEUANGAN SEHAT</h3>
+                    <p class="text-sm text-gray-500">KoSPE memliki keuangan yang sehat sehingga timbul rasa kepercayaan
+                        Anggota untuk terus berjuang bersama KoSPE untuk membangkitkan ekonomi umat.</p>
+                </div>
+
+                <!-- Card 4 -->
+                <div
+                    class="p-8 rounded-2xl bg-white border border-gray-100 shadow-lg hover:shadow-xl transition hover:-translate-y-2 group">
+                    <div
+                        class="w-16 h-16 mx-auto bg-green-50 rounded-full flex items-center justify-center text-green-600 mb-6 group-hover:bg-green-600 group-hover:text-white transition">
+                        <i data-lucide="monitor-smartphone" class="w-8 h-8"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">TEKNOLOGI & INOVASI</h3>
+                    <p class="text-sm text-gray-500">Bekerjasama dengan Tim IT yang telah mengelola keuangan syariah
+                        untuk berbagai koperasi di Indonesia berizin resmi dan menghadirkan solusi IT yang cepat, mudah
+                        dan aman</p>
+                </div>
+                <div
+                    class="p-8 rounded-2xl bg-white border border-gray-100 shadow-lg hover:shadow-xl transition hover:-translate-y-2 group">
+                    <div
+                        class="w-16 h-16 mx-auto bg-blue-50 rounded-full flex items-center justify-center text-blue-600 mb-6 group-hover:bg-blue-600 group-hover:text-white transition">
+                        <i data-lucide="shield-check" class="w-8 h-8"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">INTEGRITAS MANAJEMEN</h3>
+                    <p class="text-sm text-gray-500">Seluruh pengurus KoSPE telah mendapatkan pengakuan profesi resmi
+                        dari BNSP (Badan Nasional Sertifikasi Profesi) sehingga telah memahami sistem koperasi secara
+                        menyeluruh. </p>
+                </div>
+            </div>
+        </div>
+    </section>
     <!-- 4. Nilai-Nilai (Core Values) -->
     <section class="py-20 bg-white">
         <div class="container mx-auto px-4 text-center">
@@ -297,17 +409,7 @@ new class extends Component {
 
         </div>
     </section>
-    <!-- 5. Struktur Pengurus -->
-    <section class="py-12 bg-gray-50">
-        <div class="container mx-auto px-4">
-            <div class="text-center mb-12">
-                <span class="text-brand-orange font-bold tracking-wider uppercase text-sm">Tim Kami</span>
-                <h2 class="text-3xl font-bold mt-2">Struktur Pengurus</h2>
-            </div>
-            <img src="{{ asset('pengurus-kospe.png') }}"
-                class="w-full h-full object-cover group-hover:scale-110 transition duration-500" alt="Ketua">
-        </div>
-    </section>
+
 
     <!-- 6. Legalitas / CTA -->
     <section class="py-16 bg-gradient-to-r from-gray-900 to-gray-800 text-white">
@@ -330,6 +432,35 @@ new class extends Component {
             </div>
             <img src="{{ asset('nik.png') }}" class="w-full" alt="">
 
+        </div>
+    </section>
+    <section class="py-16">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-8">
+                <div>
+                    <h2 class="text-2xl md:text-3xl font-bold mb-2">Sertifikasi Pengurus KoSPE dari BNSP</h2>
+                    <p class="text-gray-400">Badan Nasional Sertifikasi Profesi RI</p>
+                </div>
+
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                <img src="{{ asset('bnsp/bagus.jpg') }}" class="w-full" alt="">
+                <img src="{{ asset('bnsp/awang.jpg') }}" class="w-full" alt="">
+                <img src="{{ asset('bnsp/agus.jpeg') }}" class="w-full" alt="">
+                <img src="{{ asset('bnsp/dedy.jpg') }}" class="w-full" alt="">
+                <img src="{{ asset('bnsp/herdy.jpg') }}" class="w-full" alt="">
+                <img src="{{ asset('bnsp/aries.jpg') }}" class="w-full" alt="">
+            </div>
+
+        </div>
+    </section>
+    <section class="py-12 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <iframe width="100%" height="751" src="https://www.youtube.com/embed/KoYzvbHCBPA"
+                title="LAUNCHING KANTOR KOSPE PRIMA HARAPAN REGENCY BEKASI - Langkah Baru Koperasi Syariah!"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
         </div>
     </section>
 </div>

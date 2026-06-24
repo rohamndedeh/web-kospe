@@ -1,0 +1,2549 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model affiliator {
+  id         Int       @id @default(autoincrement())
+  created_at DateTime? @db.DateTime(0)
+  updated_at DateTime? @db.DateTime(0)
+  user_id    String?   @db.VarChar(10)
+  nama       String?   @db.VarChar(50)
+  email      String?   @db.VarChar(50)
+  hp         String?   @db.VarChar(50)
+  alamat     String?   @default("-") @db.VarChar(255)
+  password   String?   @db.VarChar(100)
+  pass_hash  String?   @db.VarChar(10)
+  level      String?   @default("1") @db.VarChar(50)
+  parent     Int?      @default(0)
+  is_active  Int?      @default(0)
+  kode       Int?
+  img        String?   @db.VarChar(100)
+  ip         String?   @db.VarChar(50)
+}
+
+model agen {
+  id         Int       @id @default(autoincrement())
+  created_at DateTime? @default(dbgenerated("'2021-01-01'")) @db.Date
+  inputer    Int?
+  id_kospe   String?   @db.VarChar(50)
+  parent     Int?      @default(0)
+  nama       String?   @db.VarChar(50)
+  no_hp      String?   @db.VarChar(50)
+  no_ktp     String?   @db.VarChar(50)
+  email      String?   @db.VarChar(50)
+  alamat     String?   @db.VarChar(250)
+  id_hni     String?   @db.VarChar(50)
+  target     Int?
+  ket        String?   @db.VarChar(250)
+  status     Int?      @default(0)
+}
+
+model agen_traffic {
+  id              BigInt    @id @default(autoincrement()) @db.UnsignedBigInt
+  created_at      DateTime? @db.Timestamp(0)
+  updated_at      DateTime? @db.Timestamp(0)
+  ip              String?   @db.VarChar(255)
+  id_agen         String?   @db.VarChar(255)
+  browser         String?   @db.VarChar(255)
+  browser_version String?   @db.VarChar(255)
+  platform        String?   @db.VarChar(255)
+  device          String?   @db.VarChar(255)
+  is_mobile       Boolean   @default(false)
+  is_tablet       Boolean   @default(false)
+  is_desktop      Boolean   @default(false)
+  user_agent      String?   @db.Text
+  url             String?   @db.Text
+  method          String?   @db.VarChar(255)
+  duration        Int?
+  left_at         DateTime? @db.Timestamp(0)
+  visit_id        String?   @unique(map: "visit_id") @db.VarChar(50)
+}
+
+model anggota {
+  id           Int       @id @default(autoincrement())
+  kode_cabang  String    @default("01") @db.VarChar(50)
+  id_kospe     String    @default("0") @db.VarChar(50)
+  nama         String?   @db.VarChar(150)
+  jns_id       String?   @default("KTP") @db.VarChar(50)
+  no_id        String?   @db.VarChar(50)
+  foto_id      String?   @db.VarChar(50)
+  tempat_lahir String?   @db.VarChar(50)
+  tgl_lahir    String?   @db.VarChar(50)
+  umur         Int
+  ibu          String?   @db.VarChar(50)
+  sex          String?   @db.VarChar(50)
+  hp           String?   @db.VarChar(20)
+  email        String?   @db.VarChar(50)
+  pendidikan   String?   @db.VarChar(20)
+  rek_bank     String?   @db.VarChar(20)
+  an_bank      String?   @db.VarChar(150)
+  bank         String?   @db.VarChar(50)
+  alamat       String?   @db.VarChar(150)
+  kel          String?   @db.VarChar(150)
+  kec          String?   @db.VarChar(150)
+  kab          String?   @db.VarChar(150)
+  prov         String?   @db.VarChar(150)
+  pekerjaan    String?   @db.VarChar(150)
+  no_sponsor   String?   @db.VarChar(150)
+  nama_sponsor String?   @db.VarChar(150)
+  date_created DateTime? @db.DateTime(0)
+  level        Int       @default(3)
+  is_active    Int       @default(1)
+  parent       Int       @default(1)
+}
+
+model anggota_agen {
+  id             Int       @id @default(autoincrement())
+  created_at     DateTime? @db.DateTime(0)
+  updated_at     DateTime? @db.DateTime(0)
+  inputer        Int?
+  id_kospe       String?   @db.VarChar(50)
+  id_koordinator String?   @db.VarChar(50)
+  marketing_id   String    @db.VarChar(50)
+  kode           String    @db.VarChar(50)
+  kategori       String    @default("1") @db.VarChar(50)
+  akun           String    @default("1") @db.VarChar(50)
+  nama           String?   @db.VarChar(100)
+  id_hnii        String?   @db.VarChar(50)
+  ktp            String?   @db.VarChar(50)
+  tempat_lhr     String?   @db.VarChar(50)
+  ttl            String?   @db.VarChar(50)
+  alamat         String?   @db.VarChar(200)
+  ketua          String    @db.VarChar(100)
+  pic            String    @db.VarChar(100)
+  hp             String?   @db.VarChar(50)
+  password       String?   @db.VarChar(100)
+  email          String?   @db.VarChar(50)
+  id_hni         String?   @db.VarChar(50)
+  id_imfa        String?   @db.VarChar(50)
+  pangkat_hni    String?   @db.VarChar(50)
+  keagenan_hni   String?   @db.VarChar(50)
+  img_ttd        String?   @db.VarChar(100)
+  img_ktp        String?   @default("0") @db.VarChar(100)
+  img_dkm        String    @db.VarChar(100)
+  img_qr         String    @db.VarChar(100)
+  ibu            String    @db.VarChar(50)
+  waris_nama     String    @db.VarChar(50)
+  waris_hub      String    @db.VarChar(50)
+  waris_hp       String    @db.VarChar(50)
+  otp            Int       @default(0)
+  su             Int       @default(0)
+  is_active      Int       @default(0)
+  snk            Int?      @default(1)
+}
+
+model anggota_agen_ {
+  id             Int       @id @default(autoincrement())
+  created_at     DateTime? @db.DateTime(0)
+  updated_at     DateTime? @db.DateTime(0)
+  inputer        Int?
+  id_kospe       String?   @db.VarChar(50)
+  id_koordinator String?   @db.VarChar(50)
+  marketing_id   String    @db.VarChar(50)
+  kode           String    @db.VarChar(50)
+  kategori       String    @default("1") @db.VarChar(50)
+  akun           String    @default("1") @db.VarChar(50)
+  nama           String?   @db.VarChar(100)
+  id_hnii        String?   @db.VarChar(50)
+  ktp            String?   @db.VarChar(50)
+  tempat_lhr     String?   @db.VarChar(50)
+  ttl            String?   @db.VarChar(50)
+  alamat         String?   @db.VarChar(200)
+  ketua          String    @db.VarChar(100)
+  pic            String    @db.VarChar(100)
+  hp             String?   @db.VarChar(50)
+  password       String?   @db.VarChar(100)
+  email          String?   @db.VarChar(50)
+  id_hni         String?   @db.VarChar(50)
+  id_imfa        String?   @db.VarChar(50)
+  pangkat_hni    String?   @db.VarChar(50)
+  keagenan_hni   String?   @db.VarChar(50)
+  img_ttd        String?   @db.VarChar(100)
+  img_ktp        String?   @default("0") @db.VarChar(100)
+  img_dkm        String    @db.VarChar(100)
+  img_qr         String    @db.VarChar(100)
+  ibu            String    @db.VarChar(50)
+  waris_nama     String    @db.VarChar(50)
+  waris_hub      String    @db.VarChar(50)
+  waris_hp       String    @db.VarChar(50)
+  otp            Int       @default(0)
+  su             Int       @default(0)
+  snk            String    @default("0") @db.VarChar(5)
+  is_active      Int       @default(0)
+}
+
+model anggota_agen_copy {
+  id             Int       @id @default(autoincrement())
+  created_at     DateTime? @db.DateTime(0)
+  updated_at     DateTime? @db.DateTime(0)
+  inputer        Int?
+  id_kospe       String?   @db.VarChar(50)
+  id_koordinator String?   @db.VarChar(50)
+  marketing_id   String    @db.VarChar(50)
+  kode           String    @db.VarChar(50)
+  kategori       String    @default("1") @db.VarChar(50)
+  akun           String    @default("1") @db.VarChar(50)
+  nama           String?   @db.VarChar(100)
+  id_hnii        String?   @db.VarChar(50)
+  ktp            String?   @db.VarChar(50)
+  tempat_lhr     String?   @db.VarChar(50)
+  ttl            String?   @db.VarChar(50)
+  alamat         String?   @db.VarChar(200)
+  ketua          String    @db.VarChar(100)
+  pic            String    @db.VarChar(100)
+  hp             String?   @db.VarChar(50)
+  password       String?   @db.VarChar(100)
+  email          String?   @db.VarChar(50)
+  id_hni         String?   @db.VarChar(50)
+  id_imfa        String?   @db.VarChar(50)
+  pangkat_hni    String?   @db.VarChar(50)
+  keagenan_hni   String?   @db.VarChar(50)
+  img_ttd        String?   @db.VarChar(100)
+  img_ktp        String?   @default("0") @db.VarChar(100)
+  img_dkm        String    @db.VarChar(100)
+  img_qr         String    @db.VarChar(100)
+  ibu            String    @db.VarChar(50)
+  waris_nama     String    @db.VarChar(50)
+  waris_hub      String    @db.VarChar(50)
+  waris_hp       String    @db.VarChar(50)
+  otp            Int       @default(0)
+  su             Int       @default(0)
+}
+
+model anggota_agen_copy2 {
+  id             Int       @id @default(autoincrement())
+  created_at     DateTime? @db.DateTime(0)
+  updated_at     DateTime? @db.DateTime(0)
+  inputer        Int?
+  id_kospe       String?   @db.VarChar(50)
+  id_koordinator String?   @db.VarChar(50)
+  marketing_id   String    @db.VarChar(50)
+  kode           String    @db.VarChar(50)
+  kategori       String    @default("1") @db.VarChar(50)
+  akun           String    @default("1") @db.VarChar(50)
+  nama           String?   @db.VarChar(100)
+  id_hnii        String?   @db.VarChar(50)
+  ktp            String?   @db.VarChar(50)
+  tempat_lhr     String?   @db.VarChar(50)
+  ttl            String?   @db.VarChar(50)
+  alamat         String?   @db.VarChar(200)
+  ketua          String    @db.VarChar(100)
+  pic            String    @db.VarChar(100)
+  hp             String?   @db.VarChar(50)
+  password       String?   @db.VarChar(100)
+  email          String?   @db.VarChar(50)
+  id_hni         String?   @db.VarChar(50)
+  id_imfa        String?   @db.VarChar(50)
+  pangkat_hni    String?   @db.VarChar(50)
+  keagenan_hni   String?   @db.VarChar(50)
+  img_ttd        String?   @db.VarChar(100)
+  img_ktp        String?   @default("0") @db.VarChar(100)
+  img_dkm        String    @db.VarChar(100)
+  img_qr         String    @db.VarChar(100)
+  ibu            String    @db.VarChar(50)
+  waris_nama     String    @db.VarChar(50)
+  waris_hub      String    @db.VarChar(50)
+  waris_hp       String    @db.VarChar(50)
+  otp            Int       @default(0)
+  su             Int       @default(0)
+}
+
+model anggota_calon {
+  id            Int       @id @default(autoincrement())
+  date_created  DateTime? @db.DateTime(0)
+  kode_cabang   String    @default("01") @db.VarChar(50)
+  date          DateTime? @db.Date
+  inputer       Int       @default(1)
+  id_kospe      String    @default("0") @db.VarChar(50)
+  nama          String?   @db.VarChar(150)
+  jns_id        String?   @default("KTP") @db.VarChar(50)
+  no_id         String?   @db.VarChar(50)
+  foto_id       String?   @db.VarChar(50)
+  tempat_lahir  String?   @db.VarChar(50)
+  tgl_lahir     String?   @db.VarChar(50)
+  pwd           String?   @db.VarChar(40)
+  umur          Int
+  ibu           String?   @db.VarChar(50)
+  sex           String?   @db.VarChar(50)
+  hp            String?   @db.VarChar(20)
+  email         String?   @db.VarChar(50)
+  pendidikan    String?   @db.VarChar(20)
+  rek_bank      String?   @db.VarChar(20)
+  an_bank       String?   @db.VarChar(150)
+  bank          String?   @db.VarChar(50)
+  alamat        String?   @db.VarChar(150)
+  kel           String?   @db.VarChar(150)
+  kec           String?   @db.VarChar(150)
+  kab           String?   @db.VarChar(150)
+  prov          String?   @db.VarChar(150)
+  domisili      String?   @db.VarChar(150)
+  prov_domisili String?   @db.VarChar(150)
+  kab_domisili  String?   @db.VarChar(150)
+  kec_domisili  String?   @db.VarChar(150)
+  kel_domisili  String?   @db.VarChar(150)
+  pekerjaan     String?   @db.VarChar(150)
+  penghasilan   String?   @db.VarChar(150)
+  no_sponsor    String?   @db.VarChar(150)
+  nama_sponsor  String?   @db.VarChar(150)
+  level         Int       @default(4)
+  is_active     Int       @default(0)
+  parent        Int       @default(1)
+  warga         String    @default("1") @db.VarChar(50)
+  status        String    @default("1") @db.VarChar(50)
+  id_hni        String    @db.VarChar(50)
+  referensi     String    @db.VarChar(100)
+  kode          Int       @default(0)
+}
+
+model anggota_keluar {
+  id            Int       @id @default(autoincrement())
+  created_at    DateTime? @db.DateTime(0)
+  inputer       Int?
+  tgl_pengajuan DateTime? @db.Date
+  tgl_rilis     DateTime? @db.Date
+  id_kospe      String?   @db.VarChar(50)
+  nama          String?   @db.VarChar(100)
+  no_ktp        String?   @db.VarChar(50)
+  no_hp         String?   @db.VarChar(50)
+  alamat        String?   @db.VarChar(250)
+  no_rek        String?   @db.VarChar(50)
+  an_rek        String?   @db.VarChar(50)
+  alasan        String?   @db.VarChar(200)
+  acc           Int?      @default(0)
+  img_ttd       String    @db.VarChar(100)
+  img_rek       String    @db.VarChar(100)
+  img_ktp       String    @db.VarChar(100)
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model anggota_kospe {
+  id               Int       @id @default(autoincrement())
+  created_at       DateTime? @db.DateTime(0)
+  updated_at       DateTime? @db.DateTime(0)
+  tgl_tamwil       DateTime? @db.DateTime(0)
+  tgl_aktivasi     DateTime? @db.DateTime(0)
+  id_kospe         String?   @default("-") @db.VarChar(50)
+  id_agen          String?   @default("-") @db.VarChar(50)
+  id_agen_lama     String?   @default("-") @db.VarChar(50)
+  id_imfa          String?   @default("0") @db.VarChar(50)
+  nama_agen        String?   @default("-") @db.VarChar(100)
+  id_marketing     String    @default("-") @db.VarChar(50)
+  ktp              String    @db.VarChar(50)
+  nama             String?   @default("-") @db.VarChar(100)
+  tempat_lhr       String?   @default("-") @db.VarChar(100)
+  ttl              String?   @default("-") @db.VarChar(100)
+  alamat           String?   @default("-") @db.VarChar(200)
+  hp               String?   @default("-") @db.VarChar(50)
+  email            String?   @default("-") @db.VarChar(50)
+  ibu              String?   @default("-") @db.VarChar(50)
+  waris_nama       String?   @default("-") @db.VarChar(50)
+  waris_hub        String?   @default("-") @db.VarChar(50)
+  waris_hp         String?   @default("-") @db.VarChar(50)
+  keluarga_nama    String?   @default("-") @db.VarChar(100)
+  keluarga_alamat  String?   @default("-") @db.VarChar(200)
+  keluarga_hp      String?   @default("-") @db.VarChar(50)
+  img_ktp          String?   @default("-") @db.VarChar(200)
+  img_tf           String?   @default("-") @db.VarChar(200)
+  setoran          Int       @default(0)
+  tgl_berangkat    DateTime? @db.Date
+  produk           String    @default("-") @db.VarChar(50)
+  status           Int?      @default(0)
+  snk              String    @default("1") @db.VarChar(10)
+  wa_aktivasi      Int       @default(0)
+  wa_grup          Int       @default(0)
+  nocif            String    @default("0") @db.VarChar(50)
+  sp               String    @default("0") @db.VarChar(50)
+  sw               String    @default("0") @db.VarChar(50)
+  ss               String    @default("0") @db.VarChar(50)
+  siroh            String    @default("0") @db.VarChar(50)
+  no_cif           String    @default("0") @db.VarChar(50)
+  siroh_ms         String    @default("0") @db.VarChar(50)
+  sp_ms            String    @default("0") @db.VarChar(50)
+  sw_ms            String    @default("0") @db.VarChar(50)
+  swk_ms           String    @default("0") @db.VarChar(50)
+  swk_setoran      BigInt    @default(0)
+  swk_undian       String    @default("0") @db.VarChar(50)
+  saldo_ms         BigInt    @default(0)
+  saldo_ms_jan     BigInt    @default(0)
+  saldo_ms_now     BigInt    @default(0)
+  saldo_ms_selisih BigInt    @default(0)
+  saldo_ms_tgl     DateTime? @db.Date
+  saldo_upload     DateTime? @db.Date
+  sex              String    @default("0") @db.VarChar(1)
+  pendidikan       String    @default("0") @db.VarChar(50)
+  ktp_kp           String    @default("0") @db.VarChar(100)
+  ktp_rtrw         String    @default("0") @db.VarChar(100)
+  ktp_desa         String    @default("0") @db.VarChar(100)
+  ktp_kec          String    @default("0") @db.VarChar(100)
+  ktp_kota         String    @default("0") @db.VarChar(100)
+  ktp_prop         String    @default("0") @db.VarChar(100)
+  is_active        String    @default("0") @db.VarChar(20)
+  ip               String    @default("0") @db.VarChar(50)
+  ch               Int       @default(0)
+  ch_name          String    @default("0") @db.VarChar(30)
+  ch_va            String    @default("0") @db.VarChar(30)
+  ch_bill          String    @default("0") @db.VarChar(30)
+  ch_status        Int       @default(0)
+  ch_end           DateTime? @db.DateTime(0)
+  ch_biaya         Int       @default(0)
+  ch_total         Int       @default(0)
+  ch_link          String    @default("0") @db.VarChar(200)
+  ch_sukses        DateTime? @db.DateTime(0)
+  metode           String    @default("") @db.VarChar(5)
+  jadi_agen        String    @default("") @db.VarChar(5)
+  no_va            String    @default("") @db.VarChar(20)
+  lembaga          String    @default("KOSPE") @db.VarChar(20)
+}
+
+model anggota_potong_bonus {
+  id            Int       @id @default(autoincrement())
+  created_at    DateTime? @db.DateTime(0)
+  inputer       Int?
+  id_kospe      String?   @db.VarChar(50)
+  id_hni        String?   @db.VarChar(50)
+  pangkat_hni   String?   @db.VarChar(50)
+  no_ktp        String?   @db.VarChar(50)
+  no_hp         String?   @db.VarChar(50)
+  nama          String?   @db.VarChar(100)
+  tempat_lahir  String?   @db.VarChar(100)
+  tgl_lahir     DateTime? @db.Date
+  tgl_pengajuan DateTime? @db.Date
+  tgl_kirim     DateTime? @db.Date
+  sw            Int?
+  wakaf         String?   @db.VarChar(50)
+  ss            Int?
+  produk        String?   @db.VarChar(50)
+  jumlah        Int?
+  pembiayaan    Int?
+  total         Int?
+  bln_start     String?   @db.VarChar(50)
+  thn_start     Int?
+  bln_end       String?   @db.VarChar(50)
+  thn_end       Int?
+  alamat        String?   @db.VarChar(200)
+  img_ttd       String?   @db.VarChar(200)
+  acc           Int?      @default(0)
+}
+
+model anggota_sedekah {
+  id             Int       @id @default(autoincrement())
+  created_at     DateTime? @db.DateTime(0)
+  inputer        Int?
+  pengirim       String?   @db.VarChar(100)
+  tgl_trx        DateTime? @db.Date
+  bank_from      String?   @db.VarChar(50)
+  bank_to        String?   @db.VarChar(50)
+  jumlah         BigInt?
+  id_marketing   String?   @db.VarChar(50)
+  nama_marketing String?   @db.VarChar(100)
+  ket            String?   @db.VarChar(200)
+  img_tf         String?   @db.VarChar(100)
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model anggota_siji {
+  id           Int       @id @default(autoincrement())
+  created_at   DateTime? @db.DateTime(0)
+  updated_at   DateTime? @db.DateTime(0)
+  tgl_tamwil   DateTime? @db.DateTime(0)
+  tgl_aktivasi DateTime? @db.DateTime(0)
+  id_kospe     String?   @default("-") @db.VarChar(50)
+  id_agen      String?   @default("-") @db.VarChar(50)
+  id_agen_lama String?   @default("-") @db.VarChar(50)
+  id_imfa      String?   @default("0") @db.VarChar(50)
+  nama_agen    String?   @default("-") @db.VarChar(100)
+  id_marketing String    @default("-") @db.VarChar(50)
+  ktp          String    @db.VarChar(50)
+  nama         String?   @default("-") @db.VarChar(100)
+  tempat_lhr   String?   @default("-") @db.VarChar(100)
+  ttl          String?   @default("-") @db.VarChar(100)
+  alamat       String?   @default("-") @db.VarChar(200)
+  hp           String?   @default("-") @db.VarChar(50)
+  email        String?   @default("-") @db.VarChar(50)
+  ibu          String?   @default("-") @db.VarChar(50)
+  waris_nama   String?   @default("-") @db.VarChar(50)
+  waris_hub    String?   @default("-") @db.VarChar(50)
+  waris_hp     String?   @default("-") @db.VarChar(50)
+  img_tf       String?   @db.VarChar(200)
+  img_ktp      String?   @default("-") @db.VarChar(200)
+  produk       String    @default("-") @db.VarChar(50)
+  status       Int?      @default(0)
+  snk          String    @default("1") @db.VarChar(10)
+  wa_aktivasi  Int       @default(0)
+  wa_grup      Int       @default(0)
+  no_cif       String    @default("0") @db.VarChar(50)
+  siji_ms      String    @default("0") @db.VarChar(50)
+  sp_ms        String    @default("0") @db.VarChar(50)
+  sw_ms        String    @default("0") @db.VarChar(50)
+  sex          String    @default("0") @db.VarChar(1)
+  pendidikan   String    @default("0") @db.VarChar(50)
+  ktp_kp       String    @default("0") @db.VarChar(100)
+  ktp_rtrw     String    @default("0") @db.VarChar(100)
+  ktp_desa     String    @default("0") @db.VarChar(100)
+  ktp_kec      String    @default("0") @db.VarChar(100)
+  ktp_kota     String    @default("0") @db.VarChar(100)
+  ktp_prop     String    @default("0") @db.VarChar(100)
+  is_active    String    @default("0") @db.VarChar(20)
+  ip           String    @default("0") @db.VarChar(50)
+  metode       String    @default("") @db.VarChar(5)
+  jadi_agen    String    @default("") @db.VarChar(5)
+  no_va        String    @default("") @db.VarChar(20)
+  lembaga      String    @default("KOSPE") @db.VarChar(20)
+  no_akad      String    @default("KOSPE") @db.VarChar(50)
+  setoran      Int       @default(0)
+}
+
+
+model anggota_siroh {
+  id               Int       @id @default(autoincrement())
+  created_at       DateTime? @db.DateTime(0)
+  updated_at       DateTime? @db.DateTime(0)
+  tgl_tamwil       DateTime? @db.DateTime(0)
+  tgl_aktivasi     DateTime? @db.DateTime(0)
+  id_kospe         String?   @default("-") @db.VarChar(50)
+  id_agen          String?   @default("-") @db.VarChar(50)
+  id_agen_lama     String?   @default("-") @db.VarChar(50)
+  id_imfa          String?   @default("0") @db.VarChar(50)
+  nama_agen        String?   @default("-") @db.VarChar(100)
+  id_marketing     String    @default("-") @db.VarChar(50)
+  ktp              String    @db.VarChar(50)
+  nama             String?   @default("-") @db.VarChar(100)
+  tempat_lhr       String?   @default("-") @db.VarChar(100)
+  ttl              String?   @default("-") @db.VarChar(100)
+  alamat           String?   @default("-") @db.VarChar(200)
+  hp               String?   @default("-") @db.VarChar(50)
+  email            String?   @default("-") @db.VarChar(50)
+  ibu              String?   @default("-") @db.VarChar(50)
+  waris_nama       String?   @default("-") @db.VarChar(50)
+  waris_hub        String?   @default("-") @db.VarChar(50)
+  waris_hp         String?   @default("-") @db.VarChar(50)
+  keluarga_nama    String?   @default("-") @db.VarChar(100)
+  keluarga_alamat  String?   @default("-") @db.VarChar(200)
+  keluarga_hp      String?   @default("-") @db.VarChar(50)
+  img_ktp          String?   @default("-") @db.VarChar(200)
+  img_tf           String?   @default("-") @db.VarChar(200)
+  setoran          Int       @default(0)
+  tgl_berangkat    DateTime  @db.Date
+  produk           String    @default("-") @db.VarChar(50)
+  status           Int?      @default(0)
+  snk              String    @default("1") @db.VarChar(10)
+  wa_aktivasi      Int       @default(0)
+  wa_grup          Int       @default(0)
+  nocif            String    @default("0") @db.VarChar(50)
+  sp               String    @default("0") @db.VarChar(50)
+  sw               String    @default("0") @db.VarChar(50)
+  ss               String    @default("0") @db.VarChar(50)
+  siroh            String    @default("0") @db.VarChar(50)
+  no_cif           String    @default("0") @db.VarChar(50)
+  siroh_ms         String    @default("0") @db.VarChar(50)
+  sp_ms            String    @default("0") @db.VarChar(50)
+  sw_ms            String    @default("0") @db.VarChar(50)
+  simpro_ms        String?   @default("0") @db.VarChar(50)
+  siwak_ms         String?   @default("0") @db.VarChar(50)
+  saldo_ms         BigInt    @default(0)
+  saldo_ms_jan     BigInt    @default(0)
+  saldo_ms_now     BigInt    @default(0)
+  saldo_ms_selisih BigInt    @default(0)
+  saldo_ms_tgl     DateTime  @db.Date
+  saldo_upload     DateTime  @db.Date
+  sex              String    @default("0") @db.VarChar(1)
+  pendidikan       String    @default("0") @db.VarChar(50)
+  ktp_kp           String    @default("0") @db.VarChar(100)
+  ktp_rtrw         String    @default("0") @db.VarChar(100)
+  ktp_desa         String    @default("0") @db.VarChar(100)
+  ktp_kec          String    @default("0") @db.VarChar(100)
+  ktp_kota         String    @default("0") @db.VarChar(100)
+  ktp_prop         String    @default("0") @db.VarChar(100)
+  is_active        String    @default("0") @db.VarChar(20)
+  ip               String    @default("0") @db.VarChar(50)
+  ch               Int       @default(0)
+  ch_name          String    @default("0") @db.VarChar(30)
+  ch_va            String    @default("0") @db.VarChar(30)
+  ch_bill          String    @default("0") @db.VarChar(30)
+  ch_status        Int       @default(0)
+  ch_end           DateTime  @db.DateTime(0)
+  ch_biaya         Int       @default(0)
+  ch_total         Int       @default(0)
+  ch_link          String    @db.VarChar(200)
+  ch_sukses        DateTime  @db.DateTime(0)
+  metode           String    @default("") @db.VarChar(5)
+  jadi_agen        String    @default("") @db.VarChar(5)
+  no_va            String    @default("") @db.VarChar(20)
+  lembaga          String    @default("KOSPE") @db.VarChar(20)
+  jkw              Int?      @default(12)
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model anggota_siroh_copy {
+  id               Int       @id @default(autoincrement())
+  created_at       DateTime? @db.DateTime(0)
+  updated_at       DateTime? @db.DateTime(0)
+  tgl_tamwil       DateTime? @db.DateTime(0)
+  tgl_aktivasi     DateTime? @db.DateTime(0)
+  id_kospe         String?   @default("-") @db.VarChar(50)
+  id_agen          String?   @default("-") @db.VarChar(50)
+  nama_agen        String?   @default("-") @db.VarChar(100)
+  id_marketing     String    @default("-") @db.VarChar(50)
+  ktp              String    @db.VarChar(50)
+  nama             String?   @default("-") @db.VarChar(100)
+  tempat_lhr       String?   @default("-") @db.VarChar(100)
+  ttl              String?   @default("-") @db.VarChar(100)
+  alamat           String?   @default("-") @db.VarChar(200)
+  hp               String?   @default("-") @db.VarChar(50)
+  email            String?   @default("-") @db.VarChar(50)
+  ibu              String?   @default("-") @db.VarChar(50)
+  waris_nama       String?   @default("-") @db.VarChar(50)
+  waris_hub        String?   @default("-") @db.VarChar(50)
+  waris_hp         String?   @default("-") @db.VarChar(50)
+  keluarga_nama    String?   @default("-") @db.VarChar(100)
+  keluarga_alamat  String?   @default("-") @db.VarChar(200)
+  keluarga_hp      String?   @default("-") @db.VarChar(50)
+  img_ktp          String?   @default("-") @db.VarChar(200)
+  img_tf           String?   @default("-") @db.VarChar(200)
+  setoran          Int       @default(0)
+  tgl_berangkat    DateTime  @db.Date
+  produk           String    @default("-") @db.VarChar(50)
+  status           Int?      @default(0)
+  snk              String    @default("1") @db.VarChar(10)
+  wa_aktivasi      Int       @default(0)
+  wa_grup          Int       @default(0)
+  nocif            String    @default("0") @db.VarChar(50)
+  sp               String    @default("0") @db.VarChar(50)
+  sw               String    @default("0") @db.VarChar(50)
+  ss               String    @default("0") @db.VarChar(50)
+  siroh            String    @default("0") @db.VarChar(50)
+  no_cif           String    @default("0") @db.VarChar(50)
+  siroh_ms         String    @default("0") @db.VarChar(50)
+  sp_ms            String    @default("0") @db.VarChar(50)
+  sw_ms            String    @default("0") @db.VarChar(50)
+  saldo_ms         BigInt    @default(0)
+  saldo_ms_jan     BigInt    @default(0)
+  saldo_ms_now     BigInt    @default(0)
+  saldo_ms_selisih BigInt    @default(0)
+  saldo_ms_tgl     DateTime  @db.Date
+  saldo_upload     DateTime  @db.Date
+  sex              String    @default("0") @db.VarChar(1)
+  pendidikan       String    @default("0") @db.VarChar(50)
+  ktp_kp           String    @default("0") @db.VarChar(100)
+  ktp_rtrw         String    @default("0") @db.VarChar(100)
+  ktp_desa         String    @default("0") @db.VarChar(100)
+  ktp_kec          String    @default("0") @db.VarChar(100)
+  ktp_kota         String    @default("0") @db.VarChar(100)
+  ktp_prop         String    @default("0") @db.VarChar(100)
+  is_active        String    @default("0") @db.VarChar(20)
+  ip               String    @default("0") @db.VarChar(50)
+  ch               Int       @default(0)
+  ch_name          String    @default("0") @db.VarChar(30)
+  ch_va            String    @default("0") @db.VarChar(30)
+  ch_bill          String    @default("0") @db.VarChar(30)
+  ch_status        Int       @default(0)
+  ch_end           DateTime  @db.DateTime(0)
+  ch_biaya         Int       @default(0)
+  ch_total         Int       @default(0)
+  ch_link          String    @db.VarChar(200)
+  ch_sukses        DateTime  @db.DateTime(0)
+  metode           String    @default("") @db.VarChar(5)
+  jadi_agen        String    @default("") @db.VarChar(5)
+  no_va            String    @default("") @db.VarChar(20)
+  lembaga          String    @default("KOSPE") @db.VarChar(20)
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model anggota_siroh_copy2 {
+  id               Int       @id @default(autoincrement())
+  created_at       DateTime? @db.DateTime(0)
+  updated_at       DateTime? @db.DateTime(0)
+  tgl_tamwil       DateTime? @db.DateTime(0)
+  tgl_aktivasi     DateTime? @db.DateTime(0)
+  id_kospe         String?   @default("-") @db.VarChar(50)
+  id_agen          String?   @default("-") @db.VarChar(50)
+  id_imfa          String?   @default("0") @db.VarChar(50)
+  nama_agen        String?   @default("-") @db.VarChar(100)
+  id_marketing     String    @default("-") @db.VarChar(50)
+  ktp              String    @db.VarChar(50)
+  nama             String?   @default("-") @db.VarChar(100)
+  tempat_lhr       String?   @default("-") @db.VarChar(100)
+  ttl              String?   @default("-") @db.VarChar(100)
+  alamat           String?   @default("-") @db.VarChar(200)
+  hp               String?   @default("-") @db.VarChar(50)
+  email            String?   @default("-") @db.VarChar(50)
+  ibu              String?   @default("-") @db.VarChar(50)
+  waris_nama       String?   @default("-") @db.VarChar(50)
+  waris_hub        String?   @default("-") @db.VarChar(50)
+  waris_hp         String?   @default("-") @db.VarChar(50)
+  keluarga_nama    String?   @default("-") @db.VarChar(100)
+  keluarga_alamat  String?   @default("-") @db.VarChar(200)
+  keluarga_hp      String?   @default("-") @db.VarChar(50)
+  img_ktp          String?   @default("-") @db.VarChar(200)
+  img_tf           String?   @default("-") @db.VarChar(200)
+  setoran          Int       @default(0)
+  tgl_berangkat    DateTime  @db.Date
+  produk           String    @default("-") @db.VarChar(50)
+  status           Int?      @default(0)
+  snk              String    @default("1") @db.VarChar(10)
+  wa_aktivasi      Int       @default(0)
+  wa_grup          Int       @default(0)
+  nocif            String    @default("0") @db.VarChar(50)
+  sp               String    @default("0") @db.VarChar(50)
+  sw               String    @default("0") @db.VarChar(50)
+  ss               String    @default("0") @db.VarChar(50)
+  siroh            String    @default("0") @db.VarChar(50)
+  no_cif           String    @default("0") @db.VarChar(50)
+  siroh_ms         String    @default("0") @db.VarChar(50)
+  sp_ms            String    @default("0") @db.VarChar(50)
+  sw_ms            String    @default("0") @db.VarChar(50)
+  saldo_ms         BigInt    @default(0)
+  saldo_ms_jan     BigInt    @default(0)
+  saldo_ms_now     BigInt    @default(0)
+  saldo_ms_selisih BigInt    @default(0)
+  saldo_ms_tgl     DateTime  @db.Date
+  saldo_upload     DateTime  @db.Date
+  sex              String    @default("0") @db.VarChar(1)
+  pendidikan       String    @default("0") @db.VarChar(50)
+  ktp_kp           String    @default("0") @db.VarChar(100)
+  ktp_rtrw         String    @default("0") @db.VarChar(100)
+  ktp_desa         String    @default("0") @db.VarChar(100)
+  ktp_kec          String    @default("0") @db.VarChar(100)
+  ktp_kota         String    @default("0") @db.VarChar(100)
+  ktp_prop         String    @default("0") @db.VarChar(100)
+  is_active        String    @default("0") @db.VarChar(20)
+  ip               String    @default("0") @db.VarChar(50)
+  ch               Int       @default(0)
+  ch_name          String    @default("0") @db.VarChar(30)
+  ch_va            String    @default("0") @db.VarChar(30)
+  ch_bill          String    @default("0") @db.VarChar(30)
+  ch_status        Int       @default(0)
+  ch_end           DateTime  @db.DateTime(0)
+  ch_biaya         Int       @default(0)
+  ch_total         Int       @default(0)
+  ch_link          String    @db.VarChar(200)
+  ch_sukses        DateTime  @db.DateTime(0)
+  metode           String    @default("") @db.VarChar(5)
+  jadi_agen        String    @default("") @db.VarChar(5)
+  no_va            String    @default("") @db.VarChar(20)
+  lembaga          String    @default("KOSPE") @db.VarChar(20)
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model anggota_siroh_copy3 {
+  id               Int       @id @default(autoincrement())
+  created_at       DateTime? @db.DateTime(0)
+  updated_at       DateTime? @db.DateTime(0)
+  tgl_tamwil       DateTime? @db.DateTime(0)
+  tgl_aktivasi     DateTime? @db.DateTime(0)
+  id_kospe         String?   @default("-") @db.VarChar(50)
+  id_agen          String?   @default("-") @db.VarChar(50)
+  id_agen_lama     String?   @default("-") @db.VarChar(50)
+  id_imfa          String?   @default("0") @db.VarChar(50)
+  nama_agen        String?   @default("-") @db.VarChar(100)
+  id_marketing     String    @default("-") @db.VarChar(50)
+  ktp              String    @db.VarChar(50)
+  nama             String?   @default("-") @db.VarChar(100)
+  tempat_lhr       String?   @default("-") @db.VarChar(100)
+  ttl              String?   @default("-") @db.VarChar(100)
+  alamat           String?   @default("-") @db.VarChar(200)
+  hp               String?   @default("-") @db.VarChar(50)
+  email            String?   @default("-") @db.VarChar(50)
+  ibu              String?   @default("-") @db.VarChar(50)
+  waris_nama       String?   @default("-") @db.VarChar(50)
+  waris_hub        String?   @default("-") @db.VarChar(50)
+  waris_hp         String?   @default("-") @db.VarChar(50)
+  keluarga_nama    String?   @default("-") @db.VarChar(100)
+  keluarga_alamat  String?   @default("-") @db.VarChar(200)
+  keluarga_hp      String?   @default("-") @db.VarChar(50)
+  img_ktp          String?   @default("-") @db.VarChar(200)
+  img_tf           String?   @default("-") @db.VarChar(200)
+  setoran          Int       @default(0)
+  tgl_berangkat    DateTime  @db.Date
+  produk           String    @default("-") @db.VarChar(50)
+  status           Int?      @default(0)
+  snk              String    @default("1") @db.VarChar(10)
+  wa_aktivasi      Int       @default(0)
+  wa_grup          Int       @default(0)
+  nocif            String    @default("0") @db.VarChar(50)
+  sp               String    @default("0") @db.VarChar(50)
+  sw               String    @default("0") @db.VarChar(50)
+  ss               String    @default("0") @db.VarChar(50)
+  siroh            String    @default("0") @db.VarChar(50)
+  no_cif           String    @default("0") @db.VarChar(50)
+  siroh_ms         String    @default("0") @db.VarChar(50)
+  sp_ms            String    @default("0") @db.VarChar(50)
+  sw_ms            String    @default("0") @db.VarChar(50)
+  saldo_ms         BigInt    @default(0)
+  saldo_ms_jan     BigInt    @default(0)
+  saldo_ms_now     BigInt    @default(0)
+  saldo_ms_selisih BigInt    @default(0)
+  saldo_ms_tgl     DateTime  @db.Date
+  saldo_upload     DateTime  @db.Date
+  sex              String    @default("0") @db.VarChar(1)
+  pendidikan       String    @default("0") @db.VarChar(50)
+  ktp_kp           String    @default("0") @db.VarChar(100)
+  ktp_rtrw         String    @default("0") @db.VarChar(100)
+  ktp_desa         String    @default("0") @db.VarChar(100)
+  ktp_kec          String    @default("0") @db.VarChar(100)
+  ktp_kota         String    @default("0") @db.VarChar(100)
+  ktp_prop         String    @default("0") @db.VarChar(100)
+  is_active        String    @default("0") @db.VarChar(20)
+  ip               String    @default("0") @db.VarChar(50)
+  ch               Int       @default(0)
+  ch_name          String    @default("0") @db.VarChar(30)
+  ch_va            String    @default("0") @db.VarChar(30)
+  ch_bill          String    @default("0") @db.VarChar(30)
+  ch_status        Int       @default(0)
+  ch_end           DateTime  @db.DateTime(0)
+  ch_biaya         Int       @default(0)
+  ch_total         Int       @default(0)
+  ch_link          String    @db.VarChar(200)
+  ch_sukses        DateTime  @db.DateTime(0)
+  metode           String    @default("") @db.VarChar(5)
+  jadi_agen        String    @default("") @db.VarChar(5)
+  no_va            String    @default("") @db.VarChar(20)
+  lembaga          String    @default("KOSPE") @db.VarChar(20)
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model anggota_siroh_copy4 {
+  id               Int       @id @default(autoincrement())
+  created_at       DateTime? @db.DateTime(0)
+  updated_at       DateTime? @db.DateTime(0)
+  tgl_tamwil       DateTime? @db.DateTime(0)
+  tgl_aktivasi     DateTime? @db.DateTime(0)
+  id_kospe         String?   @default("-") @db.VarChar(50)
+  id_agen          String?   @default("-") @db.VarChar(50)
+  id_agen_lama     String?   @default("-") @db.VarChar(50)
+  id_imfa          String?   @default("0") @db.VarChar(50)
+  nama_agen        String?   @default("-") @db.VarChar(100)
+  id_marketing     String    @default("-") @db.VarChar(50)
+  ktp              String    @db.VarChar(50)
+  nama             String?   @default("-") @db.VarChar(100)
+  tempat_lhr       String?   @default("-") @db.VarChar(100)
+  ttl              String?   @default("-") @db.VarChar(100)
+  alamat           String?   @default("-") @db.VarChar(200)
+  hp               String?   @default("-") @db.VarChar(50)
+  email            String?   @default("-") @db.VarChar(50)
+  ibu              String?   @default("-") @db.VarChar(50)
+  waris_nama       String?   @default("-") @db.VarChar(50)
+  waris_hub        String?   @default("-") @db.VarChar(50)
+  waris_hp         String?   @default("-") @db.VarChar(50)
+  keluarga_nama    String?   @default("-") @db.VarChar(100)
+  keluarga_alamat  String?   @default("-") @db.VarChar(200)
+  keluarga_hp      String?   @default("-") @db.VarChar(50)
+  img_ktp          String?   @default("-") @db.VarChar(200)
+  img_tf           String?   @default("-") @db.VarChar(200)
+  setoran          Int       @default(0)
+  tgl_berangkat    DateTime  @db.Date
+  produk           String    @default("-") @db.VarChar(50)
+  status           Int?      @default(0)
+  snk              String    @default("1") @db.VarChar(10)
+  wa_aktivasi      Int       @default(0)
+  wa_grup          Int       @default(0)
+  nocif            String    @default("0") @db.VarChar(50)
+  sp               String    @default("0") @db.VarChar(50)
+  sw               String    @default("0") @db.VarChar(50)
+  ss               String    @default("0") @db.VarChar(50)
+  siroh            String    @default("0") @db.VarChar(50)
+  no_cif           String    @default("0") @db.VarChar(50)
+  siroh_ms         String    @default("0") @db.VarChar(50)
+  sp_ms            String    @default("0") @db.VarChar(50)
+  sw_ms            String    @default("0") @db.VarChar(50)
+  saldo_ms         BigInt    @default(0)
+  saldo_ms_jan     BigInt    @default(0)
+  saldo_ms_now     BigInt    @default(0)
+  saldo_ms_selisih BigInt    @default(0)
+  saldo_ms_tgl     DateTime  @db.Date
+  saldo_upload     DateTime  @db.Date
+  sex              String    @default("0") @db.VarChar(1)
+  pendidikan       String    @default("0") @db.VarChar(50)
+  ktp_kp           String    @default("0") @db.VarChar(100)
+  ktp_rtrw         String    @default("0") @db.VarChar(100)
+  ktp_desa         String    @default("0") @db.VarChar(100)
+  ktp_kec          String    @default("0") @db.VarChar(100)
+  ktp_kota         String    @default("0") @db.VarChar(100)
+  ktp_prop         String    @default("0") @db.VarChar(100)
+  is_active        String    @default("0") @db.VarChar(20)
+  ip               String    @default("0") @db.VarChar(50)
+  ch               Int       @default(0)
+  ch_name          String    @default("0") @db.VarChar(30)
+  ch_va            String    @default("0") @db.VarChar(30)
+  ch_bill          String    @default("0") @db.VarChar(30)
+  ch_status        Int       @default(0)
+  ch_end           DateTime  @db.DateTime(0)
+  ch_biaya         Int       @default(0)
+  ch_total         Int       @default(0)
+  ch_link          String    @db.VarChar(200)
+  ch_sukses        DateTime  @db.DateTime(0)
+  metode           String    @default("") @db.VarChar(5)
+  jadi_agen        String    @default("") @db.VarChar(5)
+  no_va            String    @default("") @db.VarChar(20)
+  lembaga          String    @default("KOSPE") @db.VarChar(20)
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model anggota_siroh_copy5 {
+  id               Int       @id @default(autoincrement())
+  created_at       DateTime? @db.DateTime(0)
+  updated_at       DateTime? @db.DateTime(0)
+  tgl_tamwil       DateTime? @db.DateTime(0)
+  tgl_aktivasi     DateTime? @db.DateTime(0)
+  id_kospe         String?   @default("-") @db.VarChar(50)
+  id_agen          String?   @default("-") @db.VarChar(50)
+  id_agen_lama     String?   @default("-") @db.VarChar(50)
+  id_imfa          String?   @default("0") @db.VarChar(50)
+  nama_agen        String?   @default("-") @db.VarChar(100)
+  id_marketing     String    @default("-") @db.VarChar(50)
+  ktp              String    @db.VarChar(50)
+  nama             String?   @default("-") @db.VarChar(100)
+  tempat_lhr       String?   @default("-") @db.VarChar(100)
+  ttl              String?   @default("-") @db.VarChar(100)
+  alamat           String?   @default("-") @db.VarChar(200)
+  hp               String?   @default("-") @db.VarChar(50)
+  email            String?   @default("-") @db.VarChar(50)
+  ibu              String?   @default("-") @db.VarChar(50)
+  waris_nama       String?   @default("-") @db.VarChar(50)
+  waris_hub        String?   @default("-") @db.VarChar(50)
+  waris_hp         String?   @default("-") @db.VarChar(50)
+  keluarga_nama    String?   @default("-") @db.VarChar(100)
+  keluarga_alamat  String?   @default("-") @db.VarChar(200)
+  keluarga_hp      String?   @default("-") @db.VarChar(50)
+  img_ktp          String?   @default("-") @db.VarChar(200)
+  img_tf           String?   @default("-") @db.VarChar(200)
+  setoran          Int       @default(0)
+  tgl_berangkat    DateTime  @db.Date
+  produk           String    @default("-") @db.VarChar(50)
+  status           Int?      @default(0)
+  snk              String    @default("1") @db.VarChar(10)
+  wa_aktivasi      Int       @default(0)
+  wa_grup          Int       @default(0)
+  nocif            String    @default("0") @db.VarChar(50)
+  sp               String    @default("0") @db.VarChar(50)
+  sw               String    @default("0") @db.VarChar(50)
+  ss               String    @default("0") @db.VarChar(50)
+  siroh            String    @default("0") @db.VarChar(50)
+  no_cif           String    @default("0") @db.VarChar(50)
+  siroh_ms         String    @default("0") @db.VarChar(50)
+  sp_ms            String    @default("0") @db.VarChar(50)
+  sw_ms            String    @default("0") @db.VarChar(50)
+  saldo_ms         BigInt    @default(0)
+  saldo_ms_jan     BigInt    @default(0)
+  saldo_ms_now     BigInt    @default(0)
+  saldo_ms_selisih BigInt    @default(0)
+  saldo_ms_tgl     DateTime  @db.Date
+  saldo_upload     DateTime  @db.Date
+  sex              String    @default("0") @db.VarChar(1)
+  pendidikan       String    @default("0") @db.VarChar(50)
+  ktp_kp           String    @default("0") @db.VarChar(100)
+  ktp_rtrw         String    @default("0") @db.VarChar(100)
+  ktp_desa         String    @default("0") @db.VarChar(100)
+  ktp_kec          String    @default("0") @db.VarChar(100)
+  ktp_kota         String    @default("0") @db.VarChar(100)
+  ktp_prop         String    @default("0") @db.VarChar(100)
+  is_active        String    @default("0") @db.VarChar(20)
+  ip               String    @default("0") @db.VarChar(50)
+  ch               Int       @default(0)
+  ch_name          String    @default("0") @db.VarChar(30)
+  ch_va            String    @default("0") @db.VarChar(30)
+  ch_bill          String    @default("0") @db.VarChar(30)
+  ch_status        Int       @default(0)
+  ch_end           DateTime  @db.DateTime(0)
+  ch_biaya         Int       @default(0)
+  ch_total         Int       @default(0)
+  ch_link          String    @db.VarChar(200)
+  ch_sukses        DateTime  @db.DateTime(0)
+  metode           String    @default("") @db.VarChar(5)
+  jadi_agen        String    @default("") @db.VarChar(5)
+  no_va            String    @default("") @db.VarChar(20)
+  lembaga          String    @default("KOSPE") @db.VarChar(20)
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model anggota_siroh_err {
+  id               Int       @id @default(autoincrement())
+  created_at       DateTime? @db.DateTime(0)
+  updated_at       DateTime? @db.DateTime(0)
+  tgl_tamwil       DateTime? @db.DateTime(0)
+  tgl_aktivasi     DateTime? @db.DateTime(0)
+  id_kospe         String?   @default("-") @db.VarChar(50)
+  id_agen          String?   @default("-") @db.VarChar(50)
+  id_agen_lama     String?   @default("-") @db.VarChar(50)
+  id_imfa          String?   @default("0") @db.VarChar(50)
+  nama_agen        String?   @default("-") @db.VarChar(100)
+  id_marketing     String    @default("-") @db.VarChar(50)
+  ktp              String    @db.VarChar(50)
+  nama             String?   @default("-") @db.VarChar(100)
+  tempat_lhr       String?   @default("-") @db.VarChar(100)
+  ttl              String?   @default("-") @db.VarChar(100)
+  alamat           String?   @default("-") @db.VarChar(200)
+  hp               String?   @default("-") @db.VarChar(50)
+  email            String?   @default("-") @db.VarChar(50)
+  ibu              String?   @default("-") @db.VarChar(50)
+  waris_nama       String?   @default("-") @db.VarChar(50)
+  waris_hub        String?   @default("-") @db.VarChar(50)
+  waris_hp         String?   @default("-") @db.VarChar(50)
+  keluarga_nama    String?   @default("-") @db.VarChar(100)
+  keluarga_alamat  String?   @default("-") @db.VarChar(200)
+  keluarga_hp      String?   @default("-") @db.VarChar(50)
+  img_ktp          String?   @default("-") @db.VarChar(200)
+  img_tf           String?   @default("-") @db.VarChar(200)
+  setoran          Int       @default(0)
+  tgl_berangkat    DateTime  @db.Date
+  produk           String    @default("-") @db.VarChar(50)
+  status           Int?      @default(0)
+  snk              String    @default("1") @db.VarChar(10)
+  wa_aktivasi      Int       @default(0)
+  wa_grup          Int       @default(0)
+  nocif            String    @default("0") @db.VarChar(50)
+  sp               String    @default("0") @db.VarChar(50)
+  sw               String    @default("0") @db.VarChar(50)
+  ss               String    @default("0") @db.VarChar(50)
+  siroh            String    @default("0") @db.VarChar(50)
+  no_cif           String    @default("0") @db.VarChar(50)
+  siroh_ms         String    @default("0") @db.VarChar(50)
+  sp_ms            String    @default("0") @db.VarChar(50)
+  sw_ms            String    @default("0") @db.VarChar(50)
+  saldo_ms         BigInt    @default(0)
+  saldo_ms_jan     BigInt    @default(0)
+  saldo_ms_now     BigInt    @default(0)
+  saldo_ms_selisih BigInt    @default(0)
+  saldo_ms_tgl     DateTime  @db.Date
+  saldo_upload     DateTime  @db.Date
+  sex              String    @default("0") @db.VarChar(1)
+  pendidikan       String    @default("0") @db.VarChar(50)
+  ktp_kp           String    @default("0") @db.VarChar(100)
+  ktp_rtrw         String    @default("0") @db.VarChar(100)
+  ktp_desa         String    @default("0") @db.VarChar(100)
+  ktp_kec          String    @default("0") @db.VarChar(100)
+  ktp_kota         String    @default("0") @db.VarChar(100)
+  ktp_prop         String    @default("0") @db.VarChar(100)
+  is_active        String    @default("0") @db.VarChar(20)
+  ip               String    @default("0") @db.VarChar(50)
+  ch               Int       @default(0)
+  ch_name          String    @default("0") @db.VarChar(30)
+  ch_va            String    @default("0") @db.VarChar(30)
+  ch_bill          String    @default("0") @db.VarChar(30)
+  ch_status        Int       @default(0)
+  ch_end           DateTime  @db.DateTime(0)
+  ch_biaya         Int       @default(0)
+  ch_total         Int       @default(0)
+  ch_link          String    @db.VarChar(200)
+  ch_sukses        DateTime  @db.DateTime(0)
+  metode           String    @default("") @db.VarChar(5)
+  jadi_agen        String    @default("") @db.VarChar(5)
+  no_va            String    @default("") @db.VarChar(20)
+  lembaga          String    @default("KOSPE") @db.VarChar(20)
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model anggota_siroh_err2 {
+  id               Int       @id @default(autoincrement())
+  created_at       DateTime? @db.DateTime(0)
+  updated_at       DateTime? @db.DateTime(0)
+  tgl_tamwil       DateTime? @db.DateTime(0)
+  tgl_aktivasi     DateTime? @db.DateTime(0)
+  id_kospe         String?   @default("-") @db.VarChar(50)
+  id_agen          String?   @default("-") @db.VarChar(50)
+  id_agen_lama     String?   @default("-") @db.VarChar(50)
+  id_imfa          String?   @default("0") @db.VarChar(50)
+  nama_agen        String?   @default("-") @db.VarChar(100)
+  id_marketing     String    @default("-") @db.VarChar(50)
+  ktp              String    @db.VarChar(50)
+  nama             String?   @default("-") @db.VarChar(100)
+  tempat_lhr       String?   @default("-") @db.VarChar(100)
+  ttl              String?   @default("-") @db.VarChar(100)
+  alamat           String?   @default("-") @db.VarChar(200)
+  hp               String?   @default("-") @db.VarChar(50)
+  email            String?   @default("-") @db.VarChar(50)
+  ibu              String?   @default("-") @db.VarChar(50)
+  waris_nama       String?   @default("-") @db.VarChar(50)
+  waris_hub        String?   @default("-") @db.VarChar(50)
+  waris_hp         String?   @default("-") @db.VarChar(50)
+  keluarga_nama    String?   @default("-") @db.VarChar(100)
+  keluarga_alamat  String?   @default("-") @db.VarChar(200)
+  keluarga_hp      String?   @default("-") @db.VarChar(50)
+  img_ktp          String?   @default("-") @db.VarChar(200)
+  img_tf           String?   @default("-") @db.VarChar(200)
+  setoran          Int       @default(0)
+  tgl_berangkat    DateTime  @db.Date
+  produk           String    @default("-") @db.VarChar(50)
+  status           Int?      @default(0)
+  snk              String    @default("1") @db.VarChar(10)
+  wa_aktivasi      Int       @default(0)
+  wa_grup          Int       @default(0)
+  nocif            String    @default("0") @db.VarChar(50)
+  sp               String    @default("0") @db.VarChar(50)
+  sw               String    @default("0") @db.VarChar(50)
+  ss               String    @default("0") @db.VarChar(50)
+  siroh            String    @default("0") @db.VarChar(50)
+  no_cif           String    @default("0") @db.VarChar(50)
+  siroh_ms         String    @default("0") @db.VarChar(50)
+  sp_ms            String    @default("0") @db.VarChar(50)
+  sw_ms            String    @default("0") @db.VarChar(50)
+  saldo_ms         BigInt    @default(0)
+  saldo_ms_jan     BigInt    @default(0)
+  saldo_ms_now     BigInt    @default(0)
+  saldo_ms_selisih BigInt    @default(0)
+  saldo_ms_tgl     DateTime  @db.Date
+  saldo_upload     DateTime  @db.Date
+  sex              String    @default("0") @db.VarChar(1)
+  pendidikan       String    @default("0") @db.VarChar(50)
+  ktp_kp           String    @default("0") @db.VarChar(100)
+  ktp_rtrw         String    @default("0") @db.VarChar(100)
+  ktp_desa         String    @default("0") @db.VarChar(100)
+  ktp_kec          String    @default("0") @db.VarChar(100)
+  ktp_kota         String    @default("0") @db.VarChar(100)
+  ktp_prop         String    @default("0") @db.VarChar(100)
+  is_active        String    @default("0") @db.VarChar(20)
+  ip               String    @default("0") @db.VarChar(50)
+  ch               Int       @default(0)
+  ch_name          String    @default("0") @db.VarChar(30)
+  ch_va            String    @default("0") @db.VarChar(30)
+  ch_bill          String    @default("0") @db.VarChar(30)
+  ch_status        Int       @default(0)
+  ch_end           DateTime  @db.DateTime(0)
+  ch_biaya         Int       @default(0)
+  ch_total         Int       @default(0)
+  ch_link          String    @db.VarChar(200)
+  ch_sukses        DateTime  @db.DateTime(0)
+  metode           String    @default("") @db.VarChar(5)
+  jadi_agen        String    @default("") @db.VarChar(5)
+  no_va            String    @default("") @db.VarChar(20)
+  lembaga          String    @default("KOSPE") @db.VarChar(20)
+}
+
+model anggota_siroh_saldo {
+  id           Int       @id @default(autoincrement())
+  created_at   DateTime? @db.DateTime(0)
+  tgl_saldo    String?   @db.VarChar(8)
+  id_agen      String?   @db.VarChar(50)
+  saldo_harian BigInt?
+  saldo_bln    BigInt?
+  saldo_total  BigInt?
+  nama         String?   @db.VarChar(50)
+}
+
+model anggota_siroh_trx {
+  id             Int       @id @default(autoincrement())
+  created_at     String?   @db.VarChar(50)
+  no             Int?
+  date           DateTime? @db.DateTime(0)
+  id_agen        String?   @default("0") @db.VarChar(50)
+  nama_agen      String?   @default("0") @db.VarChar(100)
+  id_marketing   String?   @default("0") @db.VarChar(50)
+  nama_marketing String?   @default("0") @db.VarChar(100)
+  kategori       Int?      @default(1)
+  nama           String?   @db.VarChar(200)
+  no_cif         String?   @db.VarChar(50)
+  siroh_ms       String?   @db.VarChar(50)
+  kredit         BigInt?
+  saldo          BigInt?
+  ket            String?   @db.VarChar(200)
+  status         Int?      @default(0)
+  sedekah_umroh  Int?      @default(0)
+  id_sedekah     String?   @db.VarChar(50)
+  kd_produk      String?   @db.VarChar(3)
+}
+
+model anggota_tutup_simp {
+  id            Int       @id @default(autoincrement())
+  created_at    DateTime? @db.DateTime(0)
+  inputer       Int?
+  tgl_pengajuan DateTime? @db.Date
+  tgl_rilis     DateTime? @db.Date
+  id_kospe      String?   @db.VarChar(50)
+  nama          String?   @db.VarChar(100)
+  alamat        String?   @db.VarChar(250)
+  no_hp         String?   @db.VarChar(50)
+  no_ktp        String?   @db.VarChar(50)
+  produk        String?   @default("SIMPANAN WAJIB") @db.VarChar(50)
+  no_rek        String?   @db.VarChar(50)
+  an_rek        String?   @db.VarChar(100)
+  alasan        String?   @db.VarChar(250)
+  acc           Int?      @default(0)
+  img_ktp       String    @db.VarChar(50)
+  img_rek       String    @db.VarChar(50)
+  img_ttd       String    @db.VarChar(50)
+  jumlah        Int
+}
+
+model anggota_wa {
+  id         Int       @id @default(autoincrement())
+  created_at DateTime? @db.DateTime(0)
+  wa         String?   @db.VarChar(50)
+  nama       String?   @db.VarChar(50)
+  isi        String?   @db.Text
+  status     String?   @db.VarChar(50)
+  setoran    Int
+}
+
+model anggotas {
+  id         BigInt    @id @default(autoincrement()) @db.UnsignedBigInt
+  created_at DateTime? @db.Timestamp(0)
+  updated_at DateTime? @db.Timestamp(0)
+  nocif      String?   @db.VarChar(50)
+  nm         String    @db.VarChar(255)
+  alamat     String?   @db.VarChar(255)
+  kelurahan  String?   @db.VarChar(255)
+  kecamatan  String?   @db.VarChar(255)
+  kota       String?   @db.VarChar(255)
+  hp         String?   @db.VarChar(255)
+  kdpos      String?   @db.VarChar(255)
+  sex        String?   @db.VarChar(255)
+  tmplhr     String?   @db.VarChar(255)
+  tgllhr     String?   @db.VarChar(255)
+  jnsid      String?   @db.VarChar(255)
+  noid       String?   @db.VarChar(255)
+  nmibu      String?   @db.VarChar(255)
+  is_active  String    @default("1") @db.VarChar(1)
+}
+
+model anggotas_pemb {
+  id         BigInt    @id @default(autoincrement()) @db.UnsignedBigInt
+  created_at DateTime? @db.Timestamp(0)
+  updated_at DateTime? @db.Timestamp(0)
+  nokontrak  String    @db.VarChar(20)
+  nocif      String    @db.VarChar(20)
+  kdprd      String    @db.VarChar(2)
+  nama       String    @db.VarChar(255)
+  sisapokok  BigInt    @default(0)
+  sisamargin BigInt    @default(0)
+  jw         String    @db.VarChar(255)
+  kdjw       String    @db.VarChar(1)
+  jatuhtempo DateTime  @db.Date
+  tglangsur  String    @default("") @db.VarChar(2)
+}
+
+model anggotas_sw {
+  id         BigInt    @id @default(autoincrement()) @db.UnsignedBigInt
+  created_at DateTime? @db.Timestamp(0)
+  updated_at DateTime? @db.Timestamp(0)
+  notab      String    @db.VarChar(16)
+  nocif      String    @db.VarChar(16)
+  kodeprd    String    @db.VarChar(16)
+  fnama      String    @db.VarChar(255)
+  sahirrp    BigInt    @default(0)
+  tgl_reg    DateTime  @db.Date
+}
+
+model api_kospe {
+  id                  Int       @id @default(autoincrement())
+  created_at          DateTime? @db.DateTime(0)
+  institution         String?   @db.VarChar(50)
+  institution_address String?   @db.VarChar(200)
+  ip                  String?   @db.VarChar(50)
+  secret_key          String?   @db.VarChar(100)
+  client_key          String?   @db.VarChar(100)
+  is_active           Int?      @default(0)
+  max_hit             Int?
+  pic_name            String?   @db.VarChar(50)
+  pic_wa              String?   @db.VarChar(50)
+  webhook             String?   @default("0") @db.VarChar(200)
+  webhook_status      Int?      @default(0)
+  lembaga             String?   @db.VarChar(50)
+}
+
+model api_traffic {
+  id          Int       @id @default(autoincrement())
+  created_at  DateTime? @db.DateTime(0)
+  account     String?   @db.VarChar(200)
+  client_id   String?   @db.VarChar(200)
+  ip_client   String?   @db.VarChar(50)
+  code_access String?   @db.VarChar(3)
+  desc        String?   @db.VarChar(50)
+  ip          String?   @db.VarChar(50)
+  status      Int?
+  response    String?   @db.VarChar(100)
+}
+
+model api_webhook {
+  id           Int       @id @default(autoincrement())
+  created_at   DateTime? @db.DateTime(0)
+  id_user      Int?
+  nama         String?   @db.VarChar(100)
+  no_cif       String?   @db.VarChar(15)
+  no_rek_siroh String?   @db.VarChar(15)
+  ktp          String?   @db.VarChar(20)
+  hp           String?   @db.VarChar(20)
+  status       Int?      @default(0)
+  lembaga      String?   @default("0") @db.VarChar(10)
+  kd_produk    String?   @db.VarChar(10)
+  url          String?   @db.VarChar(200)
+  api_account  String?   @db.VarChar(50)
+  sent_at      DateTime? @db.DateTime(0)
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model bank {
+  no   Int?
+  name String? @db.VarChar(50)
+  kode String? @db.VarChar(50)
+
+  @@ignore
+}
+
+model cache {
+  key        String @id @db.VarChar(255)
+  value      String @db.MediumText
+  expiration Int
+
+  @@index([expiration], map: "cache_expiration_index")
+}
+
+model cache_locks {
+  key        String @id @db.VarChar(255)
+  owner      String @db.VarChar(255)
+  expiration Int
+
+  @@index([expiration], map: "cache_locks_expiration_index")
+}
+
+model cronjob {
+  id         Int      @id @default(autoincrement())
+  created_at DateTime @db.DateTime(0)
+  updated_at DateTime @db.DateTime(0)
+  ch_sukses  DateTime @db.DateTime(0)
+  id_anggota String?  @db.VarChar(50)
+  nama       String?  @db.VarChar(100)
+  hp         String?  @db.VarChar(100)
+  ch_va      String?  @db.VarChar(50)
+  ch_bill    String?  @db.VarChar(50)
+  ss         String?  @db.VarChar(50)
+  setoran    Int?
+  status     Int?     @default(0)
+}
+
+model daily_reports {
+  id         BigInt    @id @default(autoincrement()) @db.UnsignedBigInt
+  created_at DateTime? @db.Timestamp(0)
+  updated_at DateTime? @db.Timestamp(0)
+  idstaf     String    @db.VarChar(20)
+  nama       String?   @db.VarChar(255)
+  divisi     String?   @db.VarChar(50)
+  prospek    String?   @db.VarChar(255)
+  hp         String?   @db.VarChar(20)
+  ket        String    @db.Text
+}
+
+model districts {
+  id         String     @id @db.Char(7)
+  regency_id String     @db.Char(4)
+  name       String     @db.VarChar(255)
+  regencies  regencies  @relation(fields: [regency_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "districts_regency_id_foreign")
+  villages   villages[]
+
+  @@index([regency_id], map: "districts_id_index")
+}
+
+model failed_jobs {
+  id         BigInt   @id @default(autoincrement()) @db.UnsignedBigInt
+  uuid       String   @unique(map: "failed_jobs_uuid_unique") @db.VarChar(255)
+  connection String   @db.Text
+  queue      String   @db.Text
+  payload    String   @db.LongText
+  exception  String   @db.LongText
+  failed_at  DateTime @default(now()) @db.Timestamp(0)
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model faspay_channel {
+  kode      Int?
+  name      String? @db.VarChar(50)
+  img       String? @db.VarChar(200)
+  biaya     Int?
+  is_active Int?    @default(0)
+
+  @@ignore
+}
+
+model izin_cuti {
+  id             BigInt    @id @default(autoincrement()) @db.UnsignedBigInt
+  created_at     DateTime? @db.Timestamp(0)
+  updated_at     DateTime? @db.Timestamp(0)
+  idstaf         String    @db.VarChar(255)
+  nama           String    @db.VarChar(255)
+  divisi         String    @db.VarChar(255)
+  type           String?   @db.VarChar(255)
+  tgl_start      DateTime? @db.Date
+  tgl_end        DateTime? @db.Date
+  jml_hari       String    @default("0") @db.VarChar(50)
+  sisa_cuti      String    @default("0") @db.VarChar(50)
+  approve_1      String    @default("0") @db.VarChar(255)
+  approval_token String    @default("0") @db.VarChar(255)
+  tgl_approve_1  String    @default("0") @db.VarChar(255)
+  approve_2      String    @default("0") @db.VarChar(255)
+  tgl_approve_2  String    @default("0") @db.VarChar(255)
+  ket            String    @db.Text
+}
+
+model job_batches {
+  id             String  @id @db.VarChar(255)
+  name           String  @db.VarChar(255)
+  total_jobs     Int
+  pending_jobs   Int
+  failed_jobs    Int
+  failed_job_ids String  @db.LongText
+  options        String? @db.MediumText
+  cancelled_at   Int?
+  created_at     Int
+  finished_at    Int?
+}
+
+model jobs {
+  id           BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  queue        String @db.VarChar(255)
+  payload      String @db.LongText
+  attempts     Int    @db.UnsignedTinyInt
+  reserved_at  Int?   @db.UnsignedInt
+  available_at Int    @db.UnsignedInt
+  created_at   Int    @db.UnsignedInt
+
+  @@index([queue], map: "jobs_queue_index")
+}
+
+model login_otps {
+  id         BigInt    @id @default(autoincrement()) @db.UnsignedBigInt
+  user_id    BigInt    @db.UnsignedBigInt
+  otp        String    @db.VarChar(255)
+  expires_at DateTime  @db.Timestamp(0)
+  used       Boolean   @default(false)
+  created_at DateTime? @db.Timestamp(0)
+  updated_at DateTime? @db.Timestamp(0)
+  users      users     @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "login_otps_user_id_foreign")
+
+  @@index([user_id], map: "login_otps_user_id_foreign")
+}
+
+model mdkota_slik {
+  NO       Int     @id @default(autoincrement())
+  PROPINSI String? @db.VarChar(100)
+  KOTA     String? @db.VarChar(100)
+  KD_PROP  Int?
+  KD_KOTA  Int?
+}
+
+model member {
+  id         Int     @id @default(autoincrement())
+  nama       String? @db.VarChar(100)
+  hp         String? @db.VarChar(50)
+  nocif      String? @db.VarChar(50)
+  sex        String? @db.VarChar(10)
+  tempat_lhr String? @db.VarChar(50)
+  tgl_lhr    String? @db.VarChar(50)
+  bln_lhr    String? @db.VarChar(50)
+  tggl_lhr   String? @db.VarChar(50)
+  ktp        String? @db.VarChar(50)
+  no_ktp     String? @db.VarChar(50)
+}
+
+model migrations {
+  id        Int    @id @default(autoincrement()) @db.UnsignedInt
+  migration String @db.VarChar(255)
+  batch     Int
+}
+
+model mitrasoft {
+  id         Int       @id @default(autoincrement())
+  created_at DateTime? @db.DateTime(0)
+  expired_at DateTime? @db.DateTime(0)
+  timestamp  String?   @db.VarChar(50)
+  key        String?   @db.Text
+  signature  String?   @db.Text
+  client     String?   @db.Text
+  partner    String?   @db.VarChar(50)
+  external   String?   @db.VarChar(50)
+  token      String?   @db.Text
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model mykospe {
+  id         Int     @id @default(autoincrement())
+  nocif      String? @db.VarChar(50)
+  no_cif     String? @db.VarChar(50)
+  tgl_reg    String? @db.VarChar(50)
+  nama       String? @db.VarChar(100)
+  tempat_lhr String? @db.VarChar(50)
+  tgl_lhr    String? @db.VarChar(50)
+  nama_gik   String? @db.VarChar(50)
+  no_idcard  String? @db.VarChar(50)
+  nohp       String? @db.VarChar(50)
+  email      String? @db.VarChar(50)
+  alamat_ktp String? @db.Text
+  alamat_dom String? @db.VarChar(255)
+  kd_ktr     String? @db.VarChar(10)
+  jns_nsb    String? @db.VarChar(50)
+  jns_klm    String? @db.VarChar(5)
+  is_active  Int     @default(1)
+  milad      Int     @default(1)
+  msg        String  @db.Text
+}
+
+model mykospe_akun {
+  id            Int       @id @default(autoincrement())
+  created_at    DateTime? @db.DateTime(0)
+  updated_at    DateTime? @db.DateTime(0)
+  nama          String?   @db.VarChar(100)
+  username      String?   @db.VarChar(100)
+  password      String?   @db.VarChar(100)
+  nocif         String?   @db.VarChar(100)
+  ktp           String?   @db.VarChar(100)
+  hp            String?   @db.VarChar(100)
+  norek         String?   @db.VarChar(100)
+  is_login      Int?      @default(0)
+  is_active     Int?      @default(0)
+  user_agen     String?   @db.VarChar(50)
+  ip            String?   @db.VarChar(50)
+  kode_aktivasi String?   @db.VarChar(6)
+  last_login    DateTime? @db.DateTime(0)
+}
+
+model mykospe_fee {
+  id           Int       @id @default(autoincrement())
+  id_fee       String?   @db.VarChar(50)
+  created_at   DateTime? @db.DateTime(0)
+  ktp          String?   @db.VarChar(50)
+  id_agen      String?   @db.VarChar(50)
+  id_marketing String?   @db.VarChar(50)
+  nocif        String?   @db.VarChar(50)
+  norek        String?   @db.VarChar(50)
+  saldo_lalu   BigInt?
+  saldo_akhir  BigInt?
+  tgl_saldo    DateTime? @db.Date
+  spsw         Int?      @default(0)
+  paspor       Int?      @default(0)
+  uang_saku    Int?      @default(0)
+  lunas        Int?      @default(0)
+  booking      Int?      @default(0)
+  fee_agen     Int?      @default(0)
+  fee_lunas    Int?      @default(0)
+}
+
+model mykospe_reg {
+  id         Int       @id @default(autoincrement())
+  created_at DateTime? @db.DateTime(0)
+  nocif      String?   @db.VarChar(50)
+  nama       String?   @db.VarChar(100)
+  alamat_ktp String?   @db.VarChar(255)
+  nohp       String?   @db.VarChar(50)
+  norek      String?   @db.VarChar(50)
+  ip         String?   @db.VarChar(50)
+  browser    String    @db.VarChar(50)
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model mykospe_rek {
+  id           Int     @id @default(autoincrement())
+  tgl_register String  @db.VarChar(20)
+  kd_produk    String  @db.VarChar(3)
+  kantor       String  @default("0") @db.VarChar(5)
+  nm_produk    String? @db.VarChar(50)
+  akad         String? @db.VarChar(50)
+  nocif        String? @db.VarChar(50)
+  no_cif       String? @db.VarChar(50)
+  nama         String? @db.VarChar(100)
+  kategori     String? @db.VarChar(20)
+  tgl_saldo    String? @db.VarChar(20)
+  norek        String? @db.VarChar(50)
+  no_rek       String? @db.VarChar(50)
+  saldo_lalu   BigInt? @default(0)
+  saldo        BigInt? @default(0)
+  saldo_ms     BigInt? @default(0)
+  tgl_saldo_ms String? @db.VarChar(50)
+  status       String? @db.VarChar(20)
+  spsw         Int?    @default(0)
+  paspor       Int?    @default(0)
+  booking      Int?    @default(0)
+  lunas        Int?    @default(0)
+  uang_saku    Int?    @default(0)
+  fee_agen     Int?    @default(0)
+  fee_lunas    Int?    @default(0)
+}
+
+model mykospe_rek_saldo {
+  id          Int       @id @default(autoincrement())
+  kode_upload String    @default("0") @db.VarChar(50)
+  tgl_saldo   DateTime? @db.Date
+  bulan       Int?
+  tahun       Int?
+  nocif       String?   @db.VarChar(50)
+  norek       String?   @db.VarChar(50)
+  nama        String?   @db.VarChar(100)
+  saldo       BigInt?
+}
+
+model mykospe_wa {
+  id           Int      @id @default(autoincrement())
+  created_at   DateTime @db.DateTime(0)
+  jml_terkirim Int      @default(0)
+  jumlah       Int      @default(0)
+  judul        String   @default("0") @db.VarChar(255)
+  msg          String   @db.Text
+  img          String   @default("0") @db.VarChar(50)
+  kategori     Int      @default(0)
+  tipe         Int      @default(0)
+  gagal        String   @db.Text
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model notif {
+  id Int? @default(0)
+
+  @@ignore
+}
+
+model paket {
+  id_paket  Int     @id @default(autoincrement())
+  img       String  @db.VarChar(50)
+  img_big   String  @db.VarChar(200)
+  akad      String  @db.VarChar(1000)
+  nama      String  @db.VarChar(100)
+  isi       String  @db.VarChar(1000)
+  ketentuan String  @db.VarChar(1000)
+  kategori  Int     @default(0)
+  is_active Int     @default(1)
+  icon      String  @default("graduation-cap") @db.VarChar(100)
+  subtitle  String? @db.VarChar(200)
+}
+
+model password_reset_tokens {
+  email      String    @id @db.VarChar(255)
+  token      String    @db.VarChar(255)
+  created_at DateTime? @db.Timestamp(0)
+}
+
+model payroll_ss {
+  id         Int       @id @default(autoincrement())
+  id_payroll String?   @db.VarChar(50)
+  created_at DateTime? @db.DateTime(0)
+  no         Int?
+  nik        String?   @db.VarChar(50)
+  produk     String?   @db.VarChar(50)
+  norek      String?   @db.VarChar(50)
+  nama       String?   @db.VarChar(50)
+  divisi     String?   @db.VarChar(50)
+  jabatan    String?   @db.VarChar(50)
+  alamat     String?   @db.VarChar(200)
+  jumlah     BigInt?
+  total      BigInt?
+  saldo      BigInt?
+  uraian     String?   @db.VarChar(100)
+}
+
+model payroll_sw {
+  id           Int       @id @default(autoincrement())
+  id_payroll   String?   @db.VarChar(50)
+  created_at   DateTime? @db.DateTime(0)
+  no           Int?
+  tgl          DateTime? @db.Date
+  bln          Int?
+  tahun        Int?
+  kode_mitra   String?   @db.VarChar(50)
+  nama_mitra   String?   @db.VarChar(100)
+  alamat_mitra String?   @db.VarChar(200)
+  pic_mitra    String?   @db.VarChar(100)
+  norek_mitra  String?   @db.VarChar(50)
+  nik          String?   @db.VarChar(50)
+  norek        String?   @db.VarChar(50)
+  nama         String?   @db.VarChar(50)
+  divisi       String?   @db.VarChar(50)
+  jabatan      String?   @db.VarChar(50)
+  alamat       String?   @db.VarChar(200)
+  jumlah       BigInt?
+  total        BigInt?
+  saldo_ss     BigInt?
+  uraian       String?   @db.VarChar(100)
+}
+
+model pengurus {
+  id      Int     @id @default(autoincrement())
+  nama    String? @db.VarChar(50)
+  ktp     String? @db.VarChar(50)
+  alamat  String? @db.VarChar(200)
+  ttl     String? @db.VarChar(200)
+  sex     String? @db.VarChar(50)
+  jabatan String? @db.VarChar(50)
+  hp      String? @db.VarChar(50)
+  periode String? @db.VarChar(50)
+}
+
+model presensi {
+  id          Int       @id @default(autoincrement())
+  created_at  DateTime? @db.DateTime(0)
+  presensi_in DateTime  @db.DateTime(0)
+  id_karyawan String?   @db.VarChar(50)
+  nama        String?   @db.VarChar(50)
+  status      String?   @db.VarChar(50)
+  position    String?   @db.VarChar(50)
+}
+
+model provinces {
+  id        String      @id @db.Char(2)
+  name      String      @db.VarChar(255)
+  regencies regencies[]
+}
+
+model rat {
+  id              Int       @id @default(autoincrement())
+  created_at      DateTime? @db.Date
+  updated_at      DateTime? @db.Date
+  img             String?   @db.VarChar(100)
+  tema            String?   @db.VarChar(100)
+  thn_buku        String?   @db.VarChar(50)
+  tgl_acara       DateTime? @db.Date
+  peserta_offline Int?
+  peserta_online  Int?
+  peserta_total   Int?
+  jam             String?   @db.VarChar(50)
+  tempat          String?   @db.VarChar(200)
+  laporan         String?   @db.VarChar(100)
+}
+
+model regencies {
+  id          String      @id @db.Char(4)
+  province_id String      @db.Char(2)
+  name        String      @db.VarChar(255)
+  districts   districts[]
+  provinces   provinces   @relation(fields: [province_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "regencies_province_id_foreign")
+
+  @@index([province_id], map: "regencies_province_id_index")
+}
+
+model sbu_event {
+  id         Int       @id @default(autoincrement())
+  created_at DateTime? @db.DateTime(0)
+  judul      String?   @db.VarChar(200)
+  isi        String?   @db.Text
+  jadwal     DateTime? @db.Date
+  is_active  Int?
+  img        String?   @db.VarChar(100)
+}
+
+model sbu_kolab {
+  id   Int  @id @default(autoincrement())
+  nama Int?
+  img  Int?
+}
+
+model sbu_news {
+  id         Int       @id @default(autoincrement())
+  created_at DateTime? @db.DateTime(0)
+  judul      String?   @db.VarChar(200)
+  isi        String?   @db.Text
+  penulis    String?   @db.VarChar(100)
+  is_active  Int?
+  kategori   String?   @db.VarChar(50)
+  img        String?   @db.VarChar(100)
+}
+
+model sbu_testimoni {
+  id         Int       @id @default(autoincrement())
+  created_at DateTime? @db.DateTime(0)
+  nama       String?   @db.VarChar(100)
+  jabatan    String?   @db.VarChar(100)
+  isi        String?   @db.Text
+  img        String?   @db.VarChar(100)
+}
+
+model sessions {
+  id            String  @id @db.VarChar(255)
+  user_id       BigInt? @db.UnsignedBigInt
+  ip_address    String? @db.VarChar(45)
+  user_agent    String? @db.Text
+  payload       String  @db.LongText
+  last_activity Int
+
+  @@index([last_activity], map: "sessions_last_activity_index")
+  @@index([user_id], map: "sessions_user_id_index")
+}
+
+model tb_agunan {
+  id               Int       @id @default(autoincrement())
+  created_at       DateTime? @db.Date
+  inputer          Int?
+  id_pengajuan     Int?
+  no_akad          String?   @db.VarChar(50)
+  tipe_agunan      String?   @db.VarChar(50)
+  jns_asset        String?   @db.VarChar(50)
+  no_agunan        String?   @db.VarChar(50)
+  pemilik          String?   @db.VarChar(50)
+  thn_berangkat    String?   @db.VarChar(50)
+  alamat_agunan    String?   @db.VarChar(255)
+  merk             String?   @db.VarChar(50)
+  no_polisi        String?   @db.VarChar(50)
+  no_rangka        String?   @db.VarChar(50)
+  no_mesin         String?   @db.VarChar(50)
+  warna            String    @db.VarChar(50)
+  thn              Int?
+  bhn_bkr          String?   @db.VarChar(50)
+  kwitansi         Int?      @default(0)
+  faktur           Int?      @default(0)
+  surat            Int?      @default(0)
+  lainnya          Int?      @default(0)
+  kondisi_mesin    String?   @db.VarChar(10)
+  kondisi_body     String?   @db.VarChar(10)
+  kelengkapan      String?   @db.VarChar(10)
+  milik_sendiri    String    @db.VarChar(50)
+  milik_org        String    @db.VarChar(50)
+  nama_org         String    @db.VarChar(50)
+  alamat_org       String    @db.VarChar(500)
+  hub_org          String    @db.VarChar(20)
+  hrg_pasar        Int?      @default(0)
+  hrg_taksiran     Int?
+  nilai_liquid     Int?
+  kesimpulan       String?   @db.VarChar(500)
+  nilai_agunan     BigInt?
+  no_ukur          String    @db.VarChar(20)
+  njop             BigInt?
+  jenis_tanah      String?   @db.VarChar(50)
+  akta             String?   @db.VarChar(50)
+  hubungan         String?   @db.VarChar(50)
+  luas_tanah       String?   @db.VarChar(50)
+  nib              String?   @db.VarChar(50)
+  bukti_sppt       String?   @db.VarChar(50)
+  elevasi          String?   @db.VarChar(50)
+  penghuni         String?   @db.VarChar(50)
+  luas_gedung      String?   @db.VarChar(50)
+  penggunaan       String?   @db.VarChar(50)
+  dibangun_thn     String?   @db.VarChar(50)
+  kondisi          String?   @db.VarChar(50)
+  hrg_anggota      BigInt?
+  hrg_ttga         BigInt?
+  hrg_lain         BigInt?
+  hrg_total        BigInt
+  hrg_70           BigInt
+  produk_simpanan  String?   @db.VarChar(50)
+  nilai_simpanan   Int?
+  nama_led         String?   @db.VarChar(50)
+  alamat_led       Int?
+  id_hni           String?   @db.VarChar(50)
+  no_ktp           String?   @db.VarChar(50)
+  pangkat_hni      String?   @db.VarChar(50)
+  tlp_led          String?   @db.VarChar(50)
+  status_agen      String?   @db.VarChar(50)
+  nama_corporate   String?   @db.VarChar(50)
+  alamat_corporate String?   @db.VarChar(255)
+  pdf              String?   @db.VarChar(255)
+}
+
+model tb_akad {
+  id_akad   Int    @id @default(autoincrement())
+  kode      String @default("") @db.VarChar(7)
+  nama      String @db.VarChar(100)
+  singkatan String @db.VarChar(20)
+  istilah   String @db.VarChar(20)
+}
+
+model tb_analisa {
+  id_analisa Int    @id @default(autoincrement())
+  nama       String @db.VarChar(100)
+  skor       Int
+  parent     Int
+}
+
+model tb_analisa_skoring {
+  id           Int       @id @default(autoincrement())
+  id_pengajuan Int
+  kode_analisa Int       @default(0)
+  date_created DateTime? @db.DateTime(0)
+  inputer      Int?
+  hp           String?   @db.VarChar(100)
+  nama         String?   @db.VarChar(100)
+  id_analisa   Int?
+  skor         Int?
+  total        Int?
+  hasil        String?   @db.VarChar(50)
+  alamat       String    @db.VarChar(255)
+}
+
+model tb_angsuran {
+  id          Int      @id @default(autoincrement())
+  created_at  DateTime @db.Date
+  inputer     Int?     @default(0) @db.UnsignedInt
+  no_akad     String?  @db.VarChar(50)
+  angsuran    Int?     @default(0) @db.UnsignedInt
+  angsuran_ke Int?     @default(0) @db.UnsignedInt
+  pokok       Int?     @db.UnsignedInt
+  margin      Int?     @db.UnsignedInt
+  sisa_jkw    Int?     @db.UnsignedInt
+  sisa_pokok  Int?     @db.UnsignedInt
+  sisa_margin Int?     @db.UnsignedInt
+  titipan     Int?     @db.UnsignedInt
+  kekurangan  Int?     @db.UnsignedInt
+  jumlah      Int?     @db.UnsignedInt
+  dpd         Int
+  diskon      Int
+  ket         String   @db.VarChar(255)
+}
+
+model tb_asuransi {
+  id             Int     @id @default(autoincrement())
+  created_at     String? @db.VarChar(10)
+  inputer        Int?
+  no_akad        String? @db.VarChar(50)
+  jns_asuransi   String? @db.VarChar(20)
+  tgl_polis      String? @db.VarChar(10)
+  jkw_polis      String? @db.VarChar(8)
+  nilai_asuransi String? @db.VarChar(20)
+  periode_nilai  String? @db.VarChar(20)
+  bulan          String? @db.VarChar(10)
+  bulan_dijamin  String? @db.VarChar(8)
+}
+
+model tb_bayar {
+  id_bayar    Int      @id @default(autoincrement())
+  id_kospe    String   @db.VarChar(20)
+  no_akad     String   @db.VarChar(30)
+  created_at  DateTime @db.Date
+  bayar       Int
+  reff        String   @db.VarChar(100)
+  angsuran_ke Int
+  ket         String   @db.VarChar(100)
+}
+
+model tb_berkas {
+  id         Int       @id @default(autoincrement())
+  created_at DateTime? @db.DateTime(0)
+  id_agunan  Int?
+  img        String?   @db.VarChar(50)
+}
+
+model tb_collaction {
+  id_collaction Int      @id @default(autoincrement())
+  no_akad       String   @db.VarChar(50)
+  created_at    DateTime @db.Date
+  tgl_start     DateTime @db.Date
+  tgl_end       DateTime @db.Date
+  nama          String   @db.VarChar(100)
+  id_kospe      Int
+  akad          Int
+  tujuan        Int
+  dropping      Int
+  angsuran      Int
+  tenor         Int
+  jual          Int
+  dp            Int
+  tlp           String   @db.VarChar(20)
+  email         String   @db.VarChar(50)
+  is_active     Int
+}
+
+model tb_datapembiayaan {
+  id              Int      @id @default(autoincrement())
+  no              Int
+  created_at      DateTime @db.Date
+  inputer         Int
+  no_rek          String   @db.VarChar(50)
+  no_akad         String   @db.VarChar(50)
+  tgl_aplikasi    DateTime @db.Date
+  jns_pembiayaan  String   @db.VarChar(7)
+  tipe_angsuran   String   @db.VarChar(4)
+  tgl_setuju      DateTime @db.Date
+  tgl_dropping    DateTime @db.Date
+  tgl_jatuh_tempo String   @db.VarChar(3)
+  id_kospe        String   @db.VarChar(20)
+  nama            String   @db.VarChar(50)
+  hp              String   @db.VarChar(20)
+  kantor          Int
+  cabang          String   @db.VarChar(4)
+  pasangan        String   @db.VarChar(25)
+  tlp_pasangan    String   @db.VarChar(20)
+  nama_saudara    String   @db.VarChar(2)
+  telp_saudara    String   @db.VarChar(2)
+  alamat_saudara  String   @db.VarChar(118)
+  produk          String   @db.VarChar(3)
+  akad            String   @db.VarChar(3)
+}
+
+model tb_galeri {
+  id_galeri     Int      @id @default(autoincrement())
+  created_at    DateTime @db.DateTime(0)
+  id_pembiayaan String   @db.VarChar(20)
+  nama          String   @db.VarChar(100)
+  kategori      Int
+  img           String   @db.VarChar(100)
+  ektp          Int      @default(0)
+  kk            Int      @default(0)
+  slip_gaji     Int      @default(0)
+  buku_tab      Int      @default(0)
+  pbb           Int      @default(0)
+  slip_gaji_pas Int      @default(0)
+  bonus_avo     Int      @default(0)
+  avo_thn       Int      @default(0)
+  rekap_hsis    Int      @default(0)
+  garansi_led   Int      @default(0)
+  ptg_bonus     Int      @default(0)
+  rab           Int      @default(0)
+  jaminan1      String   @default("0") @db.VarChar(50)
+  jaminan2      String   @default("0") @db.VarChar(50)
+  jaminan3      String   @default("0") @db.VarChar(50)
+  jaminan4      String   @default("0") @db.VarChar(50)
+  jaminan5      String   @default("0") @db.VarChar(50)
+  nilai_aset    BigInt   @default(0)
+  ket           String   @default("0") @db.VarChar(50)
+}
+
+model tb_jumlahpembiayaan {
+  id                 Int      @id @default(autoincrement())
+  created_at         DateTime @db.Date
+  inputer            Int
+  no_akad            String   @db.VarChar(50)
+  hrg_jual           Int?
+  pricing            Float?   @db.Float
+  dp                 Int?
+  jangka             Int?
+  hrg_beli           Int?
+  hrg_akhir          Int?
+  angsur             Int?
+  admin              Int?
+  notaris            Int?
+  asuransi_jiwa      Int?
+  asuransi_kendaraan Int?
+  jaminan            Int?
+  materai            Int?
+  total              Int?
+  dpd                Int
+}
+
+model tb_kategori {
+  id_kategori Int     @id @default(autoincrement())
+  kode        String  @default("0") @db.VarChar(50)
+  nama        String  @db.VarChar(100)
+  kategori    Int
+  img         String? @db.VarChar(50)
+  is_active   Int     @default(1)
+}
+
+model tb_lembar_akad {
+  id           Int       @id @default(autoincrement())
+  created_at   DateTime? @db.DateTime(0)
+  inputer      Int?
+  kode_analisa Int?
+  start        DateTime? @db.Date
+  end          DateTime? @db.Date
+  pihak        String?   @db.VarChar(50)
+  ket_pihak    String?   @db.VarChar(255)
+  tipe_agunan  Int?
+}
+
+model tb_lembar_akad_agunan {
+  id           Int       @id @default(autoincrement())
+  created_at   DateTime? @db.DateTime(0)
+  inputer      Int?
+  kode_analisa Int?
+  pemilik      String?   @db.VarChar(50)
+  warna        String?   @db.VarChar(50)
+  tipe         String?   @db.VarChar(50)
+  no_polisi    String?   @db.VarChar(50)
+  no_mesin     String?   @db.VarChar(50)
+  no_bpkb      String?   @db.VarChar(50)
+  no_rangka    String?   @db.VarChar(50)
+  tahun        Int?
+}
+
+model tb_lembar_analisa {
+  id         Int       @id @default(autoincrement())
+  created_at DateTime? @db.DateTime(0)
+  inputer    Int?
+  nama       String?   @db.VarChar(50)
+  hp         String?   @db.VarChar(50)
+  skor       Int?
+  hasil      String?   @db.VarChar(50)
+  ket        String?   @db.VarChar(50)
+}
+
+model tb_lembar_komite {
+  id                 Int       @id @default(autoincrement())
+  kode_analisa       Int?
+  id_pengajuan       Int?
+  created_at         DateTime? @db.DateTime(0)
+  update_at          DateTime? @db.DateTime(0)
+  tgl_komite         DateTime? @db.Date
+  tgl_approve        DateTime? @db.Date
+  tgl_risalah        DateTime? @db.Date
+  no_risalah         String?   @db.VarChar(50)
+  tgl_akad           DateTime? @db.Date
+  tgl_tempo          DateTime? @db.Date
+  tgl_angsur         String?   @db.VarChar(5)
+  tgl_realisasi      DateTime? @db.Date
+  tgl_selesai        DateTime? @db.Date
+  tgl_adendum        DateTime? @db.Date
+  inputer            Int?
+  nama               String?   @db.VarChar(100)
+  no_surat           String    @db.VarChar(50)
+  no_ol              String    @db.VarChar(50)
+  no_wakalah         String?   @db.VarChar(50)
+  memorandum         String?   @db.VarChar(50)
+  addendum           Int       @default(0)
+  sejak              DateTime? @db.DateTime(0)
+  reveral            String?   @db.VarChar(50)
+  nilai_pengajuan    BigInt?
+  pricing            String?   @db.VarChar(50)
+  jkw                Int?      @default(0)
+  jkw_sijiku         Int?      @default(0)
+  jns_permohonan     String?   @db.VarChar(50)
+  tujuan             String?   @db.VarChar(50)
+  akad               String?   @db.VarChar(50)
+  hasil_akad         String?   @db.VarChar(50)
+  hasil_analisa      String?   @default("DITERIMA") @db.VarChar(50)
+  hasil_komite       String?   @default("DITANGGUHKAN") @db.VarChar(50)
+  hasil_plafond      BigInt?
+  hasil_jkw          Int?
+  hasil_jaminan      String?   @db.VarChar(50)
+  notulensi          String?   @db.VarChar(1000)
+  hrg_jual           BigInt?
+  dp                 BigInt?
+  angsuran           BigInt?
+  hrg_total          BigInt?
+  margin             BigInt?
+  hrg_admin          BigInt?
+  hrg_notaris        BigInt?
+  hrg_asuransi_jiwa  BigInt?
+  hrg_asuransi_motor BigInt?
+  hrg_materai        BigInt?
+  total_biaya        BigInt?
+  hrg_sijiku         BigInt?   @default(0)
+  sp                 BigInt?
+  sw                 BigInt?
+  ss                 BigInt?
+  total_sim          BigInt?
+  jam_akad           DateTime? @db.Time(0)
+  saran1             String?   @db.Text
+  saran2             String?   @db.Text
+  saran3             String?   @db.Text
+  pasal              String?   @db.Text
+  lokasi_akad        String?   @default("KANTOR PUSAT KOSPE") @db.VarChar(200)
+  wakalah            Int?      @default(0)
+  rek_bank           String?   @db.VarChar(50)
+  rek_no             String?   @db.VarChar(50)
+  rek_an             String?   @db.VarChar(50)
+  status             Int?      @default(0)
+  ttdpengurus        Int
+  ttddireksi         Int
+  ttdadmin           String    @db.VarChar(50)
+  ttdsaksi           String    @db.VarChar(10)
+}
+
+model tb_lembar_lunas {
+  id           Int       @id @default(autoincrement())
+  date_created DateTime? @db.DateTime(0)
+  date         DateTime? @db.Date
+  inputer      Int?
+  no_surat     String?   @db.VarChar(50)
+  no_akad      String?   @db.VarChar(50)
+  nama         String    @db.VarChar(100)
+}
+
+model tb_lembar_ol {
+  id               Int       @id @default(autoincrement())
+  id_pengajuan     Int
+  kode_analisa     Int?
+  created_at       DateTime? @db.DateTime(0)
+  inputer          Int?
+  no_ol            String?   @db.VarChar(50)
+  prihal           String?   @db.VarChar(50)
+  tipe_agunan      Int?
+  jns_asset        String?   @db.VarChar(50)
+  no_shm           String?   @db.VarChar(50)
+  alamat_shm       String?   @db.VarChar(255)
+  pemilik          String?   @db.VarChar(50)
+  jenis            String?   @db.VarChar(50)
+  warna            String?   @db.VarChar(50)
+  tahun            String?   @db.VarChar(50)
+  no_bpkb          String?   @db.VarChar(50)
+  no_polisi        String?   @db.VarChar(50)
+  no_rangka        String?   @db.VarChar(50)
+  no_mesin         String?   @db.VarChar(50)
+  no_emas          String?   @db.VarChar(50)
+  hrg_taksiran     String?   @db.VarChar(50)
+  produk_simpanan  String?   @db.VarChar(50)
+  nilai_simpanan   String?   @db.VarChar(50)
+  nama_led         String?   @db.VarChar(50)
+  alamat_led       String?   @db.VarChar(255)
+  id_hni           String?   @db.VarChar(50)
+  no_ktp           String?   @db.VarChar(50)
+  no_hp            String?   @db.VarChar(50)
+  pangkat_hni      String?   @db.VarChar(50)
+  status_keagenan  String?   @db.VarChar(50)
+  nama_corporate   String?   @db.VarChar(50)
+  alamat_corporate String?   @db.VarChar(255)
+  no_spph          Int
+  pemilik_spph     String    @db.VarChar(225)
+}
+
+model tb_lembar_penawaran {
+  id                 Int       @id @default(autoincrement())
+  kode_analisa       Int?
+  created_at         DateTime? @db.DateTime(0)
+  inputer            Int?
+  hrg_jual           Int?
+  angsuran           Int?
+  admin              Int?
+  dp                 Int?
+  hrg_akhir          Int?
+  asuransi_jiwa      Int?
+  asuransi_kendaraan Int?
+  materai            Int?
+  pengikatan_jaminan Int?
+  notaris            Int?
+  total              Int?
+  registrasi         Int?
+  sp                 Int?
+  sw                 Int?
+  total_simpanan     Int
+}
+
+model tb_media {
+  id_media Int     @id @default(autoincrement())
+  nama     String? @db.VarChar(100)
+  img      String? @db.VarChar(100)
+  id_post  Int?
+}
+
+model tb_menu {
+  id_menu   Int    @id @default(autoincrement())
+  acces     Int
+  nama      String @db.VarChar(50)
+  icon      String @db.VarChar(100)
+  dropdown  Int
+  deep_drop Int
+  parent    Int
+  attr_href String @db.VarChar(100)
+  is_active Int    @default(1)
+  urutan    Int
+  admin     Int
+}
+
+model tb_menu_acces {
+  id_acces Int @id @default(autoincrement())
+  role_id  Int
+  menu_id  Int
+}
+
+model tb_mitra {
+  id_mitra Int    @id @default(autoincrement())
+  img      String @db.VarChar(100)
+  nama     String @db.VarChar(100)
+  link     String @db.VarChar(100)
+}
+
+model tb_pembayaran {
+  id_bayar Int    @id @default(autoincrement())
+  id_kospe String @db.VarChar(50)
+  no_akad  String @db.VarChar(50)
+  jumlah   Int
+}
+
+model tb_pembiayaan {
+  id_pengajuan       Int      @id @default(autoincrement())
+  created_at         DateTime @db.Date
+  updated_at         DateTime @db.Date
+  jns_biaya          String   @db.VarChar(50)
+  pengajuan          String   @db.VarChar(20)
+  nama               String   @db.VarChar(100)
+  ttl                String   @db.VarChar(30)
+  pendidikan         String   @db.VarChar(30)
+  ktp                String   @db.VarChar(30)
+  npwp               String   @db.VarChar(30)
+  sex                String   @db.VarChar(15)
+  alamat_ktp         String   @db.VarChar(255)
+  tlp_rumah          String   @db.VarChar(20)
+  hp                 String   @db.VarChar(20)
+  domisili           String   @db.VarChar(255)
+  lama_tinggal       Int
+  status_rmh         String   @db.VarChar(20)
+  status_kawin       String   @db.VarChar(20)
+  agama              String   @db.VarChar(20)
+  ibu                String   @db.VarChar(100)
+  kerja              String   @db.VarChar(100)
+  pt                 String   @db.VarChar(100)
+  lama_bekerja       Int
+  divisi             String   @db.VarChar(50)
+  atasan             String   @db.VarChar(255)
+  alamat_pt          String   @db.VarChar(255)
+  tlp_pt             String   @db.VarChar(20)
+  ext_pt             String   @db.VarChar(100)
+  hni                String   @db.VarChar(10)
+  nama_istri         String   @db.VarChar(100)
+  ttl_istri          String?  @db.VarChar(50)
+  ktp_istri          String?  @db.VarChar(50)
+  pekerjaan          String   @db.VarChar(100)
+  pt_istri           String   @db.VarChar(100)
+  divisi_istri       String   @db.VarChar(50)
+  lama_bekerja_istri Int
+  tlp_istri          String   @db.VarChar(20)
+  ext_istri          Int
+  penghasilan        BigInt   @default(0)
+  pengahasilan_add   BigInt   @default(0)
+  ket_usaha          String   @db.VarChar(255)
+  penghasilan_istri  BigInt   @default(0)
+  total_penghasilan  BigInt   @default(0)
+  family             Int
+  out_rutin          BigInt   @default(0)
+  hutang             BigInt   @default(0)
+  sisa               BigInt   @default(0)
+  jumlah_dimohon     BigInt   @default(0)
+  tenor              Int
+  bayar_perbulan     BigInt   @default(0)
+  tujuan             String   @db.VarChar(255)
+  dp                 BigInt   @default(0)
+  agunan             String   @db.VarChar(30)
+  status             Int
+  id_kospe           String   @db.VarChar(20)
+  id_hni             String   @db.VarChar(20)
+  pangkat_agen       String   @db.VarChar(20)
+  status_agen        String   @db.VarChar(30)
+  id_led             String   @db.VarChar(20)
+  nama_led           String   @db.VarChar(100)
+  hp_led             String?  @db.VarChar(20)
+  kode_sandi         Int
+  status_proses      Int
+  ao                 String   @db.VarChar(10)
+  ttd_pemohon        String   @db.VarChar(100)
+  ttd_pasangan       String   @db.VarChar(100)
+  rek_pencairan      String   @default("0") @db.VarChar(100)
+}
+
+model tb_pihak_pertama {
+  id      Int     @id @default(autoincrement())
+  nama    String? @db.VarChar(50)
+  alamat  String? @db.VarChar(255)
+  no_ktp  String? @db.VarChar(50)
+  jabatan String? @db.VarChar(50)
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model tb_post {
+  id_post   Int      @id @default(autoincrement())
+  date      DateTime @db.Date
+  judul     String   @db.VarChar(255)
+  isi       String   @db.Text
+  img       String   @default("default.jpg") @db.VarChar(50)
+  slug      String?  @db.VarChar(100)
+  kategori  Int?     @default(1)
+  youtube   String?  @db.VarChar(100)
+  is_active Int      @default(1)
+  code      String   @default("1") @db.VarChar(100)
+}
+
+model tb_post_kategori {
+  id   Int     @id @default(autoincrement())
+  nama String? @db.VarChar(255)
+  slug String? @db.VarChar(255)
+}
+
+model tb_produk {
+  id           Int      @id @default(autoincrement())
+  date_created DateTime @db.DateTime(0)
+  date         DateTime @db.Date
+  inputer      String   @db.VarChar(100)
+  no_rek       String   @db.VarChar(100)
+  id_kospe     String   @db.VarChar(30)
+  kode         String   @db.VarChar(10)
+  nama         String   @db.VarChar(50)
+}
+
+model tb_produk_pembiayaan {
+  id     Int     @id @default(autoincrement())
+  kode   String  @default("0") @db.VarChar(7)
+  produk String? @db.VarChar(50)
+}
+
+model tb_promo {
+  id         Int       @id @default(autoincrement())
+  created_at DateTime  @db.Date
+  inputer    Int       @default(0)
+  kategori   Int       @default(0)
+  is_active  Int       @default(1)
+  judul      String?   @db.VarChar(100)
+  ket        String?   @db.VarChar(1000)
+  img        String?   @db.VarChar(100)
+  start      DateTime? @db.Date
+  end        DateTime? @db.Date
+}
+
+model tb_qa {
+  id       Int       @id @default(autoincrement())
+  date     DateTime? @db.Date
+  judul    String?   @default("0") @db.VarChar(200)
+  isi      String    @default("") @db.VarChar(5000)
+  parent   String?   @default("0") @db.VarChar(1000)
+  dropdown Int?      @default(0)
+  img      String?   @default("0") @db.VarChar(100)
+}
+
+model tb_setting {
+  id        Int     @id @default(autoincrement())
+  nama      String  @db.VarChar(100)
+  url       String  @db.VarChar(100)
+  logo      String  @db.VarChar(100)
+  hp        String  @default("") @db.VarChar(100)
+  keyword   String  @db.VarChar(200)
+  alamat    String  @db.VarChar(200)
+  fb        String  @db.VarChar(100)
+  ig        String  @db.VarChar(100)
+  yt        String? @db.VarChar(100)
+  tema      Int?
+  gmap      String? @db.VarChar(100)
+  deskripsi String? @db.VarChar(200)
+  bahasa    String? @db.VarChar(20)
+  ngrok     String  @db.VarChar(50)
+}
+
+model tb_simpanan {
+  id_simpanan Int      @id @default(autoincrement())
+  program     String   @db.VarChar(50)
+  setor_awal  Int
+  setor_bln   Int
+  id_kospe    String   @db.VarChar(50)
+  tenor       Int
+  nama        String   @db.VarChar(100)
+  ttl         String   @db.VarChar(50)
+  pendidikan  String   @db.VarChar(20)
+  ktp         String   @db.VarChar(30)
+  npwp        String   @db.VarChar(30)
+  sex         String   @db.VarChar(20)
+  alamat_ktp  String   @db.VarChar(225)
+  tlp_rumah   String   @db.VarChar(20)
+  hp          String   @db.VarChar(20)
+  email       String   @db.VarChar(100)
+  domisili    String   @db.VarChar(225)
+  agama       String   @db.VarChar(20)
+  ibu         String   @db.VarChar(225)
+  waris       String   @db.VarChar(225)
+  waris2      String   @db.VarChar(225)
+  created_at  DateTime @db.Date
+}
+
+model tb_slider {
+  id_slider Int      @id @default(autoincrement())
+  urutan    Int
+  nama      String   @db.VarChar(50)
+  img       String   @default("default.jpg") @db.VarChar(100)
+  caption   String   @db.VarChar(100)
+  size      String   @db.VarChar(30)
+  dimensi   String   @db.VarChar(30)
+  date      DateTime @db.Date
+}
+
+model tb_transaksi {
+  id           Int      @id @default(autoincrement())
+  date_created DateTime @db.DateTime(0)
+  date         DateTime @db.Date
+  inputer      Int      @default(0)
+  id_kospe     String   @default("0") @db.VarChar(50)
+  kode         String   @default("0") @db.VarChar(50)
+  debit        Int      @default(0)
+  kredit       Int      @default(0)
+  jumlah       Int      @default(0)
+  kategori     Int      @default(0)
+  ket          String   @db.VarChar(250)
+  norek        String   @db.VarChar(50)
+}
+
+model tb_tujuan {
+  id_tujuan Int    @id @default(autoincrement())
+  nama      String @db.VarChar(50)
+}
+
+model tb_user {
+  id_user      Int      @id @default(autoincrement())
+  nama         String   @db.VarChar(50)
+  email        String   @db.VarChar(50)
+  password     String   @default("admin123") @db.VarChar(50)
+  level        Int      @default(2)
+  is_active    Int      @default(0)
+  date_created DateTime @db.DateTime(0)
+  hp           String   @db.VarChar(50)
+  alamat       String   @db.VarChar(255)
+  token        String   @db.VarChar(100)
+  is_login     Int      @default(0)
+  ip           String   @db.VarChar(100)
+}
+
+model tb_user_menu {
+  id_user Int    @id @default(autoincrement())
+  menu    String @db.VarChar(50)
+}
+
+model tb_wa {
+  id             Int       @id @default(autoincrement())
+  created_at     DateTime? @db.DateTime(0)
+  id_upload      String    @default("") @db.VarChar(50)
+  nama           String    @db.VarChar(50)
+  nocif          String    @default("1") @db.VarChar(50)
+  norek          String?   @db.VarChar(50)
+  msg            String?   @db.Text
+  phone          String?   @db.VarChar(20)
+  img            String?   @db.Text
+  status         Int?      @default(0)
+  jenis          String    @default("simpanan") @db.VarChar(20)
+  setoran        Int       @default(0)
+  setoran_total  Int       @default(0)
+  nokontrak      String    @default("0") @db.VarChar(50)
+  jw             Int       @default(0)
+  tglexp         String    @default("0") @db.VarChar(50)
+  mdawal         BigInt    @default(0)
+  terbayar       BigInt    @default(0)
+  total_angsuran BigInt    @default(0)
+
+  @@index([id], map: "id_wa")
+}
+
+model tema {
+  id       Int     @id @default(autoincrement())
+  nama     String? @db.VarChar(100)
+  link_css String? @db.VarChar(100)
+  link_js  String? @db.VarChar(100)
+  folder   String? @db.VarChar(100)
+  status   Int?    @default(0)
+}
+
+model tipe_agunan {
+  id    Int     @id @default(autoincrement())
+  nama  String? @db.VarChar(50)
+  alias String? @db.VarChar(50)
+}
+
+model unduhan {
+  id         Int       @id @default(autoincrement())
+  created_at DateTime? @db.DateTime(0)
+  judul      String?   @db.VarChar(100)
+  file       String?   @db.VarChar(100)
+  img        String?   @db.VarChar(100)
+  kategori   String?   @db.VarChar(50)
+  is_active  Int?      @default(1)
+}
+
+model users {
+  id                BigInt       @id @default(autoincrement()) @db.UnsignedBigInt
+  name              String       @db.VarChar(255)
+  email             String       @unique(map: "users_email_unique") @db.VarChar(255)
+  email_verified_at DateTime?    @db.Timestamp(0)
+  password          String       @db.VarChar(255)
+  remember_token    String?      @db.VarChar(100)
+  created_at        DateTime?    @db.Timestamp(0)
+  updated_at        DateTime?    @db.Timestamp(0)
+  login_otps        login_otps[]
+}
+
+model villages {
+  id          String    @id @db.Char(10)
+  district_id String    @db.Char(7)
+  name        String    @db.VarChar(255)
+  districts   districts @relation(fields: [district_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "villages_district_id_foreign")
+
+  @@index([district_id], map: "villages_district_id_index")
+}
+
+model webhook {
+  id         Int       @id @default(autoincrement())
+  created_at DateTime? @db.DateTime(0)
+  nocif      String?   @db.VarChar(100)
+  nama       String?   @db.VarChar(100)
+  no         String?   @db.VarChar(50)
+  text       String?   @db.Text
+  msg_id     String?   @db.VarChar(100)
+}

@@ -1,9 +1,60 @@
 <?php
 
 use Livewire\Component;
+use App\Models\BukuTamu;
+use App\Jobs\SendWhatsappJob;
 
 new class extends Component {
-    //
+    public $nama;
+    public $instansi;
+    public $hp;
+    public $referensi;
+    public $catatan;
+    public $tujuan;
+
+    public function submit()
+    {
+        BukuTamu::create([
+            'nama' => $this->nama,
+            'instansi' => $this->instansi,
+            'hp' => $this->hp,
+            'tujuan' => $this->tujuan,
+            'referensi' => $this->referensi,
+            'catatan' => $this->catatan,
+        ]);
+
+        $msg = `Terima kasih telah berkunjung ke KoSPE!
+
+Kami mengapresiasi waktu dan kepercayaan Anda kepada KoSPE.
+
+Sebagai koperasi syariah, KoSPE hadir untuk membantu mengelola dana Anda sesuai prinsip syariah yang amanah, transparan, dan bebas riba.
+
+- Sesuai prinsip syariah
+- Pengelolaan dana yang amanah dan transparan
+- Bagi hasil kompetitif
+- Mendukung pertumbuhan ekonomi anggota
+
+Mari wujudkan pengelolaan keuangan yang lebih tenang, adil, dan berkah bersama KoSPE.
+
+*Ikuti media sosial kami untuk mendapatkan informasi terbaru, edukasi keuangan syariah, serta promo dan program menarik:*
+- Instagram: @kospe.id
+- Facebook: Koperasi Syariah PE
+- TikTok: @kospe.id_
+- YouTube: Koperasi Syariah PE
+
+Terima kasih atas kunjungan Anda. Semoga Allah SWT senantiasa memberikan keberkahan kepada kita semua.
+
+Salam hangat,
+Tim KoSPE
+`;
+
+        $hp = '62' . substr($this->hp, 1);
+        SendWhatsappJob::dispatch($msg, $hp);
+
+        session()->flash('success', 'Buku Tamu berhasil tersimpan ✅');
+        $this->dispatch('pendaftaranBerhasil');
+        $this->reset();
+    }
 };
 ?>
 
@@ -116,11 +167,11 @@ new class extends Component {
                                 pelayanan yang lebih cepat.</p>
                         </div>
 
-                        <form id="guestForm" class="space-y-4">
+                        <form id="guestForm" class="space-y-4" wire:submit="submit">
                             <div>
                                 <label class="block text-sm font-semibold text-gray-700 mb-1">Nama Lengkap <span
                                         class="text-brand-red">*</span></label>
-                                <input type="text" required
+                                <input type="text" required wire:model="nama"
                                     class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-brand-orange/20 focus:border-brand-orange outline-none transition text-sm"
                                     placeholder="Nama Anda">
                             </div>
@@ -128,31 +179,33 @@ new class extends Component {
                             <div>
                                 <label class="block text-sm font-semibold text-gray-700 mb-1">Instansi / Perusahaan
                                     <span class="text-gray-400 font-normal">(Opsional)</span></label>
-                                <input type="text"
+                                <input type="text" wire:model="instansi"
                                     class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-brand-orange/20 focus:border-brand-orange outline-none transition text-sm"
                                     placeholder="Asal instansi/lembaga">
                             </div>
 
-                            <div class="grid grid-cols-2 gap-4">
+                            <div>
                                 <div>
                                     <label class="block text-sm font-semibold text-gray-700 mb-1">Nomor HP/WA <span
                                             class="text-brand-red">*</span></label>
-                                    <input type="tel" required
+                                    <input type="text" required wire:model="hp"
                                         class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-brand-orange/20 focus:border-brand-orange outline-none transition text-sm"
                                         placeholder="0812...">
                                 </div>
+                            </div>
+                            <div>
                                 <div>
-                                    <label class="block text-sm font-semibold text-gray-700 mb-1">Tgl Kunjungan <span
+                                    <label class="block text-sm font-semibold text-gray-700 mb-1">Referensi Dari <span
                                             class="text-brand-red">*</span></label>
-                                    <input type="date" required
-                                        class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-brand-orange/20 focus:border-brand-orange outline-none transition text-sm text-gray-600">
+                                    <input type="text" required wire:model="referensi"
+                                        class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-brand-orange/20 focus:border-brand-orange outline-none transition text-sm">
                                 </div>
                             </div>
 
                             <div>
                                 <label class="block text-sm font-semibold text-gray-700 mb-1">Keperluan Kunjungan <span
                                         class="text-brand-red">*</span></label>
-                                <select required
+                                <select required wire:model="tujuan"
                                     class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-brand-orange/20 focus:border-brand-orange outline-none transition text-sm text-gray-700">
                                     <option value="">Pilih keperluan...</option>
                                     <option value="cs">Layanan Anggota (CS)</option>
@@ -164,7 +217,7 @@ new class extends Component {
 
                             <div>
                                 <label class="block text-sm font-semibold text-gray-700 mb-1">Catatan Tambahan</label>
-                                <textarea rows="2"
+                                <textarea rows="2" wire:model="catatan"
                                     class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-brand-orange/20 focus:border-brand-orange outline-none transition resize-none text-sm"
                                     placeholder="Sampaikan pesan Anda..."></textarea>
                             </div>
@@ -180,4 +233,60 @@ new class extends Component {
             </div>
         </div>
     </section>
+    <div id="successModal"
+        class="fixed inset-0 bg-black/60 z-50 hidden flex items-center justify-center p-4 backdrop-blur-sm">
+        <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full p-8 text-center transform scale-0 transition-transform duration-300"
+            id="modalContent">
+            <div
+                class="w-20 h-20 bg-green-100 text-green-500 rounded-full flex items-center justify-center mx-auto mb-6">
+                <i data-lucide="check-circle" class="w-10 h-10"></i>
+            </div>
+            <h3 class="text-2xl font-bold text-gray-900 mb-2">Buku Tamu Berhasil!</h3>
+            <p class="text-gray-600 mb-8 leading-relaxed">Tim Kami akan segera menghubungi Anda.</p>
+            <div class="flex gap-2">
+                <a href="{{ route('home') }}"
+                    class="block w-full bg-brand-red text-white font-bold py-3 rounded-xl hover:bg-red-700 transition">
+                    Kembali ke Beranda
+                </a>
+                <a href="#" id="close"
+                    class="block w-full text-red-700 font-bold py-3 rounded-xl hover:bg-red-50 transition">
+                    Close
+                </a>
+            </div>
+        </div>
+    </div>
+    @script
+    <script>
+
+        const btn = $(this).find('button[type="submit"]');
+        const originalHtml = btn.html();
+        $wire.on('pendaftaranBerhasil', () => {
+            btn.html(originalHtml).prop('disabled', false);
+            // Show Modal
+            $('#successModal').removeClass('hidden').addClass('flex');
+            setTimeout(() => {
+                $('#modalContent').removeClass('scale-0').addClass('scale-100');
+            }, 50);
+        });
+
+        $('#close').click(function (e) {
+            e.preventDefault()
+            $('#successModal').removeClass('flex').addClass('hidden');
+            setTimeout(() => {
+                $('#modalContent').removeClass('scale-100').addClass('scale-0');
+            }, 50);
+        })
+
+        $('.hid').hide()
+
+        $('#divisi').change(function (e) {
+            let isi = $(this).val()
+            if (isi == 'Marketing') {
+                $('.hid').show()
+            } else {
+                $('.hid').hide()
+            }
+        })
+    </script>
+    @endscript
 </div>

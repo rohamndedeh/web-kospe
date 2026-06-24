@@ -158,7 +158,7 @@ new class extends Component {
                                         </td>
                                         <td class="px-6 py-4"><span
                                                 class="text-brand-orange font-bold">{{ $a->tgllhr }}</span></td>
-                                        <td class="px-6 py-4">{{  \Carbon\Carbon::parse($a->tgllhr)->age }} Tahun</td>
+                                        <td class="px-6 py-4">{{  $a->tgllhr }} Tahun</td>
                                         <td class="px-6 py-4"><span
                                                 class="px-2 py-1 bg-gray-100 dark:bg-gray-600 text-gray-600 dark:text-gray-300 text-xs rounded-full font-medium">Belum
                                                 Dikirim</span></td>

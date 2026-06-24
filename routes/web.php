@@ -39,11 +39,12 @@ Route::get('/izin-pengurus/{id}', [IzinController::class, 'pengurus']);
 Route::group(['middleware' => ['auth']], function () {
   Route::livewire('/dashboard', 'admin.dashboard')->name('dashboard');
   Route::livewire('/reminder', 'admin.reminder')->name('reminder');
-  Route::livewire('/anggota', 'admin')->name('anggota');
+  Route::livewire('/anggota', 'admin.anggota')->name('anggota');
+  Route::livewire('/simpanan', 'admin.simpanan')->name('simpanan');
+  Route::livewire('/pembiayaan', 'admin.pembiayaan')->name('pembiayaan');
 });
 
-Route::livewire('/ref/{nama}', 'home')
-  ->middleware(['affiliate', 'traffic'])->name('affiliate');
+
 
 Route::post('/track-duration', function (Request $request) {
   $url = request('url');
@@ -83,3 +84,6 @@ Route::post('/track-duration', function (Request $request) {
     'status' => $status
   ]);
 });
+
+Route::livewire('/{nama}', 'home')
+  ->middleware(['affiliate', 'traffic'])->name('affiliate');

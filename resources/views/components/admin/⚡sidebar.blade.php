@@ -40,12 +40,28 @@ new class extends Component {
                 <i data-lucide="layout-dashboard" class="w-5 h-5 flex-shrink-0"></i>
                 <span class="nav-text">Dashboard</span>
             </a>
-            <a href="{{ route('anggota') }}" wire:navigate
-                class="{{ request()->routeIs('anggota') ? 'active' : '' }} nav-item flex items-center gap-3 px-3 py-3 rounded-lg text-sm font-medium text-gray-600 dark:text-gray-400 transition group"
-                title="Anggota">
-                <i data-lucide="users" class="w-5 h-5 flex-shrink-0"></i>
-                <span class="nav-text">Data Anggota</span>
-            </a>
+            <div class="menu-group {{ request()->routeIs('anggota', 'simpanan', 'pembiayaan') ? 'open' : '' }}">
+                <button
+                    class="nav-item flex items-center justify-between w-full gap-3 px-3 py-3 rounded-lg text-sm font-medium text-gray-600 dark:text-gray-400 transition group submenu-toggle">
+                    <div class="flex items-center gap-3">
+                        <i data-lucide="users" class="w-5 h-5 flex-shrink-0"></i>
+                        <span class="nav-text">Data Master</span>
+                    </div>
+                    <i data-lucide="chevron-down" class="w-4 h-4 nav-arrow transition-transform duration-200"></i>
+                </button>
+                <div class="submenu pl-10 space-y-1 mt-1">
+                    <a href="{{ route('anggota') }}" wire:navigate
+                        class="{{ request()->routeIs('anggota') ? 'active' : '' }} nav-item block py-2 text-sm text-gray-500 dark:text-gray-400 hover:text-brand-red dark:hover:text-brand-red transition">Data
+                        Anggota</a>
+                    <a href="{{ route('simpanan') }}" wire:navigate
+                        class="{{ request()->routeIs('simpanan') ? 'active' : '' }} nav-item block py-2 text-sm text-gray-500 dark:text-gray-400 hover:text-brand-red dark:hover:text-brand-red transition">Data
+                        Simpanan</a>
+                    <a href="{{ route('pembiayaan') }}" wire:navigate
+                        class="{{ request()->routeIs('pembiayaan') ? 'active' : '' }} nav-item block py-2 text-sm text-gray-500 dark:text-gray-400 hover:text-brand-red dark:hover:text-brand-red transition">Data
+                        Pembiayaan</a>
+                </div>
+            </div>
+
             <a href="{{ route('reminder') }}" wire:navigate
                 class="{{ request()->routeIs('reminder') ? 'active' : '' }} nav-item flex items-center gap-3 px-3 py-3 rounded-lg text-sm font-medium text-gray-600 dark:text-gray-400 transition group"
                 title="Reminder">
