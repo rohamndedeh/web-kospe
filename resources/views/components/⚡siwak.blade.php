@@ -277,43 +277,12 @@ new class extends Component {
 
                     <!-- E-Money Card Visual (CSS Based) -->
                     <div
-                        class="relative w-[320px] h-[200px] bg-gradient-to-br from-yellow-300 via-yellow-500 to-yellow-700 rounded-2xl shadow-2xl transform rotate-6 border border-yellow-200 overflow-hidden group hover:rotate-0 transition duration-500 cursor-pointer">
-                        <div class="absolute inset-0 opacity-20"
-                            style="background-image: url('data:image/svg+xml,%3Csvg width=\'20\' height=\'20\' viewBox=\'0 0 20 20\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'%23000000\' fill-opacity=\'1\' fill-rule=\'evenodd\'%3E%3Ccircle cx=\'3\' cy=\'3\' r=\'3\'/%3E%3Ccircle cx=\'13\' cy=\'13\' r=\'3\'/%3E%3C/g%3E%3C/svg%3E');">
-                        </div>
-
-                        <div class="absolute top-5 left-5 flex items-center gap-2">
-                            <div
-                                class="w-8 h-8 bg-white/20 backdrop-blur rounded flex items-center justify-center text-yellow-900 font-black text-lg">
-                                K</div>
-                            <span class="text-yellow-900 font-bold text-sm">KOSPE</span>
-                        </div>
-
-                        <div
-                            class="absolute top-5 right-5 flex items-center gap-2 bg-white/30 backdrop-blur-sm px-2 py-1 rounded">
-                            <span class="text-[10px] font-bold text-yellow-900 uppercase tracking-widest">e-money</span>
-                        </div>
-
-                        <!-- Chip -->
-                        <div
-                            class="absolute top-1/2 left-5 transform -translate-y-1/2 w-12 h-9 bg-gradient-to-br from-yellow-100 to-yellow-400 rounded border border-yellow-600/30 flex items-center justify-center">
-                            <div class="w-8 h-5 border border-yellow-600/20 rounded-sm"></div>
-                        </div>
-
-                        <div class="absolute bottom-5 left-5 right-5">
-                            <p class="text-xs text-yellow-900 font-mono opacity-90 mb-0.5 font-bold">Simpanan Wajib
-                                Khusus</p>
-                            <p class="text-xl text-yellow-900 font-mono tracking-widest font-black drop-shadow-sm">1420
-                                1000 08XX</p>
-                            <div class="flex justify-between items-end mt-1">
-                                <p class="text-sm font-bold text-yellow-900 uppercase">Member Eksklusif</p>
-                                <p class="text-[10px] font-black text-yellow-900 italic">MANDIRI</p>
-                            </div>
-                        </div>
+                        class="relative w-[320px]  bg-gradient-to-br from-yellow-300 via-yellow-500 to-yellow-700 rounded-2xl shadow-2xl transform rotate-6 border border-yellow-200 overflow-hidden group hover:rotate-0 transition duration-500 cursor-pointer">
+                        <img src="/kartu-siwak.jpg" alt="">
                     </div>
 
                     <!-- Context Image (Hidden on very small screens) -->
-                    <img src="https://awsimages.detik.net.id/community/media/visual/2017/10/30/9bebca02-5116-4f48-8eb9-e4ab72e745af_169.jpg?w=600&q=90"
+                    <img src="https://www.qoala.app/id/blog/wp-content/uploads/2021/10/e-money-mandiri.jpg"
                         class="absolute -bottom-12 -left-8 w-48 h-48 object-cover rounded-2xl shadow-xl border-4 border-white transform -rotate-12 hidden md:block group-hover:scale-105 transition duration-500"
                         alt="Belanja dengan E-Money">
                 </div>
@@ -542,89 +511,30 @@ new class extends Component {
         </div>
     </section>
 
-    <livewire:footer-mitra />
-
 </div>
 @push('scripts')
-    <script>
-        function formatIDR(angka) {
-            let number_string = angka.replace(/[^,\d]/g, '').toString(),
-                split = number_string.split(','),
-                sisa = split[0].length % 3,
-                rupiah = split[0].substr(0, sisa),
-                ribuan = split[0].substr(sisa).match(/\d{3}/gi);
-
-            if (ribuan) {
-                let separator = sisa ? '.' : '';
-                rupiah += separator + ribuan.join('.');
+    <script> function formatIDR(angka) { let number_string=angka.replace(/[^,\d]/g, '' ).toString(),
+        split=number_string.split(','), sisa=split[0].length % 3, rupiah=split[0].substr(0, sisa),
+        ribuan=split[0].substr(sisa).match(/\d{3}/gi); if (ribuan) { let separator=sisa ? '.' : '' ; rupiah +=separator +
+        ribuan.join('.'); } return rupiah=split[1] !=undefined ? rupiah + ',' + split[1] : rupiah; } // --- SIWAK Calculator
+        Logic --- const RATE_PA=7.56; // 7.56% per tahun const MIN_DEPOSIT=1000000; const
+        inputNominal=$('#input-nominal-siwak'); const errorMsg=$('#error-msg-siwak'); const
+        resMonthly=$('#result-monthly-siwak'); const resYearly=$('#result-yearly-siwak'); // Format input while typing
+        inputNominal.on('keyup', function (e) { let val=$(this).val(); $(this).val(formatIDR(val)); calculateProfit(); });
+        function calculateProfit() { // Hapus titik untuk kalkulasi let rawValue=inputNominal.val().replace(/\./g, '' ); let
+        nominal=parseInt(rawValue) || 0; if (nominal < MIN_DEPOSIT) { errorMsg.removeClass('hidden'); resMonthly.text('Rp
+        0'); resYearly.text('Rp 0'); return; } else { errorMsg.addClass('hidden'); } // Kalkulasi const yearlyProfit=nominal
+        * (RATE_PA / 100); const monthlyProfit=yearlyProfit / 12; resMonthly.text('Rp ' + formatIDR(Math.round(monthlyProfit).toString()));
+                resYearly.text(' Rp ' + formatIDR(Math.round(yearlyProfit).toString()));
             }
-            return rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
-        }
 
-        // --- SIWAK Calculator Logic ---
-        const RATE_PA = 7.56; // 7.56% per tahun
-        const MIN_DEPOSIT = 1000000;
-
-        const inputNominal = $('#input-nominal-siwak');
-        const errorMsg = $('#error-msg-siwak');
-        const resMonthly = $('#result-monthly-siwak');
-        const resYearly = $('#result-yearly-siwak');
-
-        // Format input while typing
-        inputNominal.on('keyup', function (e) {
-            let val = $(this).val();
-            $(this).val(formatIDR(val));
+            // Initial Calc
             calculateProfit();
-        });
 
-        function calculateProfit() {
-            // Hapus titik untuk kalkulasi
-            let rawValue = inputNominal.val().replace(/\./g, '');
-            let nominal = parseInt(rawValue) || 0;
-
-            if (nominal < MIN_DEPOSIT) {
-                errorMsg.removeClass('hidden');
-                resMonthly.text('Rp 0');
-                resYearly.text('Rp 0');
-                return;
-            } else {
-                errorMsg.addClass('hidden');
-            }
-
-            // Kalkulasi
-            const yearlyProfit = nominal * (RATE_PA / 100);
-            const monthlyProfit = yearlyProfit / 12;
-
-            resMonthly.text('Rp ' + formatIDR(Math.round(monthlyProfit).toString()));
-            resYearly.text('Rp ' + formatIDR(Math.round(yearlyProfit).toString()));
-        }
-
-        // Initial Calc
-        calculateProfit();
-
-        // --- Swiper Testimoni ---
-        try {
-            if (typeof Swiper !== 'undefined') {
-                new Swiper(".testiSiwakSwiper", {
-                    slidesPerView: 1,
-                    spaceBetween: 30,
-                    loop: true,
-                    autoplay: {
-                        delay: 5000,
-                        disableOnInteraction: false,
-                    },
-                    navigation: {
-                        nextEl: ".swiper-btn-next-testi",
-                        prevEl: ".swiper-btn-prev-testi",
-                    },
-                    breakpoints: {
-                        768: { slidesPerView: 2 },
-                        1024: { slidesPerView: 2.5 },
-                    },
-                });
-            }
-        } catch (e) {
-            console.error("Swiper Error:", e);
-        }
-    </script>
+            // --- Swiper Testimoni ---
+            try {
+                if (typeof Swiper !== ' undefined') { new Swiper(".testiSiwakSwiper", { slidesPerView: 1, spaceBetween: 30,
+        loop: true, autoplay: { delay: 5000, disableOnInteraction: false, }, navigation: { nextEl: ".swiper-btn-next-testi"
+        , prevEl: ".swiper-btn-prev-testi" , }, breakpoints: { 768: { slidesPerView: 2 }, 1024: { slidesPerView: 2.5 }, },
+        }); } } catch (e) { console.error("Swiper Error:", e); } </script>
 @endpush

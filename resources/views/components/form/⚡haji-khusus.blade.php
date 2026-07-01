@@ -2,16 +2,170 @@
 
 use Livewire\Component;
 use App\Models\Agen;
+use App\Models\HajiKhusus;
+use Livewire\WithFileUploads;
 
 new class extends Component {
+    use WithFileUploads;
+    public $pengajuan;
     public $marketing;
+    public $id_kospe;
     public $wa_marketing;
+    public $nama;
+    public $noktp;
+    public $jk;
+    public $tempatLhr;
+    public $tglLhr;
+    public $alamat;
+    public $ktp_kp;
+    public $ktp_desa;
+    public $ktp_kec;
+    public $ktp_kota;
+    public $ktp_prop;
+    public $hp;
+    public $email;
+    public $pendidikan;
+    public $status;
+    public $pekerjaan;
+    public $statusRumah;
+    public $lamaTinggal;
+    public $domisili;
+    public $ibu;
+    public $setoran;
+    public $ktp;
+    public $tf;
+    public $namaAhliWaris;
+    public $hpAhliWaris;
+    public $hubAhliWaris;
+    public $pasangan;
+    public $kerjaPasangan;
+    public $hpPasangan;
+    public $namaPT;
+    public $lamaBekerja;
+    public $divisi;
+    public $atasan;
+    public $hpPT;
+    public $penghasilan;
+    public $penghasilanAdd;
+    public $usaha;
+    public $penghasilanIstri;
+    public $totalPenghasilan;
+    public $jmlAnak;
+    public $pengeluaran;
+    public $angsuran;
+    public $sisa;
+    public $jumlahDimohon;
+    public $jkw;
+    public $kemampuan;
+    public $snk;
+    public $signature = '';
+    public $signature2 = '';
 
     public function mount($nama = null)
     {
         $agen = Agen::where('kode', $nama)->first();
         $this->marketing = session('marketing', $agen ? $agen->nama : 'CRM KOSPE');
         $this->wa_marketing = session('wa_marketing', $agen ? $agen->hp : '628118807177');
+    }
+
+    protected $rules = [
+        'nama' => 'required',
+        'noktp' => 'required',
+        'email' => 'required|email',
+        'alamat' => 'required',
+        'hp' => 'required|unique:anggota,hp',
+        'setoran' => 'required',
+        'ibu' => 'required',
+        'ktp' => 'required|image|max:2048',
+        'bukti_transfer' => 'required|image|max:2048',
+    ];
+
+    public function submit()
+    {
+        $this->validate();
+
+        // Upload file
+        $ktpName = Str::uuid() . '.' . $this->ktp->getClientOriginalExtension();
+        $transferName = Str::uuid() . '.' . $this->bukti_transfer->getClientOriginalExtension();
+
+        $this->ktp->storeAs('anggota/ktp', $ktpName, 'public');
+        $this->bukti_transfer->storeAs('anggota/transfer', $transferName, 'public');
+
+        $image = str_replace('data:image/png;base64,', '', $this->signature);
+        $image = str_replace(' ', '+', $image);
+
+        $filename = 'signature_' . time() . '.png';
+
+        Storage::disk('public')->put(
+            'signatures/' . $filename,
+            base64_decode($image)
+        );
+
+        $image2 = str_replace('data:image/png;base64,', '', $this->signature2);
+        $image2 = str_replace(' ', '+', $image2);
+
+        $filename2 = 'signature_' . time() . '.png';
+
+        Storage::disk('public')->put(
+            'signatures/' . $filename2,
+            base64_decode($image)
+        );
+
+        // Simpan anggota
+        HajiKhusus::create([
+            'id_agen' => session('id_agen') ?? '115',
+            'id_marketing' => session('id_marketing') ?? '0',
+            'nama' => $this->nama,
+            'ktp' => $this->noktp,
+            'sex' => $this->jk,
+            'tempat_lhr' => $this->tempatLhr,
+            'ttl' => $this->ttl,
+            'alamat' => $this->alamat,
+            'ktp_kp' => $this->ktp_kp,
+            'ktp_kec' => $this->ktp_kec,
+            'ktp_desa' => $this->ktp_desa,
+            'ktp_kota' => $this->ktp_kota,
+            'ktp_prop' => $this->ktp_prop,
+            'hp' => $this->hp,
+            'email' => $this->email,
+            'pendidikan' => $this->pendidikan,
+            'status' => $this->status,
+            'pekerjaan' => $this->pekerjaan,
+            'status_rumah' => $this->status_rumah,
+            'domisili' => $this->domisili,
+            'ibu' => $this->ibu,
+            'setoran' => $this->setoran,
+            'img_ktp' => $ktpName,
+            'img_tf' => $transferName,
+            'waris_nama' => $this->ahliWaris,
+            'waris_hub' => $this->hubAhliWaris,
+            'waris_hp' => $this->hpAhliWaris,
+            'pt' => $this->pt,
+            'lama_bekerja' => $this->lama_bekerja,
+            'divisi' => $this->divisi,
+            'atasa' => $this->atasa,
+            'alamat_pt' => $this->alamat_pt,
+            'tlp_pt' => $this->tlp_pt,
+            'penghasilan' => $this->penghasilan,
+            'penghasilan_add' => $this->penghasilan_add,
+            'ket_usaha' => $this->ket_usaha,
+            'penghasilan_istri' => $this->penghasilan_istri,
+            'penghasilan_total' => $this->penghasilan_total,
+            'jml_anak' => $this->jml_anak,
+            'pengeluran' => $this->pengeluran,
+            'angsuran' => $this->angsuran,
+            'siwa' => $this->siwa,
+            'tujuan' => 'PENDAFTARAN HAJI',
+            'jml_dimohon' => $this->jml_dimohon,
+            'jkw' => $this->jkw,
+            'kemampuan' => $this->kemampuan,
+            'ttd' => $this->signature,
+            'ttd_istri' => $this->signature2,
+        ]);
+
+        session()->flash('success', 'Pendaftaran berhasil ✅');
+        $this->dispatch('pendaftaranBerhasil');
+        $this->reset();
     }
 
     public function render()
@@ -29,10 +183,10 @@ new class extends Component {
 <div>
     <div class="bg-gray-900 text-white py-14 relative overflow-hidden">
         <div class="absolute inset-0">
-            <img src="https://images.unsplash.com/photo-1591815302813-f6671ec44e39?q=80&w=1200&auto=format&fit=crop"
-                class="w-full h-full object-cover opacity-30 mix-blend-overlay" alt="Kaaba">
+            <img src="https://cdn.kemenag.go.id/storage/posts/16_9/big/1687015404.png"
+                class="w-full h-full object-cover  mix-blend-overlay" alt="Kaaba">
         </div>
-        <div class="absolute inset-0 bg-gradient-to-r from-gray-900 via-gray-900/90 to-transparent"></div>
+        <div class="absolute inset-0 bg-gradient-to-r from-gray-900  to-transparent"></div>
         <div
             class="absolute top-0 right-0 w-64 h-64 bg-brand-gold rounded-full mix-blend-screen filter blur-3xl opacity-20 -translate-y-1/2 translate-x-1/3">
         </div>
@@ -43,7 +197,7 @@ new class extends Component {
                 <span
                     class="inline-block py-1 px-3 rounded-full bg-brand-gold/20 border border-brand-gold text-brand-gold text-xs font-bold uppercase tracking-widest mb-3">Pendaftaran
                     Program</span>
-                <h1 class="text-3xl md:text-5xl font-bold mb-2 text-white">Haji Khusus (ONH Plus)</h1>
+                <h1 class="text-3xl md:text-5xl font-bold mb-2 text-white">Program Haji Khusus</h1>
                 <p class="text-gray-300 text-sm md:text-base max-w-xl leading-relaxed">Lengkapi formulir di bawah ini
                     untuk
                     memulai langkah suci Anda menuju Baitullah bersama KOSPE dan travel rekanan resmi Kemenag.</p>
@@ -70,41 +224,40 @@ new class extends Component {
                             <div>
                                 <label class="block text-sm font-semibold text-gray-700 mb-1">Nama Lengkap <span
                                         class="text-brand-red">*</span></label>
-                                <input type="text" required
-                                    class="w-full px-4 py-2.5 bg-gray-50 border border-gray-300 rounded-xl focus:bg-white focus:ring-2 focus:ring-brand-gold/50 focus:border-brand-gold outline-none transition text-sm"
-                                    placeholder="Sesuai KTP / Paspor">
+                                <input type="text" required wire:model="nama"
+                                    class="w-full px-4 py-2.5 bg-gray-50 border border-gray-300 rounded-xl focus:bg-white focus:ring-2 focus:ring-brand-gold/50 focus:border-brand-gold outline-none transition text-sm">
                             </div>
                             <div>
                                 <label class="block text-sm font-semibold text-gray-700 mb-1">NIK (Nomor KTP) <span
                                         class="text-brand-red">*</span></label>
-                                <input type="number" required
+                                <input type="number" required wire:model="ktp"
                                     class="w-full px-4 py-2.5 bg-gray-50 border border-gray-300 rounded-xl focus:bg-white focus:ring-2 focus:ring-brand-gold/50 focus:border-brand-gold outline-none transition text-sm"
                                     placeholder="16 Digit NIK">
                             </div>
                             <div>
                                 <label class="block text-sm font-semibold text-gray-700 mb-1">Tempat Lahir <span
                                         class="text-brand-red">*</span></label>
-                                <input type="text" required
+                                <input type="text" required wire:model="tempat_lhr"
                                     class="w-full px-4 py-2.5 bg-gray-50 border border-gray-300 rounded-xl focus:bg-white focus:ring-2 focus:ring-brand-gold/50 focus:border-brand-gold outline-none transition text-sm"
                                     placeholder="Kota kelahiran">
                             </div>
                             <div>
                                 <label class="block text-sm font-semibold text-gray-700 mb-1">Tanggal Lahir <span
                                         class="text-brand-red">*</span></label>
-                                <input type="date" required
+                                <input type="date" required wire:model="tgl_lhr "
                                     class="w-full px-4 py-2.5 bg-gray-50 border border-gray-300 rounded-xl focus:bg-white focus:ring-2 focus:ring-brand-gold/50 focus:border-brand-gold outline-none transition text-sm text-gray-600">
                             </div>
                             <div>
                                 <label class="block text-sm font-semibold text-gray-700 mb-1">Pekerjaan <span
                                         class="text-brand-red">*</span></label>
-                                <input type="text" required
+                                <input type="text" required wire:model="pekerjaan"
                                     class="w-full px-4 py-2.5 bg-gray-50 border border-gray-300 rounded-xl focus:bg-white focus:ring-2 focus:ring-brand-gold/50 focus:border-brand-gold outline-none transition text-sm"
                                     placeholder="Contoh: Wiraswasta / PNS">
                             </div>
                             <div>
                                 <label class="block text-sm font-semibold text-gray-700 mb-1">Status Pernikahan <span
                                         class="text-brand-red">*</span></label>
-                                <select required id="status-pernikahan"
+                                <select required id="status-pernikahan" wire:model="status"
                                     class="w-full px-4 py-2.5 bg-gray-50 border border-gray-300 rounded-xl focus:bg-white focus:ring-2 focus:ring-brand-gold/50 focus:border-brand-gold outline-none transition text-sm text-gray-700">
                                     <option value="belum_menikah">Belum Menikah</option>
                                     <option value="menikah">Menikah</option>
@@ -117,14 +270,14 @@ new class extends Component {
                             <div>
                                 <label class="block text-sm font-semibold text-gray-700 mb-1">Nomor HP / WA <span
                                         class="text-brand-red">*</span></label>
-                                <input type="tel" required
+                                <input type="tel" required wire:model="hp"
                                     class="w-full px-4 py-2.5 bg-gray-50 border border-gray-300 rounded-xl focus:bg-white focus:ring-2 focus:ring-brand-gold/50 focus:border-brand-gold outline-none transition text-sm"
                                     placeholder="0812...">
                             </div>
                             <div>
                                 <label class="block text-sm font-semibold text-gray-700 mb-1">Email <span
                                         class="text-brand-red">*</span></label>
-                                <input type="email" required
+                                <input type="email" required wire:model="email"
                                     class="w-full px-4 py-2.5 bg-gray-50 border border-gray-300 rounded-xl focus:bg-white focus:ring-2 focus:ring-brand-gold/50 focus:border-brand-gold outline-none transition text-sm"
                                     placeholder="email@anda.com">
                             </div>
@@ -133,9 +286,174 @@ new class extends Component {
                         <div>
                             <label class="block text-sm font-semibold text-gray-700 mb-1">Alamat Lengkap <span
                                     class="text-brand-red">*</span></label>
-                            <textarea required rows="3"
+                            <textarea required rows="3" wire:model="alamat"
                                 class="w-full px-4 py-2.5 bg-gray-50 border border-gray-300 rounded-xl focus:bg-white focus:ring-2 focus:ring-brand-gold/50 focus:border-brand-gold outline-none transition text-sm resize-none"
                                 placeholder="Alamat sesuai KTP (Nama jalan, RT/RW, Kec, Kota/Kab)"></textarea>
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-gray-200">
+                        <h2
+                            class="text-lg font-bold text-gray-800 mb-6 flex items-center gap-2 border-b border-gray-100 pb-3">
+                            <div class="p-1.5 bg-gray-100 text-gray-600 rounded-lg"><i data-lucide="users"
+                                    class="w-5 h-5"></i></div>
+                            Data Keluarga
+                        </h2>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">Nama Ibu Kandung <span
+                                        class="text-brand-red">*</span></label>
+                                <input type="text" required wire:model="ibu"
+                                    class="w-full px-4 py-2.5 bg-gray-50 border border-gray-300 rounded-xl focus:bg-white focus:ring-2 focus:ring-brand-gold/50 focus:border-brand-gold outline-none transition text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">Nama Pasangan <span
+                                        class="text-brand-red">*</span></label>
+                                <input type="text" required wire:model="nama_istri"
+                                    class="w-full px-4 py-2.5 bg-gray-50 border border-gray-300 rounded-xl focus:bg-white focus:ring-2 focus:ring-brand-gold/50 focus:border-brand-gold outline-none transition text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">Pekerjaan Pasangan <span
+                                        class="text-brand-red">*</span></label>
+                                <input type="text" required wire:model="nama"
+                                    class="w-full px-4 py-2.5 bg-gray-50 border border-gray-300 rounded-xl focus:bg-white focus:ring-2 focus:ring-brand-gold/50 focus:border-brand-gold outline-none transition text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">No HP/WA Aktif
+                                    Pasangan<span class="text-brand-red">*</span></label>
+                                <input type="text" required
+                                    class="w-full px-4 py-2.5 bg-gray-50 border border-gray-300 rounded-xl focus:bg-white focus:ring-2 focus:ring-brand-gold/50 focus:border-brand-gold outline-none transition text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">Nama Ahli Waris <span
+                                        class="text-brand-red">*</span></label>
+                                <input type="text" required
+                                    class="w-full px-4 py-2.5 bg-gray-50 border border-gray-300 rounded-xl focus:bg-white focus:ring-2 focus:ring-brand-gold/50 focus:border-brand-gold outline-none transition text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">Hubungan Ahli Waris <span
+                                        class="text-brand-red">*</span></label>
+                                <input type="text" required
+                                    class="w-full px-4 py-2.5 bg-gray-50 border border-gray-300 rounded-xl focus:bg-white focus:ring-2 focus:ring-brand-gold/50 focus:border-brand-gold outline-none transition text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">No HP/WA Ahli Waris <span
+                                        class="text-brand-red">*</span></label>
+                                <input type="text" required
+                                    class="w-full px-4 py-2.5 bg-gray-50 border border-gray-300 rounded-xl focus:bg-white focus:ring-2 focus:ring-brand-gold/50 focus:border-brand-gold outline-none transition text-sm">
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-gray-200">
+                        <h2
+                            class="text-lg font-bold text-gray-800 mb-6 flex items-center gap-2 border-b border-gray-100 pb-3">
+                            <div class="p-1.5 bg-gray-100 text-gray-600 rounded-lg"><i data-lucide="building"
+                                    class="w-5 h-5"></i></div>
+                            Data Pekerjaan Pemohon
+                        </h2>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">Nama
+                                    Instansi/Perusahaan<span class="text-brand-red">*</span></label>
+                                <input type="text" required
+                                    class="w-full px-4 py-2.5 bg-gray-50 border border-gray-300 rounded-xl focus:bg-white focus:ring-2 focus:ring-brand-gold/50 focus:border-brand-gold outline-none transition text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">Lama Bekerja <span
+                                        class="text-brand-red">*</span></label>
+                                <input type="text" required
+                                    class="w-full px-4 py-2.5 bg-gray-50 border border-gray-300 rounded-xl focus:bg-white focus:ring-2 focus:ring-brand-gold/50 focus:border-brand-gold outline-none transition text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">Jabatan/Divisi <span
+                                        class="text-brand-red">*</span></label>
+                                <input type="text" required
+                                    class="w-full px-4 py-2.5 bg-gray-50 border border-gray-300 rounded-xl focus:bg-white focus:ring-2 focus:ring-brand-gold/50 focus:border-brand-gold outline-none transition text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">Nama Atasan Langsung
+                                    <span class="text-brand-red">*</span></label>
+                                <input type="text" required
+                                    class="w-full px-4 py-2.5 bg-gray-50 border border-gray-300 rounded-xl focus:bg-white focus:ring-2 focus:ring-brand-gold/50 focus:border-brand-gold outline-none transition text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">Alamat Instansi/Perusahaan
+                                    <span class="text-brand-red">*</span></label>
+                                <input type="text" required
+                                    class="w-full px-4 py-2.5 bg-gray-50 border border-gray-300 rounded-xl focus:bg-white focus:ring-2 focus:ring-brand-gold/50 focus:border-brand-gold outline-none transition text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">Tlp/Hp Instansi <span
+                                        class="text-brand-red">*</span></label>
+                                <input type="text" required
+                                    class="w-full px-4 py-2.5 bg-gray-50 border border-gray-300 rounded-xl focus:bg-white focus:ring-2 focus:ring-brand-gold/50 focus:border-brand-gold outline-none transition text-sm">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-gray-200">
+                        <h2
+                            class="text-lg font-bold text-gray-800 mb-6 flex items-center gap-2 border-b border-gray-100 pb-3">
+                            <div class="p-1.5 bg-gray-100 text-gray-600 rounded-lg"><i data-lucide="banknote"
+                                    class="w-5 h-5"></i></div>
+                            Data Penghasilan Pemohon
+                        </h2>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">Penghasilan Pemohon<span
+                                        class="text-brand-red">*</span></label>
+                                <input type="number" required
+                                    class="w-full px-4 py-2.5 bg-gray-50 border border-gray-300 rounded-xl focus:bg-white focus:ring-2 focus:ring-brand-gold/50 focus:border-brand-gold outline-none transition text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">Penghasilan Tambahan <span
+                                        class="text-brand-red">*</span></label>
+                                <input type="number" required
+                                    class="w-full px-4 py-2.5 bg-gray-50 border border-gray-300 rounded-xl focus:bg-white focus:ring-2 focus:ring-brand-gold/50 focus:border-brand-gold outline-none transition text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">Keterangan Usaha <span
+                                        class="text-brand-red">*</span></label>
+                                <input type="text" required
+                                    class="w-full px-4 py-2.5 bg-gray-50 border border-gray-300 rounded-xl focus:bg-white focus:ring-2 focus:ring-brand-gold/50 focus:border-brand-gold outline-none transition text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">Penghasilan Suami/Istri
+                                    <span class="text-brand-red">*</span></label>
+                                <input type="number" required
+                                    class="w-full px-4 py-2.5 bg-gray-50 border border-gray-300 rounded-xl focus:bg-white focus:ring-2 focus:ring-brand-gold/50 focus:border-brand-gold outline-none transition text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">Total Penghasilan
+                                    <span class="text-brand-red">*</span></label>
+                                <input type="number" required
+                                    class="w-full px-4 py-2.5 bg-gray-50 border border-gray-300 rounded-xl focus:bg-white focus:ring-2 focus:ring-brand-gold/50 focus:border-brand-gold outline-none transition text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">Jumlah anak <span
+                                        class="text-brand-red">*</span></label>
+                                <input type="number" required
+                                    class="w-full px-4 py-2.5 bg-gray-50 border border-gray-300 rounded-xl focus:bg-white focus:ring-2 focus:ring-brand-gold/50 focus:border-brand-gold outline-none transition text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">Pengeluaran Rutin <span
+                                        class="text-brand-red">*</span></label>
+                                <input type="number" required
+                                    class="w-full px-4 py-2.5 bg-gray-50 border border-gray-300 rounded-xl focus:bg-white focus:ring-2 focus:ring-brand-gold/50 focus:border-brand-gold outline-none transition text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">Angsuran di tempat lain
+                                    <span class="text-brand-red">*</span></label>
+                                <input type="number" required
+                                    class="w-full px-4 py-2.5 bg-gray-50 border border-gray-300 rounded-xl focus:bg-white focus:ring-2 focus:ring-brand-gold/50 focus:border-brand-gold outline-none transition text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">Sisa Penghasilan
+                                    <span class="text-brand-red">*</span></label>
+                                <input type="number" required
+                                    class="w-full px-4 py-2.5 bg-gray-50 border border-gray-300 rounded-xl focus:bg-white focus:ring-2 focus:ring-brand-gold/50 focus:border-brand-gold outline-none transition text-sm">
+                            </div>
                         </div>
                     </div>
 
@@ -147,7 +465,21 @@ new class extends Component {
                                     class="w-5 h-5"></i></div>
                             Skema Pembiayaan & Tenor
                         </h2>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">Jumlah yang di mohon<span
+                                        class="text-brand-red">*</span></label>
+                                <input type="number" required
+                                    class="w-full px-4 py-2.5 bg-gray-50 border border-gray-300 rounded-xl focus:bg-white focus:ring-2 focus:ring-brand-gold/50 focus:border-brand-gold outline-none transition text-sm">
+                            </div>
 
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">Kemampuan Mengangsur
+                                    /bulan <span class="text-brand-red">*</span></label>
+                                <input type="number" required
+                                    class="w-full px-4 py-2.5 bg-gray-50 border border-gray-300 rounded-xl focus:bg-white focus:ring-2 focus:ring-brand-gold/50 focus:border-brand-gold outline-none transition text-sm">
+                            </div>
+                        </div>
                         <div class="bg-gray-50 p-5 rounded-xl border border-gray-200 mb-6">
                             <p class="text-sm text-gray-600 mb-3">Estimasi sisa pembiayaan yang harus diangsur setelah
                                 pembayaran Uang Muka (DP) Rp 20.000.000,-. Pilih jangka waktu pelunasan yang Anda
@@ -318,17 +650,63 @@ new class extends Component {
                                     Rekening:</p>
                                 <div
                                     class="flex items-center gap-3 bg-white p-3 rounded-lg border border-yellow-100 shadow-sm mb-3">
-                                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Bank_Syariah_Indonesia.svg/512px-Bank_Syariah_Indonesia.svg.png"
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Bank_Syariah_Indonesia.svg/960px-Bank_Syariah_Indonesia.svg.png"
                                         class="h-5" alt="BSI">
                                     <div>
-                                        <p class="font-mono font-bold text-gray-800">7123 4567 89</p>
-                                        <p class="text-[10px] text-gray-500">a.n KSP KOSPE Pusat (Haji Khusus)</p>
+                                        <p class="font-mono font-bold text-gray-800">77777 000 43</p>
+                                        <p class="text-[10px] text-gray-500">a.n KoSPE</p>
                                     </div>
                                 </div>
                                 <p class="text-xs text-yellow-700 leading-relaxed italic">*Pastikan nominal transfer
                                     sesuai
                                     agar mempercepat proses validasi porsi Haji Anda.</p>
                             </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-gray-200">
+                        <h2
+                            class="text-lg font-bold text-gray-800 mb-6 flex items-center gap-2 border-b border-gray-100 pb-3">
+                            <div class="p-1.5 bg-green-50 text-green-600 rounded-lg"><i data-lucide="signature"
+                                    class="w-5 h-5"></i></div>
+                            Tanda tangan digital
+                        </h2>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">TTD Pemohon
+                                    <span class="text-brand-red">*</span></label>
+                                <div wire:ignore>
+                                    <canvas id="signature-pad" width="600" height="300"
+                                        class="w-full border rounded-lg bg-white">
+                                    </canvas>
+
+                                    <div class="mt-2 flex gap-2">
+                                        <button type="button" id="clear-signature"
+                                            class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">
+                                            Hapus
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">TTD Pasangan
+                                    <span class="text-brand-red">*</span></label>
+                                <div wire:ignore>
+                                    <canvas id="signature-pad2" width="600" height="300"
+                                        class="w-full border rounded-lg bg-white">
+                                    </canvas>
+
+                                    <div class="mt-2 flex gap-2">
+                                        <button type="button" id="clear-signature2"
+                                            class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">
+                                            Hapus
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+
                         </div>
                     </div>
 
@@ -340,7 +718,7 @@ new class extends Component {
                             <span class="text-sm text-gray-700 leading-relaxed">
                                 Saya menyatakan bahwa seluruh data yang diberikan adalah benar dan saya bersedia
                                 mematuhi
-                                Syarat & Ketentuan Pembiayaan Haji Khusus (ONH Plus) di KOSPE.
+                                Syarat & Ketentuan Pembiayaan Haji Khusus di KOSPE.
                             </span>
                         </label>
                     </div>
@@ -449,7 +827,48 @@ new class extends Component {
     </div>
 </div>
 @push('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.2.0/dist/signature_pad.umd.min.js"></script>
     <script>
+
+        const canvas = document.getElementById('signature-pad');
+        const signaturePad = new SignaturePad(canvas);
+        const canvas2 = document.getElementById('signature-pad2');
+        const signaturePad2 = new SignaturePad(canvas2);
+
+        function resizeCanvas(c) {
+            const ratio = Math.max(window.devicePixelRatio || 1, 1);
+
+            c.width = c.offsetWidth * ratio;
+            c.height = 200 * ratio;
+
+            c.getContext('2d').scale(ratio, ratio);
+
+            signaturePad.clear();
+        }
+
+        resizeCanvas(canvas);
+        resizeCanvas(canvas2);
+
+        window.addEventListener('resize', resizeCanvas(canvas));
+        window.addEventListener('resize', resizeCanvas(canvas2));
+
+        signaturePad.addEventListener('endStroke', () => {
+            $wire.set('signature', signaturePad.toDataURL());
+        });
+
+        signaturePad2.addEventListener('endStroke', () => {
+            $wire.set('signature2', signaturePad2.toDataURL());
+        });
+
+        document.getElementById('clear-signature').addEventListener('click', () => {
+            signaturePad.clear();
+            $wire.set('signature', '');
+        });
+        document.getElementById('clear-signature2').addEventListener('click', () => {
+            signaturePad2.clear();
+            $wire.set('signature2', '');
+        });
+
         function setupImagePreview(inputId, previewId, placeholderId, removeBtnId) {
             const input = $('#' + inputId);
             const preview = $('#' + previewId);
@@ -510,7 +929,7 @@ new class extends Component {
         // --- Simulasi Tenor & Angsuran di Sticky Sidebar ---
         const baseHargaEstimasi = 180000000; // Misal 180 Juta (estimasi usd 12rb)
         const dp = 20000000;
-        let marginRate = 0.01; // 1% per bulan flat untuk pembiayaan haji
+        let marginRate = 1.8; // 1% per bulan flat untuk pembiayaan haji
 
         function calculateInstallment(months) {
             const pembiayaan = baseHargaEstimasi - dp;

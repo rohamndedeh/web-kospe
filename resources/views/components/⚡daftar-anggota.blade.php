@@ -32,7 +32,7 @@ new class extends Component {
     protected $rules = [
         'nama' => 'required',
         'noktp' => 'required',
-        'email' => 'required|email|unique:anggota,email',
+        'email' => 'required|email',
         'alamat' => 'required',
         'hp' => 'required|unique:anggota,hp',
         'setoran' => 'required',
@@ -54,6 +54,8 @@ new class extends Component {
 
         // Simpan anggota
         Anggota::create([
+            'id_agen' => session('id_agen') ?? '115',
+            'id_marketing' => session('id_marketing') ?? '0',
             'nama' => $this->nama,
             'ktp' => $this->noktp,
             'hp' => $this->hp,
@@ -97,6 +99,16 @@ new class extends Component {
         @if (session()->has('success'))
             <div class="bg-green-100 text-green-700 p-3 mb-4 rounded">
                 {{ session('success') }}
+            </div>
+        @endif
+
+        @if ($errors->any())
+            <div class="bg-red-100 text-red-700 p-3 mb-4 rounded">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
             </div>
         @endif
 
@@ -445,10 +457,16 @@ new class extends Component {
             <p class="text-gray-600 mb-8 leading-relaxed">Data Anda sedang diproses oleh admin kami. Konfirmasi
                 keanggotaan
                 dan Nomor ID akan dikirimkan melalui WhatsApp atau Email maksimal 1x24 jam.</p>
-            <a href="{{ route('home') }}"
-                class="block w-full bg-brand-red text-white font-bold py-3 rounded-xl hover:bg-red-700 transition">
-                Kembali ke Beranda
-            </a>
+            <div class="flex gap-2">
+                <a href="{{ route('home') }}"
+                    class="block w-full bg-brand-red text-white font-bold py-3 rounded-xl hover:bg-red-700 transition">
+                    Kembali ke Beranda
+                </a>
+                <a href="#" id="close"
+                    class="block w-full text-red-700 font-bold py-3 rounded-xl hover:bg-red-50 transition">
+                    Close
+                </a>
+            </div>
         </div>
     </div>
     @script
@@ -471,6 +489,13 @@ new class extends Component {
             btn.html('<i data-lucide="loader-2" class="w-5 h-5 animate-spin"></i> Memproses...').prop('disabled', true);
             lucide.createIcons();
         });
+        $('#close').click(function (e) {
+            e.preventDefault()
+            $('#successModal').removeClass('flex').addClass('hidden');
+            setTimeout(() => {
+                $('#modalContent').removeClass('scale-100').addClass('scale-0');
+            }, 50);
+        })
     </script>
     @endscript
 </div>

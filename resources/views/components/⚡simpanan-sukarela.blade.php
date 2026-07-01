@@ -209,5 +209,5 @@ new class extends Component {
             </div>
         </div>
     </section>
-    <livewire:footer-mitra />
+
 </div>

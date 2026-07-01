@@ -25,8 +25,10 @@ class AgenMiddleware
             if ($agen) {
                 session([
                     'id_agen' => $agen->id_hni,
+                    'id_marketing' => $agen->marketing_id,
                     'marketing' => $agen->nama,
                     'id_kospe' => $agen->id_kospe,
+                    'hp' => $agen->hp,
                 ]);
                 cookie()->queue(
                     'id_agen',

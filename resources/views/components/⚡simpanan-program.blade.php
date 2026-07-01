@@ -189,7 +189,7 @@ new class extends Component {
 
         </div>
     </section>
-    <livewire:footer-mitra />
+
     <script>
         // --- ACCORDION LOGIC ---
         $('.accordion-header').click(function () {

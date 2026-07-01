@@ -154,7 +154,7 @@ new class extends Component {
                     <div
                         class="absolute inset-0 bg-brand-red rounded-full filter blur-[100px] opacity-10 w-3/4 h-3/4 m-auto">
                     </div>
-                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800&auto=format&fit=crop"
+                    <img src="/mykospe2.png"
                         class="relative z-10 w-full max-w-md rounded-[2.5rem] shadow-2xl border-4 border-white transform -rotate-3 hover:rotate-0 transition duration-500"
                         alt="Features">
 
@@ -176,8 +176,8 @@ new class extends Component {
                             <div class="bg-orange-100 p-2 rounded-full text-brand-orange"><i data-lucide="qr-code"
                                     class="w-5 h-5"></i></div>
                             <div>
-                                <p class="text-xs text-gray-500">Scan QRIS</p>
-                                <p class="font-bold text-gray-800">Kios Pesantren</p>
+                                <p class="text-xs text-gray-500">Topup Shopeepay</p>
+                                <p class="font-bold text-gray-800">Rp 100.000</p>
                             </div>
                         </div>
                     </div>

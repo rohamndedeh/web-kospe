@@ -60,9 +60,9 @@ new class extends Component {
                     <div class="flex gap-4 pt-4">
                         <a wire:navigate href="/daftar-anggota"
                             class="px-8 py-3 bg-gradient-to-r from-brand-red to-brand-orange text-white rounded-lg font-semibold shadow-lg hover:shadow-xl transition transform hover:-translate-y-1 flex items-center gap-2">
-                            Daftar Sekarang <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                            Daftar Anggota <i data-lucide="arrow-right" class="w-4 h-4"></i>
                         </a>
-                        <a wire:navigate href="/konsultasi"
+                        <a href="https://api.whatsapp.com/send/?phone={{ session('hp') ?? '628118807177' }}&text=saya+ingin+konsultasi+lebih+lanjut+tentang+KOSPE&type=phone_number&app_absent=0"
                             class="px-8 py-3 border-2 border-gray-300 text-gray-700 rounded-lg font-semibold hover:border-brand-red hover:text-brand-red transition">
                             Konsultasi
                         </a>
@@ -88,55 +88,36 @@ new class extends Component {
                     class="relative rounded-2xl overflow-hidden shadow-2xl transform rotate-1 hover:rotate-0 transition duration-500">
                     <div class="swiper heroSwiper h-[400px] md:h-[500px]">
                         <div class="swiper-wrapper">
-                            <div class="swiper-slide">
-                                <img src="/1.jpg" class="w-full h-full object-cover" alt="Produk 1">
-                                <div
-                                    class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black to-transparent p-6">
-
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <img src="/2.jpg" class="w-full h-full object-cover" alt="Produk 2">
-                                <div
-                                    class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black to-transparent p-6">
-
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
+                            <a href="{{ route('daftar-anggota') }}" class="swiper-slide">
                                 <img src="/3.jpg" class="w-full h-full object-cover" alt="Produk 3">
                                 <div
                                     class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black to-transparent p-6">
-
                                 </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <img src="/4.jpg" class="w-full h-full object-cover" alt="Produk 4">
-                                <div
-                                    class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black to-transparent p-6">
-
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
+                            </a>
+                            <a href="{{ route('sirohplus') }}" class="swiper-slide">
                                 <img src="/sirohplus.jpg" class="w-full h-full object-cover" alt="Produk 5">
                                 <div
                                     class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black to-transparent p-6">
-
                                 </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <img src="/6.jpg" class="w-full h-full object-cover" alt="Produk 5">
+                            </a>
+                            <a href="{{ route('sijiku') }}" class="swiper-slide">
+                                <img src="/sijiku.jpg" class="w-full h-full object-cover" alt="Produk 5">
                                 <div
                                     class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black to-transparent p-6">
-
                                 </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <img src="/7.jpg" class="w-full h-full object-cover" alt="Produk 5">
+                            </a>
+                            <a href="{{ route('simpanan-berjangka') }}" class="swiper-slide">
+                                <img src="/2.jpg" class="w-full h-full object-cover" alt="Produk 2">
                                 <div
                                     class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black to-transparent p-6">
-
                                 </div>
-                            </div>
+                            </a>
+                            <a href="{{ route('sidikplus') }}" class="swiper-slide">
+                                <img src="/sidikplus.jpg" class="w-full h-full object-cover" alt="Produk 5">
+                                <div
+                                    class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black to-transparent p-6">
+                                </div>
+                            </a>
                         </div>
                         <div class="swiper-pagination"></div>
                     </div>
@@ -328,7 +309,7 @@ new class extends Component {
                                     <div
                                         class="absolute top-4 left-4 bg-brand-red text-white text-xs font-bold px-3 py-1 rounded uppercase tracking-wide z-10">
                                         Rapat</div>
-                                    <img src="https://kospe.id/asset/img/post/{{ $blog->img }}"
+                                    <img src="https://auth.kospe.id/asset/img/post/{{ $blog->img }}"
                                         class="w-full h-full object-cover group-hover:scale-110 transition duration-500"
                                         alt="RAT">
                                 </div>
@@ -366,7 +347,7 @@ new class extends Component {
                         @foreach ($artikel as $a)
                             <a wire:navigate href="{{ route('blogs.detail', $a->id_post) }}"
                                 class="flex flex-col bg-white rounded-xl shadow hover:shadow-lg transition border border-gray-100 h-full">
-                                <img src="https://kospe.id/asset/img/post/{{ $a->img }}"
+                                <img src="https://auth.kospe.id/asset/img/post/{{ $a->img }}"
                                     class="h-64 w-full object-cover rounded-t-xl" alt="Artikel 1">
                                 <div class="p-6 flex-1 flex flex-col">
                                     <span
@@ -767,7 +748,7 @@ new class extends Component {
                         class="bg-white border border-gray-100 rounded-2xl shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden group">
                         <button
                             class="faq-btn w-full text-left px-6 py-5 bg-white flex justify-between items-center font-bold text-gray-800 transition group-hover:text-brand-red">
-                            <span class="text-lg">Apa keungungan menjadi Anggota KoSPE?</span>
+                            <span class="text-lg">Apa keuntungan menjadi Anggota KoSPE?</span>
                             <div
                                 class="bg-gray-100 rounded-full p-2 group-hover:bg-brand-red group-hover:text-white transition">
                                 <i data-lucide="chevron-down"

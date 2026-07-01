@@ -437,28 +437,11 @@ new class extends Component {
         </div>
     </section>
 
-    <livewire:footer-mitra />
 
 </div>
 
 @push('scripts')
-    <script>
-        new Swiper(".testiSimproSwiper", {
-            slidesPerView: 1,
-            spaceBetween: 30,
-            loop: true,
-            autoplay: {
-                delay: 5000,
-                disableOnInteraction: false,
-            },
-            navigation: {
-                nextEl: ".swiper-btn-next-testi",
-                prevEl: ".swiper-btn-prev-testi",
-            },
-            breakpoints: {
-                768: { slidesPerView: 2 },
-                1024: { slidesPerView: 2.5 },
-            },
-        });
-    </script>
+    <script> new Swiper(".testiSimproSwiper", { slidesPerView: 1, spaceBetween: 30, loop: true, autoplay: { delay: 5000,
+        disableOnInteraction: false, }, navigation: { nextEl: ".swiper-btn-next-testi" , prevEl: ".swiper-btn-prev-testi" ,
+        }, breakpoints: { 768: { slidesPerView: 2 }, 1024: { slidesPerView: 2.5 }, }, }); </script>
 @endpush

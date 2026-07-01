@@ -3,7 +3,16 @@
 use Livewire\Component;
 
 new class extends Component {
-    //
+    public $mitra;
+    public $marketing;
+
+    public function render()
+    {
+        $marketing = session('marketing');
+        return $this->view([
+            'marketing' => $marketing
+        ]);
+    }
 };
 ?>
 
@@ -38,7 +47,7 @@ new class extends Component {
     <!-- 9. Big Footer -->
     <footer class="bg-gray-900 text-gray-300 pt-16 pb-8 border-t-4 border-brand-yellow">
         <div class="container mx-auto px-4">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
                 <!-- Column 1 -->
                 <div class="text-center md:text-left">
                     <div class="flex items-center justify-center md:justify-start gap-2 mb-4">
@@ -90,6 +99,17 @@ new class extends Component {
                                     d="M9 0h1.98c.144.715.54 1.617 1.235 2.512C12.895 3.389 13.797 4 15 4v2c-1.753 0-3.07-.814-4-1.829V11a5 5 0 1 1-5-5v2a3 3 0 1 0 3 3z" />
                             </svg></a>
                     </div>
+                </div>
+                <div class="text-center md:text-left">
+                    @if (session('marketing'))
+                        <h4 class="text-white font-bold text-lg mb-6">Mitra KoSPE Anda</h4>
+                        <img class="w-32 pb-4 mx-auto md:mx-0" src="https://cdn-icons-png.flaticon.com/512/428/428573.png"
+                            alt="">
+                        <p class="text-sm leading-relaxed mb-1">
+                            {{ session('marketing') }}
+                        </p>
+                        <p class="text-sm text-gray-500">Id KoSPE : {{ session('id_kospe') }}</p>
+                    @endif
                 </div>
             </div>
         </div>

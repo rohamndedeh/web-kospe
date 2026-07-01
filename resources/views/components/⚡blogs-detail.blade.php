@@ -180,7 +180,7 @@ new class extends Component {
                             <!-- Post 1 -->
                             @foreach ($terkait as $key)
                                 <a href="{{ route('blogs.detail', $key->id_post) }}" wire:navigate class="flex gap-4 group">
-                                    <img src="https://kospe.id/asset/img/post/{{ $key->img }}"
+                                    <img src="https://auth.kospe.id/asset/img/post/{{ $key->img }}"
                                         class="w-20 h-20 object-cover rounded-xl shadow-sm group-hover:opacity-80 transition"
                                         alt="Thumb">
                                     <div class="flex-1">
